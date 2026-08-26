@@ -149,8 +149,89 @@ def md_to_html(body):
     return "\n".join(out)
 
 
-def validate(bundle):
-    warns = []
+# ---------------------------------------------------------------------------
+# Contrôle du mode sombre
+# ---------------------------------------------------------------------------
+# Le site bascule en mode sombre par une classe `body.dark` qui redéfinit les
+# variables CSS. Toute couleur écrite en dur (et non via var(--…)) échappe donc
+# à cette bascule : un fond clair reste clair sous du texte devenu clair, un
+# libellé foncé reste foncé sur un fond devenu sombre. C'est ainsi que le
+# bandeau .ptitre s'est retrouvé illisible (contraste 1,01:1).
+#
+# Ce contrôle relit le CSS du template et signale toute règle qui fige une
+# couleur sans déclinaison `body.dark` correspondante.
+
+# Cas volontairement tolérés : couleur figée mais contraste vérifié suffisant
+# en mode sombre. Format : sélecteur -> raison.
+CONTRASTE_TOLERE = {
+    ".tabs-sub button": "gris #8a8a8a sur panneau sombre : 4,69:1, au-dessus du seuil",
+}
+
+SEUIL_FOND_CLAIR = 0.50   # au-dessus : fond considéré comme clair
+SEUIL_TEXTE_SOMBRE = 0.35  # en dessous : texte considéré comme foncé
+
+
+def _luminance(hexa):
+    """Luminance relative (WCAG) d'une couleur #rgb ou #rrggbb."""
+    h = hexa.lstrip("#")
+    if len(h) == 3:
+        h = "".join(c * 2 for c in h)
+    canaux = []
+    for i in (0, 2, 4):
+        c = int(h[i:i + 2], 16) / 255
+        canaux.append(c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4)
+    return 0.2126 * canaux[0] + 0.7152 * canaux[1] + 0.0722 * canaux[2]
+
+
+def _cle_selecteur(sel):
+    """Dernier composant d'un sélecteur, sans pseudo-classes : « .a .b:hover » -> « .b »."""
+    sel = re.sub(r"::?[\w-]+(\([^)]*\))?", "", sel).strip()
+    return sel.split()[-1] if sel.split() else sel
+
+
+def verifier_mode_sombre(template_html):
+    """Renvoie la liste des règles CSS non déclinées pour le mode sombre."""
+    m = re.search(r"<style>(.*?)</style>", template_html, re.S)
+    if not m:
+        return []
+    css = re.sub(r"@media print\s*\{.*?\n  \}", "", m.group(1), flags=re.S)
+    regles = re.findall(r"([^{}]+)\{([^{}]+)\}", css)
+
+    # ensemble des sélecteurs déjà couverts par une règle body.dark
+    couverts = set()
+    for sel, _ in regles:
+        if "body.dark" not in sel:
+            continue
+        for part in sel.split(","):
+            part = part.replace("body.dark", "").strip()
+            if part:
+                couverts.add(_cle_selecteur(part))
+
+    anomalies = []
+    for sel, corps in regles:
+        sel = sel.strip()
+        if "body.dark" in sel or sel.startswith("@") or ":root" in sel:
+            continue
+        fond = re.search(r"background(?:-color)?\s*:\s*(#[0-9a-fA-F]{3,6})", corps)
+        texte = re.search(r"(?<!-)color\s*:\s*(#[0-9a-fA-F]{3,6})", corps)
+        souci = None
+        if fond and _luminance(fond.group(1)) >= SEUIL_FOND_CLAIR:
+            souci = f"fond clair {fond.group(1)} figé en dur"
+        elif not fond and texte and _luminance(texte.group(1)) <= SEUIL_TEXTE_SOMBRE:
+            souci = f"texte foncé {texte.group(1)} figé en dur"
+        if not souci:
+            continue
+        parts = [p.strip() for p in sel.split(",") if p.strip()]
+        if all(_cle_selecteur(p) in couverts for p in parts):
+            continue
+        if any(p in CONTRASTE_TOLERE for p in parts):
+            continue
+        anomalies.append(f"{sel[:70]} -> {souci}, sans règle « body.dark » correspondante")
+    return anomalies
+
+
+def validate(bundle, warns_css=None):
+    warns = list(warns_css or [])
     chap_ids = {c["id"] for c in bundle["chapitres"]}
     notion_ids = {n["id"] for n in bundle["notions"]}
     fiche_ids = {f["id"] for f in bundle["fiches"]}
@@ -236,7 +317,7 @@ def validate(bundle):
     missing = [f["id"] for f in bundle["fiches"] if f["id"] not in bundle["fiches_full"]]
 
     if warns:
-        print(f"\n⚠ Validation : {len(warns)} incohérence(s) référentielle(s) :")
+        print(f"\n⚠ Validation : {len(warns)} incohérence(s) :")
         for w in warns[:40]:
             print("  -", w)
         if len(warns) > 40:
@@ -279,9 +360,9 @@ def main():
         cours[chap_id] = md_to_html(open(path, encoding="utf-8").read())
     bundle["cours"] = cours
 
-    validate(bundle)
-
     template = open(TEMPLATE_PATH, encoding="utf-8").read()
+    validate(bundle, verifier_mode_sombre(template))
+
     bundle_json = json.dumps(bundle, ensure_ascii=False)
     out_html = template.replace("__BUNDLE_JSON__", bundle_json)
 
