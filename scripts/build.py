@@ -6,7 +6,7 @@ Reconstruit le site complet (public/index.html) à partir de :
   - templates/index_template.html  (gabarit HTML avec le marqueur __BUNDLE_JSON__)
 
 Ce script est appelé automatiquement par le workflow GitHub Actions
-(.github/workflows/deploy.yml) à chaque push sur la branche principale.
+(.github/workflows/main.yml) à chaque push sur la branche principale.
 Il peut aussi être lancé à la main : `python3 scripts/build.py`
 """
 import json
