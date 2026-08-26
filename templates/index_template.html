@@ -237,6 +237,35 @@
   body.dark p.cite a.cite-lf{color:inherit;}
   body.dark p.cite a.cite-lf:hover{color:var(--gold);}
   body.dark .fiche-body p.cite{color:#b8bdc6;}
+
+  /* --- Lisibilité en mode sombre des éléments dont la couleur était figée --- */
+  /* Bandeau de section (année d'annale, nom de code, partie du programme) :
+     le fond beige restait clair alors que le texte passait en clair. */
+  body.dark .partie-block > .ptitre{background:#2f3742;color:#f2f4f7;border-left:3px solid var(--gold);}
+  body.dark .intro-block{color:var(--text);}
+  body.dark .fiche-meta,
+  body.dark .quiz-meta,
+  body.dark .pdf-missing,
+  body.dark .sr-sub,
+  body.dark .sr-empty,
+  body.dark .rt-art,
+  body.dark .rt-prog,
+  body.dark .report-hint,
+  body.dark .changelog-item .cdate,
+  body.dark ul.refs-list .ref-page{color:#a8b0ba;}
+  body.dark .links-list .link-desc,
+  body.dark .progress-label{color:#9aa3ad;}
+  body.dark .rt-num{color:var(--gold);}
+  body.dark .rt-dtitre{color:var(--text);}
+  body.dark .sous-partie.disabled .sp-titre{color:#8d95a0;}
+  body.dark .sous-partie.disabled .sp-link{color:#767e89;}
+  body.dark footer{color:#9aa3ad;}
+  body.dark .qr-badge.known{color:#7fbf95;}
+  body.dark .qr-badge.review{color:var(--gold-soft);}
+  /* Boutons d'auto-évaluation : versions sombres des pastilles vert / ambre */
+  body.dark .qr-eval .btn-known{background:#26402f;color:#a9d9ba;}
+  body.dark .qr-eval .btn-review{background:#42351d;color:#e3c684;}
+  body.dark .qr-eval button:hover{filter:brightness(1.18);}
   .fiche-body ul{padding-left:22px;line-height:1.55;}
   .fiche-body .table-wrap{width:100%;overflow-x:auto;margin:14px 0;}
   .fiche-body table.cmp{width:100%;border-collapse:collapse;table-layout:fixed;}
