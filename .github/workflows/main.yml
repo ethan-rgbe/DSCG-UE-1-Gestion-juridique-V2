@@ -1,0 +1,75 @@
+name: Construire et publier LE PRÉCIS
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:        # permet aussi de relancer la publication à la main
+
+# Droits minimaux nécessaires à un déploiement GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Une seule publication à la fois ; les pushes rapprochés ne se marchent pas dessus.
+# cancel-in-progress reste à false pour ne jamais interrompre un déploiement engagé.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # build.py n'utilise que la bibliothèque standard : aucune dépendance à installer.
+      - name: Construire le site
+        run: |
+          set -o pipefail
+          python3 scripts/build.py 2>&1 | tee build.log
+
+      # build.py signale les incohérences sans échouer, ce qui est pratique en local
+      # pendant la rédaction. En publication, on refuse au contraire de mettre en ligne
+      # un site dont l'intégrité référentielle est cassée.
+      - name: Bloquer si la validation signale une incohérence
+        run: |
+          if grep -q "⚠ Validation" build.log; then
+            echo "::error::Le build a signalé des incohérences référentielles : publication interrompue."
+            grep -A 40 "⚠ Validation" build.log
+            exit 1
+          fi
+
+      - name: Vérifier que la page a bien été produite
+        run: test -s public/index.html
+
+      - name: Résumé du build
+        run: |
+          {
+            echo '### Build LE PRÉCIS'
+            echo '```'
+            cat build.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Préparer l'artefact Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publier sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
