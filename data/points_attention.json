@@ -1,0 +1,136 @@
+{
+  "entreprise-difficulte": {
+    "sens_et_portee": "Nombreuses sont les difficultés qui peuvent menacer la pérennité de l'entreprise. Le droit, en cherchant à préserver les intérêts des différents partenaires de l'entreprise, va encadrer de manière spécifique la vie de l'entreprise durant la période de prévention ou de traitement des difficultés.",
+    "competences_visees": [
+      "Repérer les situations exigeant le déclenchement de procédures de prévention ou de traitement des difficultés.",
+      "Assurer le suivi juridique de la procédure de prévention ou de traitement des difficultés."
+    ],
+    "notions_et_contenus": [
+      "La prévention des difficultés",
+      "Le traitement des difficultés : les procédures collectives, les sanctions",
+      "Aspects de droit communautaire"
+    ],
+    "attendus_examen": [
+      "Savoir identifier, à partir d'un cas pratique, à quel stade de difficulté se trouve l'entreprise (mandat ad hoc / conciliation / sauvegarde / redressement / liquidation) et en déduire la procédure adaptée — c'est le réflexe le plus testé.",
+      "Connaître précisément les seuils et délais chiffrés (45 jours, 6/12/18 mois, 5 salariés/750 000 €...) : ce sont les points qui font perdre des points faute de précision.",
+      "Savoir restituer les formulations légales exactes (« dans l'impossibilité de faire face au passif exigible avec son actif disponible », etc.) — l'épreuve valorise le vocabulaire technique exact.",
+      "Maîtriser la distinction entre sanctions civiles (faillite personnelle, interdiction de gérer, responsabilité pour insuffisance d'actif) et sanction pénale (banqueroute) — fréquemment confondues.",
+      "Avoir une vision d'ensemble des organes de la procédure (juge-commissaire, mandataire/administrateur judiciaire, liquidateur) et de leurs rôles respectifs.",
+      "Le volet « aspects de droit communautaire » est ciblé : retenir le principe de la procédure principale/secondaire du règlement UE 2015/848, sans entrer dans le détail procédural."
+    ]
+  },
+  "diversite-des-contrats": {
+    "sens_et_portee": "Au-delà des contrats généraux (formation, exécution, inexécution), l'entreprise conclut des contrats spéciaux propres à des besoins précis. Le contrat d'assurance en est un exemple central : il permet à l'entreprise de transférer un risque à un professionnel spécialisé, moyennant le paiement de primes, selon un mécanisme et des règles qui lui sont propres (Code des assurances).",
+    "competences_visees": [
+      "Qualifier un contrat d'assurance et identifier le régime applicable selon le type de risque couvert (dommages ou personnes).",
+      "Analyser la formation, la vie et l'exécution d'un contrat d'assurance à partir d'un cas pratique (délais de renonciation, résiliation, déclaration de sinistre, indemnisation).",
+      "Identifier les responsabilités et assurances propres au dirigeant et à l'entreprise (RC exploitation/produits, RC du dirigeant, assurance homme-clé)."
+    ],
+    "notions_et_contenus": [
+      "Le mécanisme et les techniques assurantielles (sur-assurance, sous-assurance, cumul, coassurance, réassurance)",
+      "La formation et la vie du contrat d'assurance (formation, preuve, durée, renouvellement, résiliation, renonciation)",
+      "La classification des assurances et des risques",
+      "Les assurances de responsabilité civile de l'entreprise et du dirigeant, l'assurance « homme-clé »",
+      "L'assurance-vie (mécanisme, clause bénéficiaire, stipulation pour autrui)",
+      "L'exécution du contrat et la gestion du sinistre (obligations de l'assuré et de l'assureur, indemnisation)"
+    ],
+    "attendus_examen": [
+      "Savoir distinguer précisément les régimes de la sur-assurance, du cumul d'assurance et de la coassurance — des notions proches, souvent confondues.",
+      "Connaître les délais chiffrés du contrat d'assurance (renonciation, résiliation, déclaration de sinistre, recouvrement des primes) : c'est le type de détail qui fait perdre des points faute de précision.",
+      "Bien distinguer la loi Chatel (rappel de la date limite de non-renouvellement) de la loi Hamon (résiliation infra-annuelle, après un an) — une confusion fréquente.",
+      "Savoir appliquer le principe indemnitaire (l'assurance ne peut être source de profit) et le mobiliser pour qualifier une situation de sur-assurance ou de sous-assurance dans un cas pratique.",
+      "Sur l'assurance-vie, maîtriser le mécanisme de la clause bénéficiaire (acceptation, révocation) et la stipulation pour autrui, régulièrement testés en cas pratique."
+    ]
+  },
+  "dimension-environnementale": {
+    "sens_et_portee": "Le droit des sociétés intègre désormais explicitement les enjeux sociaux et environnementaux (loi PACTE, 2019), et l'entreprise fait l'objet d'obligations croissantes de transparence extra-financière (directive CSRD). La RSE, longtemps purement volontaire, peut aujourd'hui engager la responsabilité de l'entreprise dans certaines hypothèses.",
+    "competences_visees": [
+      "Distinguer l'intérêt social élargi (art. 1833 C. civ.) de la raison d'être (art. 1835) et de la société à mission (L. 210-10 et s. C. com.), trois notions liées mais juridiquement distinctes.",
+      "Identifier le régime des nullités applicable depuis la réforme du 12 mars 2025.",
+      "Analyser une situation de reporting extra-financier ou de plan de vigilance à partir d'un cas pratique."
+    ],
+    "notions_et_contenus": [
+      "L'intérêt social et la raison d'être",
+      "Les sanctions et le régime des nullités",
+      "La société à mission",
+      "La RSE : notion, sources et formalisation volontaire",
+      "Clauses contractuelles RSE et responsabilité civile",
+      "ISR et taxonomie verte",
+      "Transparence extra-financière et plan de vigilance",
+      "La fondation reconnue d'utilité publique"
+    ],
+    "attendus_examen": [
+      "Bien distinguer les trois degrés d'engagement : intérêt social élargi (obligation de moyens pour toute société) / raison d'être (facultative, statutaire) / société à mission (5 conditions cumulatives).",
+      "Depuis la réforme du 12 mars 2025, le régime des nullités est unifié : ne pas citer les anciens articles L. 235-1 et s. du Code de commerce, désormais abrogés.",
+      "Savoir que la RSE, bien que volontaire, peut engager la responsabilité civile de l'entreprise en cas de non-respect d'engagements publiquement affichés."
+    ]
+  },
+  "financement-de-l-entreprise": {
+    "sens_et_portee": "L'entreprise dispose d'une palette d'outils pour financer son activité et son développement : fonds propres, recours aux marchés financiers, financement interne (compte courant d'associé), dette bancaire ou obligataire — chacun avec ses règles, ses garanties et sa fiscalité propres.",
+    "competences_visees": [
+      "Identifier l'outil de financement adapté à une situation d'entreprise donnée et ses conditions juridiques de mise en œuvre.",
+      "Distinguer les régimes applicables selon que la société fait ou non offre au public.",
+      "Analyser les garanties associées à un crédit (cautionnement, sûretés réelles) et leur régime depuis la réforme de 2021."
+    ],
+    "notions_et_contenus": [
+      "Le financement par fonds propres (actions, augmentation/réduction de capital)",
+      "Le financement par recours aux marchés financiers (offre au public, marchés réglementés et non réglementés)",
+      "Le financement par compte courant d'associé",
+      "Les pactes d'actionnaires",
+      "Le financement par le crédit (prêt, emprunt obligataire, crédit-bail)",
+      "Les garanties du crédit consenti à l'entreprise"
+    ],
+    "attendus_examen": [
+      "Bien distinguer les conditions de l'offre au public (Code monétaire et financier) des règles de gouvernance des sociétés cotées (Code de commerce, art. L. 22-10 et s.) — deux corps de textes souvent confondus.",
+      "Savoir identifier, parmi les titres composés (OCA, OBSA, OBRA, OBSO), lequel correspond à une situation donnée.",
+      "Connaître le régime du cautionnement depuis la réforme du droit des sûretés de 2021 (art. 2288 et s. C. civ.)."
+    ]
+  },
+  "rappels-dcg": {
+    "sens_et_portee": "Ces notions ne font pas l'objet d'une rubrique propre au programme du DSCG — le programme DSCG UE1 suppose connu celui du DCG (rappel du BO). Elles sont mobilisées implicitement dès qu'un sujet qualifie une activité ou détermine la juridiction compétente.",
+    "competences_visees": [],
+    "notions_et_contenus": [],
+    "attendus_examen": [
+      "Ne pas perdre de temps en examen à re-démontrer ces notions : elles doivent être mobilisées rapidement pour qualifier la situation avant d'enchaîner sur la question DSCG proprement dite."
+    ]
+  },
+  "developpement-de-l-entreprise": {
+    "sens_et_portee": "La constitution d'une société suppose la réunion de conditions de fond (contrat de société, apports, affectio societatis) et de forme (statuts, publicité, immatriculation) dont dépend l'acquisition de la personnalité morale. En cours de vie sociale, la transformation permet de changer de forme sociale sans créer de personne morale nouvelle, sous réserve de conditions strictes et avec des conséquences importantes sur la responsabilité des associés et la fiscalité. La seconde partie du chapitre porte sur la gouvernance des sociétés et les relations entre dirigeants et associés : pouvoirs et limites du dirigeant, responsabilités encourues, organes de gestion propres à chaque forme, régime des conventions, information des associés, rémunération des dirigeants, contrôle et révocation.",
+    "competences_visees": [
+      "Vérifier, dans un cas pratique, que les conditions de fond et de forme de constitution d'une société sont réunies.",
+      "Déterminer si le recours à un commissaire aux apports est obligatoire et en tirer les conséquences en termes de responsabilité.",
+      "Analyser les conditions, la procédure et les effets d'une transformation de société, y compris sur le plan fiscal.",
+      "Déterminer, pour un acte donné du dirigeant, s'il engage la société à l'égard des tiers et quelles responsabilités il fait naître, selon la forme sociale.",
+      "Qualifier une convention (libre, réglementée ou interdite) et en déduire la procédure applicable et les sanctions encourues.",
+      "Identifier le régime de révocation applicable à un dirigeant et les conséquences indemnitaires qui en découlent."
+    ],
+    "notions_et_contenus": [
+      "Constitution — les conditions de fond",
+      "Constitution — les conditions de forme et formalités",
+      "La personnalité morale et ses attributs",
+      "Les apports et le commissaire aux apports",
+      "Les règles fiscales de la constitution",
+      "La transformation des sociétés",
+      "Gouvernance — notions et structures",
+      "Pouvoirs et limites du dirigeant",
+      "Les responsabilités du dirigeant",
+      "Les organes de gestion par forme sociale",
+      "Le régime des conventions",
+      "L'information des associés",
+      "La rémunération des dirigeants",
+      "Contrôle, expertise de gestion et révocation"
+    ],
+    "attendus_examen": [
+      "Ne pas confondre le régime fiscal des apports purs et simples (exonérés lors de la constitution, art. 810 bis CGI) et celui des apports à titre onéreux (soumis au barème des mutations à titre onéreux).",
+      "Maîtriser les conditions cumulatives de dispense du commissaire aux apports en SARL (unanimité + aucun apport > 30 000 € + total ≤ moitié du capital) et la responsabilité solidaire de 5 ans qui en découle.",
+      "Sur la transformation, savoir distinguer les conditions « légalement possibles » (conditions de la forme d'arrivée) des conditions « légalement permises » (restrictions posées par le législateur), et identifier les cas d'unanimité obligatoire (augmentation des engagements).",
+      "Connaître l'effet de la transformation sur la responsabilité des associés dans les deux sens (vers le risque illimité : dettes anciennes ET nouvelles ; vers le risque limité : dettes antérieures seulement).",
+      "En cas de démembrement, appliquer la bonne règle de vote selon la forme sociale : art. 1844 C. civ. (SARL, sociétés de personnes, SAS) ou art. L. 225-110 C. com. (SA, SCA — sans convention possible).",
+      "Distinguer nettement l'opposabilité aux tiers selon le risque : les sociétés à risque limité (SA, SARL, SAS) sont engagées par les actes hors objet social, les sociétés à risque illimité (SNC, SC) ne le sont pas.",
+      "Retenir que les clauses statutaires limitatives de pouvoirs sont toujours inopposables aux tiers, quelle que soit la forme sociale.",
+      "Ne pas confondre l'abus de biens sociaux (Code de commerce, art. L. 241-3 et L. 242-6) et l'abus de confiance (Code pénal, art. 314-1).",
+      "Maîtriser la distinction entre révocation ad nutum (administrateurs de SA : sans motif ni indemnité) et révocation pour juste motif (gérants de SARL et SNC, DG de SA : dommages-intérêts en l'absence de juste motif), avec dans tous les cas le respect des droits de la défense.",
+      "Connaître les seuils actuels de désignation du commissaire aux comptes (2 des 3 seuils : 5 M€ de bilan, 10 M€ de CA, 50 salariés — décret du 28 février 2024)."
+    ]
+  }
+}

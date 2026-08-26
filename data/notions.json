@@ -1,0 +1,394 @@
+[
+  {
+    "id": "entreprise-difficulte.definitions-cles",
+    "chapitre_id": "entreprise-difficulte",
+    "titre": "Définitions clés",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "entreprise-difficulte.obligations-comptables",
+    "chapitre_id": "entreprise-difficulte",
+    "titre": "Obligations comptables",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "entreprise-difficulte.droit-d-alerte-procedures-detaillees",
+    "chapitre_id": "entreprise-difficulte",
+    "titre": "Droit d'alerte — procédures détaillées",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "entreprise-difficulte.mandataire-ad-hoc",
+    "chapitre_id": "entreprise-difficulte",
+    "titre": "Mandataire ad hoc",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "entreprise-difficulte.definitions-complementaires",
+    "chapitre_id": "entreprise-difficulte",
+    "titre": "Définitions complémentaires",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "entreprise-difficulte.conciliation",
+    "chapitre_id": "entreprise-difficulte",
+    "titre": "Conciliation",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "entreprise-difficulte.sauvegarde-de-l-entreprise",
+    "chapitre_id": "entreprise-difficulte",
+    "titre": "Sauvegarde de l'entreprise",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "entreprise-difficulte.sauvegarde-acceleree-et-sfa",
+    "chapitre_id": "entreprise-difficulte",
+    "titre": "Sauvegarde accélérée (et SFA)",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "entreprise-difficulte.redressement-judiciaire",
+    "chapitre_id": "entreprise-difficulte",
+    "titre": "Redressement judiciaire",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "entreprise-difficulte.liquidation-judiciaire",
+    "chapitre_id": "entreprise-difficulte",
+    "titre": "Liquidation judiciaire",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "entreprise-difficulte.retablissement-professionnel",
+    "chapitre_id": "entreprise-difficulte",
+    "titre": "Rétablissement professionnel",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "entreprise-difficulte.sanctions-des-dirigeants",
+    "chapitre_id": "entreprise-difficulte",
+    "titre": "Sanctions des dirigeants",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "entreprise-difficulte.faillite-internationale",
+    "chapitre_id": "entreprise-difficulte",
+    "titre": "Faillite internationale",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "diversite-des-contrats.mecanisme-et-technique-assurantielle",
+    "chapitre_id": "diversite-des-contrats",
+    "titre": "Le mécanisme et les techniques assurantielles",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "diversite-des-contrats.formation-et-vie-du-contrat-assurance",
+    "chapitre_id": "diversite-des-contrats",
+    "titre": "Formation et vie du contrat d'assurance",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "diversite-des-contrats.classification-des-assurances-et-risques",
+    "chapitre_id": "diversite-des-contrats",
+    "titre": "Classification des assurances et des risques",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "diversite-des-contrats.assurance-de-responsabilite-et-homme-cle",
+    "chapitre_id": "diversite-des-contrats",
+    "titre": "Assurances de responsabilité civile et assurance « homme-clé »",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "diversite-des-contrats.assurance-vie",
+    "chapitre_id": "diversite-des-contrats",
+    "titre": "L'assurance-vie",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "diversite-des-contrats.execution-du-contrat-et-sinistre",
+    "chapitre_id": "diversite-des-contrats",
+    "titre": "Exécution du contrat et gestion du sinistre",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "dimension-environnementale.raison-d-etre-et-interet-social",
+    "chapitre_id": "dimension-environnementale",
+    "titre": "L'intérêt social et la raison d'être",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "dimension-environnementale.nullite-des-societes",
+    "chapitre_id": "dimension-environnementale",
+    "titre": "Les sanctions et le régime des nullités",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "dimension-environnementale.societe-a-mission",
+    "chapitre_id": "dimension-environnementale",
+    "titre": "La société à mission",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "dimension-environnementale.rse-notion-et-formalisation",
+    "chapitre_id": "dimension-environnementale",
+    "titre": "La RSE : notion, sources et formalisation volontaire",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "dimension-environnementale.rse-responsabilite-et-clauses",
+    "chapitre_id": "dimension-environnementale",
+    "titre": "Clauses contractuelles RSE et responsabilité civile",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "dimension-environnementale.isr-et-taxonomie-verte",
+    "chapitre_id": "dimension-environnementale",
+    "titre": "ISR et taxonomie verte",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "dimension-environnementale.transparence-extra-financiere",
+    "chapitre_id": "dimension-environnementale",
+    "titre": "Transparence extra-financière et plan de vigilance",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "dimension-environnementale.fondation-utilite-publique",
+    "chapitre_id": "dimension-environnementale",
+    "titre": "La fondation reconnue d'utilité publique",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "financement-de-l-entreprise.financement-par-fonds-propres",
+    "chapitre_id": "financement-de-l-entreprise",
+    "titre": "Le financement par fonds propres",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "financement-de-l-entreprise.financement-par-marches-financiers",
+    "chapitre_id": "financement-de-l-entreprise",
+    "titre": "Le financement par recours aux marchés financiers",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "financement-de-l-entreprise.financement-par-compte-courant",
+    "chapitre_id": "financement-de-l-entreprise",
+    "titre": "Le financement par compte courant d'associé",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "financement-de-l-entreprise.pactes-d-actionnaires",
+    "chapitre_id": "financement-de-l-entreprise",
+    "titre": "Les pactes d'actionnaires",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "financement-de-l-entreprise.financement-par-le-credit",
+    "chapitre_id": "financement-de-l-entreprise",
+    "titre": "Le financement par le crédit",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "financement-de-l-entreprise.garanties-du-credit",
+    "chapitre_id": "financement-de-l-entreprise",
+    "titre": "Les garanties du crédit consenti à l'entreprise",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "rappels-dcg.lexique-de-precision",
+    "chapitre_id": "rappels-dcg",
+    "titre": "Lexique de précision",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "rappels-dcg.droit-des-societes",
+    "chapitre_id": "rappels-dcg",
+    "titre": "Droit des sociétés",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "rappels-dcg.fiscal",
+    "chapitre_id": "rappels-dcg",
+    "titre": "Fiscal",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "rappels-dcg.contrats-et-juridictions",
+    "chapitre_id": "rappels-dcg",
+    "titre": "Contrats et institutions juridiques",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "rappels-dcg.penal-concurrence-social",
+    "chapitre_id": "rappels-dcg",
+    "titre": "Pénal des affaires, concurrence, social",
+    "description": "",
+    "mots_cles": []
+  },
+  {
+    "id": "developpement-de-l-entreprise.constitution-conditions-de-fond",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "Constitution — les conditions de fond",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 1,
+    "partie_titre": "Constitution et transformation"
+  },
+  {
+    "id": "developpement-de-l-entreprise.constitution-formalites",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "Constitution — les conditions de forme et formalités",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 1,
+    "partie_titre": "Constitution et transformation"
+  },
+  {
+    "id": "developpement-de-l-entreprise.personnalite-morale-et-attributs",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "La personnalité morale et ses attributs",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 1,
+    "partie_titre": "Constitution et transformation"
+  },
+  {
+    "id": "developpement-de-l-entreprise.apports-et-commissaire-aux-apports",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "Les apports et le commissaire aux apports",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 1,
+    "partie_titre": "Constitution et transformation"
+  },
+  {
+    "id": "developpement-de-l-entreprise.fiscalite-de-la-constitution",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "Les règles fiscales de la constitution",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 1,
+    "partie_titre": "Constitution et transformation"
+  },
+  {
+    "id": "developpement-de-l-entreprise.transformation-des-societes",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "La transformation des sociétés",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 1,
+    "partie_titre": "Constitution et transformation"
+  },
+  {
+    "id": "developpement-de-l-entreprise.gouvernance-notions-et-structures",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "Gouvernance — notions et structures",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 2,
+    "partie_titre": "Gouvernance et relations avec les associés"
+  },
+  {
+    "id": "developpement-de-l-entreprise.pouvoirs-et-limites-du-dirigeant",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "Pouvoirs et limites du dirigeant",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 2,
+    "partie_titre": "Gouvernance et relations avec les associés"
+  },
+  {
+    "id": "developpement-de-l-entreprise.responsabilites-du-dirigeant",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "Les responsabilités du dirigeant",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 2,
+    "partie_titre": "Gouvernance et relations avec les associés"
+  },
+  {
+    "id": "developpement-de-l-entreprise.organes-de-gestion-par-forme",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "Les organes de gestion par forme sociale",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 2,
+    "partie_titre": "Gouvernance et relations avec les associés"
+  },
+  {
+    "id": "developpement-de-l-entreprise.conventions-reglementees",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "Le régime des conventions",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 2,
+    "partie_titre": "Gouvernance et relations avec les associés"
+  },
+  {
+    "id": "developpement-de-l-entreprise.information-des-associes",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "L'information des associés",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 2,
+    "partie_titre": "Gouvernance et relations avec les associés"
+  },
+  {
+    "id": "developpement-de-l-entreprise.remuneration-des-dirigeants",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "La rémunération des dirigeants",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 2,
+    "partie_titre": "Gouvernance et relations avec les associés"
+  },
+  {
+    "id": "developpement-de-l-entreprise.controle-et-revocation",
+    "chapitre_id": "developpement-de-l-entreprise",
+    "titre": "Contrôle, expertise de gestion et révocation",
+    "description": "",
+    "mots_cles": [],
+    "partie_numero": 2,
+    "partie_titre": "Gouvernance et relations avec les associés"
+  }
+]

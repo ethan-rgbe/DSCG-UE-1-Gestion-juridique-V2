@@ -1,0 +1,117 @@
+[
+  {
+    "date": "2026-06-21",
+    "titre": "Refonte complète du site",
+    "detail": "Nouvelle navigation (bandeau Sujets examens/Liens utiles/Documentation + menu coulissant Programme/Listes/Tableaux), nouvelle identité visuelle (bleus/blanc/beige), onglets Cours/Points d'attention par chapitre, Listes et Tableaux triés par chapitre, page Documentation avec visionneuses PDF des codes."
+  },
+  {
+    "date": "2026-06-21",
+    "titre": "Mise à jour majeure — Entreprise en difficulté",
+    "detail": "Ajout de 127 fiches (Conciliation, Sauvegarde, Sauvegarde accélérée, Redressement, Liquidation, Rétablissement professionnel, Sanctions, Faillite internationale), 13 tableaux de synthèse, et un nouveau chapitre « Rappels DCG ». Les points non vérifiés sur un texte officiel sont signalés par un encadré « À prendre avec des pincettes »."
+  },
+  {
+    "date": "2026-06-21",
+    "titre": "Mise en place du site",
+    "detail": "Création de la base : chapitre 'Entreprise en difficulté' (45 fiches), cartes Q/R, références. Hébergement sur GitHub Pages."
+  },
+  {
+    "date": "2026-06-24",
+    "titre": "Annales reliées au programme",
+    "detail": "Onglet « Sujets » : rattachement de chaque dossier/question (2021-2024) aux chapitres officiels, avec liens cliquables vers les chapitres et notions déjà construits."
+  },
+  {
+    "date": "2026-06-24",
+    "titre": "Sources d'examens corrigées",
+    "detail": "Liens par année vers la source officielle (CRCF) et le corrigé commenté (Compta Online). Aucun PDF tiers n'est hébergé ; mentions légales mises à jour."
+  },
+  {
+    "date": "2026-06-23",
+    "titre": "Recherche en liste de résultats",
+    "detail": "La recherche affiche désormais une liste classée (notions, fiches, tableaux, articles) avec navigation au clavier."
+  },
+  {
+    "date": "2026-06-23",
+    "titre": "Navigation par adresse, mode sombre et impression",
+    "detail": "Chaque vue a sa propre URL (retour/partage), un thème sombre et une impression/PDF par chapitre ; export/import de la progression."
+  },
+  {
+    "date": "2026-06-25",
+    "titre": "Onglet « Annales » dans chaque chapitre",
+    "detail": "Chaque chapitre affiche désormais les questions d'examen qui lui sont rattachées, avec un lien vers les annales — pour réviser un thème à partir de ce qui est déjà tombé."
+  },
+  {
+    "date": "2026-06-25",
+    "titre": "Mode sombre repensé en gris",
+    "detail": "Le thème nuit abandonne le bleu pour un gris plus reposant, avec l'or comme unique couleur d'accent."
+  },
+  {
+    "date": "2026-06-25",
+    "titre": "Affichage mobile amélioré",
+    "detail": "Menus, onglets et signalement sont adaptés au téléphone : le site est lisible sans avoir à demander la « version ordinateur »."
+  },
+  {
+    "date": "2026-06-25",
+    "titre": "Guide d'utilisation et signalement actif",
+    "detail": "Un guide des fonctionnalités est disponible dans l'onglet Documentation ; le signalement d'anomalie (sélection d'un passage ou bouton par chapitre) est désormais opérationnel."
+  },
+  {
+    "date": "2026-07-22",
+    "titre": "Nouveau chapitre 1.2 — La diversité des contrats (contrat d'assurance)",
+    "detail": "Premier volet du chapitre 1.2 : le mécanisme assurantiel, la formation et la vie du contrat, les assurances de responsabilité et l'assurance-vie. 58 cartes de révision, 9 tableaux, rattachement à l'annale DSCG 2023 (Dossier 2). Les autres contrats de ce chapitre seront ajoutés ultérieurement."
+  },
+  {
+    "date": "2026-08-01",
+    "titre": "Nouveau chapitre 1.5 — L'entreprise et la dimension environnementale",
+    "detail": "Intérêt social élargi, raison d'être, nullités des sociétés (réforme du 12 mars 2025), société à mission, RSE, ISR/taxonomie verte, transparence extra-financière (CSRD), plan de vigilance, fondations. 30 cartes de révision, 4 tableaux."
+  },
+  {
+    "date": "2026-08-01",
+    "titre": "Nouveau chapitre 3.1 — Le financement de l'entreprise",
+    "detail": "Premier volet : fonds propres, marchés financiers (offre au public, Euronext), compte courant d'associé, pactes d'actionnaires, crédit et garanties. 22 cartes de révision, 4 tableaux. Plusieurs points recherchés et complétés sur les sites officiels (Légifrance, service-public.fr)."
+  },
+  {
+    "date": "2026-08-01",
+    "titre": "Nouveau chapitre « Rappels DCG » — Lexique de précision",
+    "detail": "Nouvelle architecture transversale par matière (lexique, sociétés, fiscal, contrats/juridictions, pénal/concurrence/social). Premier volet complet : 32 entrées du lexique de précision (définitions légales, conditions cumulatives, mots-clés à restituer), 64 cartes. Les 22 cartes déjà existantes (activités, compétences, dol, faux, preuve...) ont été migrées vers cette nouvelle structure."
+  },
+  {
+    "date": "2026-08-01",
+    "titre": "Rappels DCG — Contrats et institutions juridiques",
+    "detail": "Classification des contrats, période précontractuelle, formation et nullités, vices du consentement, effets et inexécution du contrat, contrats spéciaux de l'entreprise, sources du droit, hiérarchie des normes, juridictions, voies de recours et modes amiables. 17 cartes, 12 tableaux. Rattaché aux annales 2022 (Dossier 3) et 2023 (Dossier 3)."
+  },
+  {
+    "date": "2026-08-01",
+    "titre": "Rappels DCG — Fiscal",
+    "detail": "TVA (champ d'application, déductibilité, régularisations, immobilier, intracommunautaire), IS (résultat fiscal, amortissements, plus-values, déficits), IR (barème, catégories BIC/BNC/BA/RF/RCM, plus-values des particuliers), fiscalité locale (CFE, CVAE, taxe foncière, taxe sur les salaires). 26 cartes, 18 tableaux. Barème IR corrigé (181 917 € et non 181 327 € pour la dernière tranche) ; seuils de franchise TVA vérifiés malgré la réforme 2025-2026 finalement abrogée."
+  },
+  {
+    "date": "2026-08-01",
+    "titre": "Rappels DCG — Pénal des affaires, concurrence, social",
+    "detail": "Infractions spécifiques aux sociétés (ABS, comptes inexacts), infractions du Code pénal (faux, corruption, abus de confiance, escroquerie), responsabilité pénale des personnes morales, pratiques anticoncurrentielles, contrôle des concentrations, concurrence déloyale/parasitisme, pratiques restrictives, contrat de travail (formation, exécution, rupture), représentation du personnel, durée du travail. 18 cartes, 10 tableaux. 5 nouveaux rattachements d'annales (2021, 2022, 2023, 2024)."
+  },
+  {
+    "date": "2026-08-01",
+    "titre": "Rappels DCG — Droit des sociétés (dernier volet)",
+    "detail": "Caractéristiques communes (intérêt social, abus de majorité/minorité/égalité, contrat de société, apports, nullité, dissolution), SNC, SARL (vote, conventions réglementées, fiscal, social du gérant), SA (CA, directoire/CS, assemblées, fiscal/social), grand tableau comparatif de 8 formes sociétaires, synthèse fiscale/sociale, et tableau des pièges/confusions classiques (13 points). 24 cartes, 14 tableaux. Les 5 cartes déjà migrées (activités, convention réglementée) sont désormais reliées à une vraie fiche."
+  },
+  {
+    "date": "2026-08-11",
+    "titre": "Nouveau chapitre 2.1 — Le développement de l'entreprise (Partie 1)",
+    "detail": "Constitution des sociétés (conditions de fond et de forme, formalités, personnalité morale et attributs, apports et commissaire aux apports, démembrement, régimes matrimoniaux), fiscalité de la constitution, et transformation des sociétés (conditions, procédure, effets, régime fiscal). 38 cartes, 11 tableaux, plus 19 cartes versées aux Rappels DCG. Deux corrections majeures : régime des apports purs et simples (exonération art. 810 bis CGI, et non barème progressif) et conditions du commissaire aux apports (dispense à conditions cumulatives)."
+  },
+  {
+    "date": "2026-08-13",
+    "titre": "Chapitre 2.1 — Partie 2 : gouvernance et relations avec les associés",
+    "detail": "Gouvernance (structures moniste/dualiste, SAS), pouvoirs et limites du dirigeant, responsabilités civile/pénale/fiscale, organes de gestion de la SA et de la SARL/SAS (tableaux complets), régime des conventions par forme, information des associés, rémunération des dirigeants, commissaires aux comptes, expertise de gestion et révocation. 37 cartes, 11 tableaux. Trois doublons issus des Rappels DCG ont été supprimés au profit de cette version."
+  },
+  {
+    "date": "2026-08-13",
+    "titre": "Harmonisation éditoriale et corrections de navigation",
+    "detail": "Nettoyage éditorial de l'ensemble des fiches et mise en forme harmonisée (niveaux de titres, encadrés « À retenir » / « Attention » / « Complément utile », format unique des renvois d'articles). Renvois d'articles (📎) désormais cliquables vers Légifrance dans les fiches comme dans les synthèses, et mentions de tableaux cliquables. Chapitre « Rappels DCG » restructuré : 45 fiches thématiques dans l'onglet Cours et nouvelle synthèse rédigée. Chapitres classés dans l'ordre du programme ; notions du chapitre 2.1 regroupées par partie ; choix entre lecture dans l'ordre et tirage aléatoire des cartes. Rattachement des annales complété (2021, 2022, 2024) et correctif du tableau comparatif des formes sociétaires. Tableaux comparatifs tous rattachés à leurs notions, et recherche d'article ouvrant directement la référence dans la Documentation. Ajout d'un bloc « Textes non codifiés » dans la Documentation et améliorations d'accessibilité."
+  },
+  {
+    "date": "2026-08-18",
+    "titre": "Reconstitution des tableaux et lisibilité du mode sombre",
+    "detail": "Nouveau mode d'entraînement sur les tableaux comparatifs : une colonne ou une ligne est masquée et se reconstitue de mémoire, cellule par cellule, avec compteur d'avancement et rotation des positions. Correction du mode sombre : les deux faces des cartes de révision étaient presque indiscernables, le recto se confondant avec le fond du panneau."
+  }
+]

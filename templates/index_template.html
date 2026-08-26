@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSCG UE1 — Base de révision</title>
+<style>
+  :root{
+    --ink:#0b3d63;
+    --navy:#0b3d63;
+    --blue-mid:#1f6fb2;
+    --blue-soft:#5a93c4;
+    --gold:#9c7a2e;
+    --gold-soft:#b89344;
+    --beige:#f3ead9;
+    --beige-line:#e2d4b4;
+    --paper:#ffffff;
+    --paper-line:#e0e0e0;
+    --red:#a31621;
+    --text:#26282b;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--sans);background:var(--paper);color:var(--text);}
+
+  /* ===== Mode sombre ===== */
+  body.dark{
+    --ink:#e7e9ec; --navy:#e0e4e9; --blue-mid:#cdd4dc; --blue-soft:#454f5c;
+    --gold:#d4ad4f; --gold-soft:#e0bd66;
+    --beige:#262a31; --beige-line:#363b44;
+    --paper:#1b212a; --paper-line:#2b313b;
+    --text:#d7dce3; --red:#ff7a7a;
+    background:#12151a;
+  }
+  body.dark header.top1{background:#1b212a;border-bottom-color:#2b313b;}
+  body.dark #slideMenu{background:#1b212a;}
+  body.dark .search-wrap{background:#1b212a;}
+  body.dark .search-wrap input{background:#12151a;color:var(--text);border-color:#2b313b;}
+  body.dark .panel{background:#1b212a;}
+  body.dark .changelog-scroll,
+  body.dark details.doc-refs,
+  body.dark .quiz-card{background:#161b22;}
+  /* Recto : gris moyen, se détache du panneau (#1b212a). Verso : très sombre + liseré or.
+     L'écart de luminance entre les deux faces reprend celui du mode clair (navy / beige). */
+  body.dark .flashcard .face.front{background:#3d4753;color:#f2f4f7;box-shadow:inset 0 0 0 1px #4a5563;}
+  body.dark .flashcard .face.front .lbl{color:var(--gold-soft);}
+  body.dark .flashcard .face.back{background:#0e1116;color:var(--text);
+    border:1px solid var(--gold);box-shadow:inset 0 3px 0 -1px var(--gold);}
+  body.dark .flashcard .face.back .lbl{color:var(--gold);}
+  body.dark .flashcard.mastered .face.front{box-shadow:inset 0 0 0 2px #6fae86;}
+  body.dark .billboard{border-color:#2b313b;}
+  body.dark .report-bubble{box-shadow:0 3px 10px rgba(0,0,0,.6);background:#343b46;color:#fff;}
+  body.dark .report-bubble:hover{background:#3f4753;}
+  body.dark header.top2{background:#161b22;}
+  body.dark header.top2 .brand .brand-sub{color:#9aa3ad;}
+  body.dark .billboard{background:linear-gradient(135deg,#222834,#2b313b);}
+  body.dark .billboard .bb-meta{color:#aab3bd;}
+  body.dark .billboard .bb-btn,body.dark .btn-primary{color:#161b22;}
+  body.dark table.cmp th,body.dark .fiche-body table.cmp th{background:#262a31;color:var(--text);}
+  body.dark .chip{background:#262a31;color:var(--text);}
+  body.dark .chip:hover{background:#343b46;}
+  body.dark .subtabs button.active{background:#343b46;color:var(--text);border-color:#343b46;}
+  body.dark header.top1 nav.tabs-right button.active{background:#343b46;color:#fff;}
+  header.top2 #themeToggle{background:transparent;border:none;color:#fff;font-size:1.15rem;cursor:pointer;line-height:1;padding:4px 6px;}
+  a{color:var(--blue-mid);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  /* Banderole 1 — onglets de droite */
+  header.top1{
+    background:#ffffff;color:var(--navy);
+    padding:10px 24px;
+    display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap;
+    border-bottom:1px solid var(--paper-line);
+  }
+  header.top1 nav.tabs-right{display:flex;gap:4px;flex-wrap:wrap;}
+  header.top1 nav.tabs-right button{
+    background:transparent;border:1px solid transparent;color:var(--navy);
+    padding:7px 12px;font:inherit;font-size:.78rem;font-weight:600;letter-spacing:.03em;cursor:pointer;border-radius:3px;
+  }
+  header.top1 nav.tabs-right button:hover{background:var(--beige);}
+  header.top1 nav.tabs-right button.active{background:var(--navy);color:#fff;}
+
+  /* Banderole 2 — cohorte + menu */
+  header.top2{
+    background:var(--navy);color:#fff;
+    padding:12px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  header.top2 .brand{display:flex;flex-direction:column;line-height:1.1;cursor:pointer;}
+  header.top2 .brand .brand-name{font-family:var(--serif);font-size:1.35rem;letter-spacing:.06em;font-weight:600;}
+  header.top2 .brand .brand-sub{font-size:.62rem;letter-spacing:.22em;color:#bcd2e6;text-transform:uppercase;margin-top:2px;}
+  header.top2 #menuToggle{background:transparent;border:none;color:#fff;font-size:1.4rem;cursor:pointer;line-height:1;padding:4px 8px;}
+
+  /* Menu coulissant */
+  #slideMenu{
+    position:fixed;top:0;right:-340px;width:320px;height:100%;background:#ffffff;
+    box-shadow:-4px 0 16px rgba(0,0,0,.15);z-index:900;overflow-y:auto;
+    transition:right .3s ease;padding:70px 22px 22px;
+  }
+  #slideMenu.open{right:0;}
+  #slideMenu .menu-section{margin-bottom:26px;}
+  #slideMenu .menu-title{
+    font-weight:700;color:var(--navy);font-size:.95rem;letter-spacing:.05em;
+    cursor:pointer;padding:8px 0;border-bottom:2px solid var(--beige-line);
+    display:flex;align-items:center;justify-content:space-between;user-select:none;
+  }
+  #slideMenu .menu-title::after{
+    content:"▸";font-size:.8rem;color:var(--blue-mid);
+    transition:transform .2s ease;transform-origin:center;
+  }
+  #slideMenu .menu-section.expanded .menu-title::after{transform:rotate(90deg);}
+  #slideMenu .menu-tree{padding:8px 0 0 6px;display:none;}
+  #slideMenu .menu-section.expanded .menu-tree{display:block;}
+  #slideMenu .menu-partie{font-weight:600;color:var(--blue-mid);font-size:.82rem;margin:10px 0 4px;}
+  #slideMenu .menu-tree a{display:block;font-size:.85rem;padding:5px 0 5px 10px;color:var(--text);}
+  #slideMenu .menu-tree a:hover{color:var(--blue-mid);text-decoration:none;}
+  #menuBackdrop{position:fixed;inset:0;background:rgba(11,61,99,.25);z-index:800;display:none;}
+  #menuBackdrop.show{display:block;}
+
+  .search-wrap{padding:14px 24px;background:#ffffff;border-bottom:1px solid var(--paper-line);position:relative;}
+  .search-wrap input{
+    width:100%;max-width:520px;padding:10px 14px;border:1px solid var(--paper-line);
+    border-radius:3px;font:inherit;font-size:.95rem;background:#fff;
+  }
+  .search-results{position:absolute;left:24px;right:24px;max-width:520px;top:calc(100% - 8px);
+    background:var(--paper);border:1px solid var(--paper-line);border-radius:6px;
+    box-shadow:0 8px 24px rgba(0,0,0,.14);max-height:360px;overflow-y:auto;z-index:60;display:none;}
+  .sr-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;
+    border:none;border-bottom:1px solid var(--paper-line);padding:9px 14px;cursor:pointer;font:inherit;}
+  .sr-item:last-child{border-bottom:none;}
+  .sr-item:hover,.sr-item.sr-active{background:var(--beige);}
+  .sr-type{font-size:.6rem;text-transform:uppercase;letter-spacing:.05em;padding:2px 7px;border-radius:10px;
+    background:var(--beige);color:var(--navy);flex-shrink:0;border:1px solid var(--beige-line);}
+  .sr-title{font-size:.9rem;color:var(--navy);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .sr-sub{font-size:.72rem;color:#8a8468;flex-shrink:0;}
+  .sr-empty{padding:12px 14px;color:#8a8468;font-size:.85rem;}
+  body.dark .search-results{background:#1b212a;}
+  body.dark .sr-type{background:#262a31;}
+  .rt-details{margin-top:12px;}
+  .rt-details summary{cursor:pointer;font-size:.85rem;color:var(--navy);font-weight:600;}
+  .rt-dossier{margin:10px 0 4px;padding-left:2px;}
+  .rt-dtitre{font-size:.88rem;color:var(--navy);margin-bottom:3px;}
+  .rt-qlist{margin:2px 0 6px;padding-left:20px;}
+  .rt-qlist li{font-size:.84rem;margin:3px 0;color:var(--text);}
+  .rt-num{font-weight:700;color:#bf9000;margin-right:5px;}
+  .rt-art{color:#8a8468;font-size:.77rem;}
+  .rt-chap,.rt-notion{background:none;border:none;padding:0;font:inherit;color:#1f5fb0;cursor:pointer;text-decoration:underline;text-align:left;}
+  .rt-chap{font-size:.82rem;margin-left:4px;}
+  .rt-prog{color:#8a8468;font-size:.8rem;margin-left:4px;}
+  body.dark .rt-chap,body.dark .rt-notion{color:#cdd4dc;}
+  .doc-refs > p{margin:6px 2px 2px;font-size:.88rem;line-height:1.55;color:var(--text);}
+
+  main{padding:24px;max-width:1100px;margin:0 auto;}
+  .layout{display:grid;grid-template-columns:260px 1fr;gap:28px;}
+  @media (max-width:760px){
+    .layout{grid-template-columns:1fr;}
+    .layout .panel{order:1;}
+    .layout aside.nav-tree{order:2;border-right:none;border-top:1px solid var(--paper-line);padding-right:0;padding-top:18px;margin-top:18px;}
+  }
+  @media (max-width:640px){
+    main{padding:14px;}
+    .panel{padding:16px 14px;}
+    header.top1{padding:8px 12px;}
+    header.top2{padding:10px 14px;}
+    header.top1 nav.tabs-right button{padding:6px 9px;font-size:.74rem;}
+    .search-wrap{padding:12px 14px;}
+    .search-results{left:14px;right:14px;}
+    .tabs-sub button{padding:9px 12px;font-size:.82rem;}
+    .subtabs{flex-wrap:wrap;}
+    .sous-partie{flex-wrap:wrap;gap:4px 10px;}
+    .pdf-frame{height:300px;}
+    h1.page-title{font-size:1.45rem;}
+    #slideMenu{width:88%;right:-92%;}
+  }
+
+  aside.nav-tree{border-right:1px solid var(--paper-line);padding-right:18px;}
+  aside.nav-tree h2{font-family:var(--serif);font-size:1.05rem;margin:0 0 10px;color:var(--navy);}
+  .notion-group{margin-bottom:14px;}
+  .notion-group > .gname{
+    font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--navy);border-bottom:1px solid var(--paper-line);padding-bottom:4px;margin-bottom:6px;
+  }
+  .notion-group ul{list-style:none;margin:0;padding:0;}
+  .notion-group li a{display:block;padding:4px 0 4px 4px;font-size:.88rem;border-left:2px solid transparent;}
+  .notion-group li a:hover, .notion-group li a.active{border-left-color:var(--blue-mid);background:var(--beige);text-decoration:none;}
+
+  .panel{background:#ffffff;border:1px solid var(--paper-line);border-radius:4px;padding:22px 26px;}
+  .tabs-sub{display:flex;gap:6px;margin-bottom:18px;border-bottom:2px solid var(--beige-line);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .tabs-sub button{flex:0 0 auto;white-space:nowrap;background:transparent;border:none;padding:9px 16px;font:inherit;font-size:.9rem;font-weight:600;color:#8a8a8a;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;}
+  .tabs-sub button.active{color:var(--navy);border-bottom-color:var(--navy);}
+
+  h1.page-title{font-family:var(--serif);font-size:1.7rem;color:var(--navy);margin:0 0 4px;border-bottom:2px solid var(--blue-soft);padding-bottom:8px;}
+  .fiche-meta{font-size:.78rem;color:#75747a;margin-bottom:16px;letter-spacing:.02em;}
+
+  .fiche-body h3{font-family:var(--serif);color:var(--blue-mid);border-bottom:1px solid var(--beige-line);padding-bottom:4px;margin-top:22px;}
+  .fiche-body h4{font-family:var(--serif);color:var(--blue-mid);margin-top:16px;}
+  .fiche-body p{line-height:1.55;}
+  .fiche-body strong{color:var(--gold);font-weight:700;}
+  .cours-redige h3{margin-top:26px;}
+  .cours-redige .table-wrap{margin:16px 0;}
+  .cours-redige p.cite{font-style:italic;}
+
+  /* Signalement d'anomalies */
+  .report-row{display:flex;align-items:center;gap:10px;margin:-4px 0 16px;flex-wrap:wrap;}
+  .report-btn{background:transparent;border:1px solid var(--paper-line);color:var(--blue-mid);font:inherit;font-size:.78rem;padding:5px 12px;border-radius:5px;cursor:pointer;}
+  .report-btn:hover{background:var(--beige);}
+  .report-hint{font-size:.72rem;color:#8a8468;}
+  .report-bubble{position:absolute;z-index:9999;background:var(--navy);color:#fff;border:none;border-radius:6px;padding:6px 12px;font:inherit;font-size:.8rem;font-weight:600;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.25);}
+  .report-bubble:hover{background:var(--blue-mid);}
+
+  /* ===== Impression / PDF ===== */
+  @media print {
+    header.top1, header.top2, #slideMenu, #menuBackdrop, .search-wrap, footer,
+    .tabs-sub, .report-row, .nav-tree, .billboard, #splash, .report-bubble,
+    .listes-toolbar, #themeToggle, #menuToggle, .order-switch, .exo-bar { display:none !important; }
+    td.cell-masquee{background:none !important;}
+    button.cell-reveal{display:none !important;}
+    td.cell-revelee{background:none !important;color:#000 !important;}
+    button.tab-inline{background:none !important;border:none !important;color:#000 !important;
+      padding:0 !important;font-weight:600 !important;}
+    p.cite a.cite-lf{color:#000 !important;text-decoration:none !important;}
+    body, body.dark { background:#fff !important; color:#000 !important; }
+    .layout{display:block !important;}
+    .panel{border:none !important;box-shadow:none !important;padding:0 !important;background:#fff !important;}
+    .page-title, .fiche-body h3, .fiche-body h4{color:#000 !important;}
+    .fiche-body table.cmp th{background:#eee !important;color:#000 !important;}
+    a{color:#000 !important;text-decoration:none !important;}
+    .printable, .printable * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+  .print-btn{background:transparent;border:1px solid var(--paper-line);color:var(--blue-mid);font:inherit;font-size:.78rem;padding:5px 12px;border-radius:5px;cursor:pointer;}
+  .print-btn:hover{background:var(--beige);}
+  .fiche-body p.cite{font-style:italic;color:#6b6657;font-size:.9rem;background:var(--beige);display:inline-block;padding:4px 10px;border-radius:3px;}
+  p.cite a.cite-lf{color:inherit;text-decoration:underline dotted;text-underline-offset:2px;}
+  p.cite a.cite-lf:hover{color:var(--gold);text-decoration:underline;}
+  body.dark p.cite a.cite-lf{color:inherit;}
+  body.dark p.cite a.cite-lf:hover{color:var(--gold);}
+  body.dark .fiche-body p.cite{color:#b8bdc6;}
+  .fiche-body ul{padding-left:22px;line-height:1.55;}
+  .fiche-body .table-wrap{width:100%;overflow-x:auto;margin:14px 0;}
+  .fiche-body table.cmp{width:100%;border-collapse:collapse;table-layout:fixed;}
+  .fiche-body table.cmp th, .fiche-body table.cmp td{border:1px solid var(--paper-line);padding:8px 10px;font-size:.84rem;text-align:left;vertical-align:top;word-wrap:break-word;}
+  .fiche-body table.cmp th{background:var(--navy);color:#fff;}
+  .fiche-body table.cmp tr:nth-child(even) td{background:var(--beige);}
+
+  .seealso{margin-top:26px;border-top:2px solid var(--blue-soft);padding-top:14px;}
+  .seealso h4{font-family:var(--serif);color:var(--navy);margin:0 0 8px;}
+  .chip{display:inline-block;background:var(--navy);color:#fff;font-size:.78rem;padding:4px 10px;border-radius:999px;margin:0 6px 6px 0;cursor:pointer;}
+  .chip:hover{background:var(--blue-mid);}
+  .chip.ref{background:#7a6a44;}
+
+  /* Q/R cards */
+  .qr-filters{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+  .qr-filters select{padding:6px 10px;border:1px solid var(--paper-line);border-radius:3px;font:inherit;}
+  .qr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+  .flashcard{
+    perspective:1200px;height:190px;cursor:pointer;
+  }
+  .flashcard .inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
+  .flashcard.flipped .inner{transform:rotateY(180deg);}
+  .flashcard .face{
+    position:absolute;inset:0;border-radius:6px;padding:14px;overflow:auto;
+    backface-visibility:hidden;display:flex;flex-direction:column;
+  }
+  .flashcard .front{background:var(--navy);color:#fff;}
+  .flashcard .front .lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#9fb3d6;margin-bottom:6px;}
+  .flashcard .back{background:var(--beige);color:var(--navy);border:1px solid var(--beige-line);transform:rotateY(180deg);}
+  .flashcard .back .lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#8a703a;margin-bottom:6px;}
+  .flashcard .qtext, .flashcard .atext{font-size:.92rem;line-height:1.4;}
+  .flashcard .tag{margin-top:auto;font-size:.68rem;opacity:.8;}
+
+  .table-wrap{width:100%;overflow-x:auto;margin-top:10px;}
+  table.cmp{width:100%;border-collapse:collapse;table-layout:fixed;}
+  table.cmp th, table.cmp td{border:1px solid var(--paper-line);padding:8px 10px;font-size:.86rem;text-align:left;vertical-align:top;word-wrap:break-word;overflow-wrap:break-word;}
+  table.cmp th{background:var(--navy);color:#fff;font-family:var(--serif);}
+  table.cmp tr:nth-child(even){background:var(--beige);}
+
+  ul.refs-list{list-style:none;padding:0;}
+  ul.refs-list li{padding:10px 0;border-bottom:1px solid var(--paper-line);}
+  ul.refs-list .ref-title{font-weight:600;color:var(--navy);}
+  ul.refs-list .ref-page{font-size:.8rem;color:#75747a;}
+
+  .home-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:18px;}
+  .home-card{background:var(--beige);border:1px solid var(--beige-line);border-radius:4px;padding:18px;cursor:pointer;}
+  .home-card:hover{border-color:var(--gold);}
+  .home-card .num{font-family:var(--serif);font-size:1.8rem;color:var(--gold);}
+  .home-card .lbl{font-size:.85rem;color:var(--text);}
+  footer{text-align:center;font-size:.75rem;color:#9a937c;padding:30px 0;}
+
+  /* Splash */
+  #splash{
+    position:fixed;inset:0;z-index:1000;
+    background:linear-gradient(180deg, rgba(11,61,99,.55), rgba(11,61,99,.88)), url('static/etsimage.jpg') center/cover no-repeat, var(--ink);
+    background-size:cover;background-position:center;
+    color:#ffffff;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;cursor:pointer;padding:24px;transition:opacity .4s, transform .4s;
+  }
+  #splash h1{font-family:var(--serif);font-size:1.9rem;letter-spacing:.02em;margin:0 0 10px;max-width:680px;}
+  #splash .tap{margin-top:40px;font-size:.75rem;color:#cfe0ee;text-transform:uppercase;letter-spacing:.12em;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:.5;}50%{opacity:1;}}
+  #splash.hidden{opacity:0;transform:translateY(-20px);pointer-events:none;}
+
+  /* Bloc explicatif accueil */
+  .intro-block{margin-bottom:22px;line-height:1.6;color:#4a4634;}
+
+  /* Billboard "Reprendre" — carte plein cadre qui défile (style panneau) */
+  .billboard{position:relative;width:100%;min-height:172px;border-radius:8px;overflow:hidden;
+    background:linear-gradient(135deg,var(--navy),var(--blue-mid));border:1px solid var(--beige-line);
+    margin:14px 0 26px;color:#fff;}
+  .billboard .bb-slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+    padding:24px 30px 42px;opacity:0;transform:translateX(24px);
+    transition:opacity .5s ease,transform .5s ease;pointer-events:none;}
+  .billboard .bb-slide.active{opacity:1;transform:translateX(0);pointer-events:auto;}
+  .billboard .bb-kicker{font-size:.68rem;text-transform:uppercase;letter-spacing:.14em;color:var(--gold-soft);margin-bottom:8px;}
+  .billboard .bb-title{font-family:var(--serif);font-size:1.45rem;line-height:1.2;margin-bottom:6px;}
+  .billboard .bb-meta{font-size:.82rem;color:#cfe0ee;margin-bottom:16px;}
+  .billboard .bb-btn{align-self:flex-start;background:var(--gold);border:none;color:var(--ink);
+    padding:8px 18px;border-radius:5px;font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;}
+  .billboard .bb-btn:hover{background:var(--gold-soft);}
+  .billboard .bb-dots{position:absolute;left:0;right:0;bottom:12px;display:flex;justify-content:center;gap:8px;}
+  .billboard .bb-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;border:none;padding:0;transition:background .2s,transform .2s;}
+  .billboard .bb-dot.active{background:var(--gold);transform:scale(1.25);}
+  @media (max-width:520px){ .billboard{min-height:188px;} .billboard .bb-title{font-size:1.25rem;} }
+  .section-title{font-family:var(--serif);color:var(--navy);font-size:1.8rem;margin:30px 0 6px;border-bottom:2px solid var(--gold);padding-bottom:6px;}
+  @media (max-width:520px){ .section-title{font-size:1.5rem;} }
+
+  /* Mini visionneuse PDF */
+  .pdf-frame{width:100%;height:420px;border:1px solid var(--paper-line);border-radius:4px;margin-top:10px;}
+  .pdf-missing{font-size:.85rem;color:#8a8468;padding:16px;border:1px dashed var(--paper-line);border-radius:4px;margin-top:10px;}
+
+  /* Changelog */
+  .changelog-item{border-left:3px solid var(--gold);padding:6px 0 6px 14px;margin-bottom:10px;}
+  .changelog-scroll{max-height:300px;overflow-y:auto;background:#fffdf7;border:1px solid var(--paper-line);border-radius:6px;padding:14px 14px 4px;}
+  .changelog-scroll::-webkit-scrollbar{width:8px;}
+  .changelog-scroll::-webkit-scrollbar-thumb{background:var(--beige-line);border-radius:4px;}
+  .changelog-scroll::-webkit-scrollbar-track{background:transparent;}
+  .changelog-scroll .changelog-item:last-child{margin-bottom:6px;}
+  .changelog-item .cdate{font-size:.72rem;color:#8a8468;text-transform:uppercase;letter-spacing:.06em;}
+  .changelog-item .ctitre{font-weight:600;color:var(--navy);}
+
+  /* Programme — arborescence */
+  .subtabs{display:flex;gap:6px;margin-bottom:18px;}
+  .subtabs button{background:#efe8d2;border:1px solid var(--paper-line);padding:7px 14px;border-radius:4px;font:inherit;font-size:.85rem;cursor:pointer;}
+  .subtabs button.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .partie-block{margin-bottom:20px;}
+  .partie-block > .ptitre{font-family:var(--serif);color:var(--ink);background:#efe8d2;padding:8px 12px;border-radius:4px;font-size:1.02rem;margin-bottom:8px;}
+  .sous-partie{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-bottom:1px solid var(--paper-line);}
+  .sous-partie .sp-titre{font-size:.92rem;}
+  .sous-partie .sp-link{font-size:.78rem;}
+  .sous-partie.disabled .sp-titre{color:#a39c84;}
+  .sous-partie.disabled .sp-link{color:#c7c0a8;font-style:italic;}
+
+  /* Accueil — titre de bienvenue */
+  .home-welcome{font-family:var(--serif);color:var(--navy);font-size:2.1rem;line-height:1.15;margin:6px 0 14px;}
+  @media (max-width:520px){ .home-welcome{font-size:1.7rem;} }
+
+  /* Documentation — listes d'articles repliables */
+  details.doc-refs{border:1px solid var(--paper-line);border-radius:5px;margin-top:10px;background:#fffdf7;}
+  details.doc-refs > summary{
+    cursor:pointer;list-style:none;padding:11px 14px;font-size:.85rem;font-weight:600;color:var(--navy);
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+  }
+  details.doc-refs > summary::-webkit-details-marker{display:none;}
+  details.doc-refs > summary::after{content:"▸";color:var(--blue-mid);transition:transform .2s ease;}
+  details.doc-refs[open] > summary::after{transform:rotate(90deg);}
+  details.doc-refs > summary:hover{background:var(--beige);}
+  details.doc-refs .refs-list{padding:0 14px 8px;}
+
+  /* Renvois notion <-> tableau */
+  .linked-tableaux{margin-top:16px;}
+  .linked-tableaux h4{font-family:var(--serif);color:var(--navy);margin:0 0 8px;}
+
+  /* Mentions légales */
+  .legal-body{line-height:1.6;color:var(--text);font-size:.92rem;}
+  .legal-body h3{font-family:var(--serif);color:var(--blue-mid);margin-top:22px;border-bottom:1px solid var(--beige-line);padding-bottom:4px;}
+  footer a.legal-link{color:var(--blue-mid);cursor:pointer;}
+  footer a.legal-link:hover{text-decoration:underline;}
+
+  /* Liens utiles */
+  .links-list{list-style:none;padding:0;margin:0;}
+  .links-list li{padding:8px 0;border-bottom:1px solid var(--beige-line);}
+  .links-list a{color:var(--blue-mid);font-weight:600;}
+  .links-list .link-desc{font-size:.82rem;color:#6b6450;margin-top:2px;}
+  /* Lien Légifrance à côté d'une référence */
+  a.lf-link{display:inline-block;margin:0 10px 6px 2px;color:var(--blue-mid);text-decoration:none;font-size:.95rem;vertical-align:middle;}
+  a.lf-link:hover{color:var(--gold);}
+
+  /* Révision active — auto-évaluation des cartes */
+  .qr-eval{display:flex;gap:8px;margin-top:10px;justify-content:center;}
+  .qr-eval button{border:none;border-radius:5px;padding:6px 12px;font:inherit;font-size:.78rem;font-weight:600;cursor:pointer;}
+  .qr-eval .btn-known{background:#dbe7dd;color:#1f5132;}
+  .qr-eval .btn-review{background:#f3e2c8;color:#7a531a;}
+  .qr-eval button:hover{filter:brightness(.96);}
+  .flashcard.mastered .face.front{box-shadow:inset 0 0 0 2px #6fae86;}
+  .qr-badge{position:absolute;top:6px;right:8px;font-size:.7rem;font-weight:700;}
+  .qr-badge.known{color:#2f7d4f;}
+  .qr-badge.review{color:#b5852f;}
+
+  /* Barre de progression */
+  .progress-wrap{margin:6px 0 4px;}
+  .progress-track{height:12px;border-radius:6px;background:var(--beige-line);overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--blue-mid),#6fae86);width:0;transition:width .4s ease;}
+  .progress-label{font-size:.82rem;color:#6b6450;margin-top:4px;}
+  .listes-toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .listes-toolbar .tools{display:flex;gap:8px;}
+  .btn-primary{background:var(--gold);border:none;color:var(--ink);padding:8px 16px;border-radius:5px;font:inherit;font-weight:700;cursor:pointer;}
+  .btn-primary:hover{background:var(--gold-soft);}
+  .btn-ghost{background:transparent;border:1px solid var(--paper-line);color:var(--blue-mid);padding:8px 14px;border-radius:5px;font:inherit;cursor:pointer;}
+  .btn-ghost:hover{background:var(--beige);}
+
+  /* Mode interrogation (quiz) */
+  .quiz-card{max-width:640px;margin:10px auto;background:#fffdf7;border:1px solid var(--paper-line);border-radius:8px;padding:26px;}
+  .quiz-meta{font-size:.8rem;color:#8a8468;margin-bottom:10px;}
+  .quiz-q{font-family:var(--serif);color:var(--navy);font-size:1.3rem;line-height:1.3;margin-bottom:14px;}
+  .quiz-a{background:var(--beige);border-left:3px solid var(--gold);padding:12px 14px;border-radius:4px;margin:12px 0;line-height:1.5;}
+  .quiz-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px;}
+  .quiz-result{text-align:center;padding:30px 10px;}
+  .quiz-result .score{font-family:var(--serif);font-size:2.4rem;color:var(--navy);}
+
+  /* Commutateur ordre / aléatoire (Listes) */
+  .order-switch{display:inline-flex;border:1px solid var(--beige-line);border-radius:3px;overflow:hidden;}
+  .order-switch button{background:transparent;border:none;font:inherit;font-size:.78rem;font-weight:600;
+    color:var(--navy);padding:7px 11px;cursor:pointer;}
+  .order-switch button + button{border-left:1px solid var(--beige-line);}
+  .order-switch button:hover{background:var(--beige);}
+  .order-switch button.active{background:var(--navy);color:#fff;}
+  body.dark .order-switch button.active{background:#343b46;color:var(--text);}
+
+  /* Regroupement des notions par partie (sommaire de chapitre) */
+  .nav-tree details.partie-group{margin-bottom:10px;}
+  .nav-tree details.partie-group > summary{cursor:pointer;list-style:none;font-family:var(--serif);
+    font-size:.86rem;font-weight:600;color:var(--navy);padding:6px 0;border-bottom:1px solid var(--beige-line);}
+  body.dark .nav-tree details.partie-group > summary{color:var(--text);border-bottom-color:#39414d;}
+  .nav-tree details.partie-group > summary::-webkit-details-marker{display:none;}
+  .nav-tree details.partie-group > summary::before{content:"▸ ";color:var(--gold);}
+  .nav-tree details.partie-group[open] > summary::before{content:"▾ ";}
+
+  /* ===== Reconstitution d'un tableau ===== */
+  .exo-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    background:var(--beige);border:1px solid var(--beige-line);border-radius:4px;
+    padding:8px 12px;margin:0 0 10px;font-size:.82rem;}
+  .exo-bar .exo-cible{color:var(--navy);}
+  .exo-bar .exo-score{font-weight:700;color:var(--gold);white-space:nowrap;}
+  .exo-bar .exo-actions{display:flex;gap:6px;flex-wrap:wrap;}
+  .exo-bar button{background:transparent;border:1px solid var(--beige-line);border-radius:3px;
+    font:inherit;font-size:.76rem;font-weight:600;color:var(--navy);padding:5px 10px;cursor:pointer;}
+  .exo-bar button:hover:not(:disabled){background:var(--navy);color:#fff;border-color:var(--navy);}
+  .exo-bar button:disabled{opacity:.4;cursor:not-allowed;}
+  .tab-block.en-exercice table.cmp th.col-cible{background:var(--gold);color:#fff;}
+  td.cell-masquee{background:repeating-linear-gradient(45deg,var(--beige),var(--beige) 6px,transparent 6px,transparent 12px);
+    text-align:center;vertical-align:middle;}
+  button.cell-reveal{width:100%;min-height:34px;background:transparent;border:1px dashed var(--gold);
+    border-radius:3px;color:var(--gold);font:inherit;font-weight:700;cursor:pointer;}
+  button.cell-reveal:hover{background:var(--gold);color:#fff;}
+  td.cell-revelee{background:var(--gold-soft);color:var(--ink);}
+  body.dark .exo-bar{background:#262a31;}
+  body.dark .exo-bar .exo-cible{color:var(--text);}
+  body.dark .exo-bar button{color:var(--text);}
+  body.dark .exo-bar button:hover:not(:disabled){background:#3d4753;border-color:#4a5563;color:#fff;}
+  body.dark .tab-block.en-exercice table.cmp th.col-cible{background:var(--gold);color:#12151a;}
+  body.dark td.cell-masquee{background:repeating-linear-gradient(45deg,#262a31,#262a31 6px,transparent 6px,transparent 12px);}
+  body.dark td.cell-revelee{background:#4a3f22;color:#f2e6c4;}
+
+  /* Référence ciblée depuis la recherche d'articles */
+  .refs-list li.ref-focus{background:var(--beige);border-left:3px solid var(--gold);
+    padding:6px 10px;border-radius:3px;animation:refPulse 2.2s ease-out 1;}
+  @keyframes refPulse{0%{background:var(--gold-soft);}100%{background:var(--beige);}}
+  body.dark .refs-list li.ref-focus{background:#2b313b;}
+
+  /* Renvoi vers un tableau depuis le corps d'une fiche */
+  button.tab-inline{background:var(--beige);border:1px solid var(--beige-line);border-radius:3px;
+    font:inherit;font-size:.88rem;font-weight:600;color:var(--navy);padding:6px 12px;cursor:pointer;text-align:left;}
+  button.tab-inline:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+  body.dark button.tab-inline{color:var(--text);}
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <h1>BASE DOCUMENTAIRE<br>UE 1 — GESTION JURIDIQUE, FISCALE ET SOCIALE</h1>
+  <div class="tap">Touche ou glisse pour entrer ↑</div>
+</div>
+
+<header class="top1">
+  <nav class="tabs-right" id="tabsTop1">
+    <button data-view="sujets">SUJETS EXAMENS</button>
+    <button data-view="liens">LIENS UTILES</button>
+    <button data-view="documentation">DOCUMENTATION</button>
+  </nav>
+</header>
+
+<header class="top2">
+  <div class="brand" id="cohortHome" title="Retour à l'accueil">
+    <span class="brand-name">LE PRÉCIS</span>
+    <span class="brand-sub">DSCG · UE1 · 2025–2027</span>
+  </div>
+  <button id="themeToggle" title="Mode clair / sombre" aria-label="Basculer entre le mode clair et le mode sombre">🌙</button>
+  <button id="menuToggle" aria-label="Ouvrir le menu de navigation" aria-expanded="false">☰</button>
+</header>
+
+<div id="menuBackdrop"></div>
+<nav id="slideMenu">
+  <div class="menu-section" data-section="programme">
+    <div class="menu-title">PROGRAMME</div>
+    <div class="menu-tree" id="menuProgramme"></div>
+  </div>
+  <div class="menu-section" data-section="listes">
+    <div class="menu-title">LISTES</div>
+    <div class="menu-tree" id="menuListes"></div>
+  </div>
+  <div class="menu-section" data-section="tableaux">
+    <div class="menu-title">TABLEAUX</div>
+    <div class="menu-tree" id="menuTableaux"></div>
+  </div>
+</nav>
+
+<div class="search-wrap">
+  <input type="text" id="globalSearch" placeholder="Rechercher (notion, fiche, article, tableau…)" autocomplete="off" aria-label="Rechercher dans le site" role="combobox" aria-expanded="false" aria-controls="searchResults">
+  <div class="search-results" id="searchResults"></div>
+</div>
+
+<main id="app"></main>
+
+<footer>
+  Base de révision personnelle pour l'UE1 du DSCG — fiches, cartes et tableaux rapprochés des textes officiels (Légifrance, BO). Document de travail, sans valeur officielle.
+  &nbsp;·&nbsp; <a class="legal-link" id="legalLink">Mentions légales</a>
+</footer>
+
+<script id="bundle-data" type="application/json">__BUNDLE_JSON__</script>
+<script>
+const DATA = JSON.parse(document.getElementById('bundle-data').textContent);
+// Ordre des chapitres : suit le champ `ordre` de data/chapitres.json (ordre du programme,
+// Rappels DCG en dernier), avec repli sur `numero`. Appliqué une fois pour toutes les vues
+// (Listes, menu, Tableaux) afin de garder la même logique partout.
+DATA.chapitres.sort((a, b) => ((a.ordre ?? 999) - (b.ordre ?? 999))
+  || String(a.numero || '').localeCompare(String(b.numero || ''), 'fr', {numeric: true}));
+const app = document.getElementById('app');
+
+const ficheById = id => DATA.fiches_full[id];
+const notionById = id => DATA.notions.find(n => n.id === id);
+const refById = id => DATA.references_textes.find(r => r.id === id);
+const qrByFiche = id => DATA.qr_cartes.filter(q => q.fiche_id === id);
+const chapById = id => DATA.chapitres.find(c => c.id === id);
+const chapLabel = c => c.numero ? `Chapitre ${c.numero} — ${c.titre}` : c.titre;
+function legifranceUrl(r){
+  const ref = (r && r.reference) || '';
+  const doc = (r && r.document) || '';
+  // Requête = numéro d'article SEUL (extrait de la référence, donc sans le "C. com." abrégé)
+  // + nom du code UNE seule fois (via le champ document). Évite le doublon "art + code + code".
+  let q;
+  const m = ref.match(/\b([LRDA])\.?\s*-?\s*(\d+(?:[-.]\d+)*)/i);
+  if(m){
+    q = m[1].toUpperCase() + '. ' + m[2];
+    if(doc && /\b(code|livre)\b/i.test(doc)) q += ' ' + doc;   // ex : "L. 234-1 Code de commerce"
+  } else {
+    const m2 = ref.match(/(\d+(?:[-.]\d+)+)/);
+    if(m2){
+      q = m2[1];
+      if(doc && /\b(code|livre)\b/i.test(doc)) q += ' ' + doc;
+    } else {
+      q = ref.replace(/\s+/g, ' ').trim();
+    }
+  }
+  return `https://www.legifrance.gouv.fr/search/all?tab_selection=all&searchField=ALL&query=${encodeURIComponent(q)}&page=1&init=true`;
+}
+// ---- Renvois d'articles (📎) du corps des fiches : liens Légifrance ----
+// Même logique que legifranceUrl() : numéro d'article + nom complet du code (une seule fois).
+const CODE_ABBR = [
+  ['C. com.', 'Code de commerce'],
+  ['C. civ.', 'Code civil'],
+  ['C. assur.', 'Code des assurances'],
+  ['C. trav.', 'Code du travail'],
+  ['C. pén.', 'Code pénal'],
+  ['C. mon. fin.', 'Code monétaire et financier'],
+  ['C. consommation', 'Code de la consommation'],
+  ['C. consom.', 'Code de la consommation'],
+  ['CGI', 'Code général des impôts'],
+  ['CPCE', 'Code des postes et des communications électroniques'],
+  ['CPC', 'Code de procédure civile'],
+  ['CPP', 'Code de procédure pénale'],
+  ['LPF', 'Livre des procédures fiscales'],
+  ['Constitution', 'Constitution du 4 octobre 1958'],
+];
+function lfSearch(q){
+  return `https://www.legifrance.gouv.fr/search/all?tab_selection=all&searchField=ALL&query=${encodeURIComponent(q)}&page=1&init=true`;
+}
+// Transforme un segment de renvoi (« Art. L. 225-35 C. com. », « L. 113-15-1, al. 2 C. assur. »,
+// « Art. 810 bis CGI », « Loi n° 2016-1691 du 9 décembre 2016 (Sapin II) ») en lien Légifrance.
+// Renvoie null si le segment n'est pas liable (jurisprudence, règlement UE…).
+function citeSegmentUrl(seg){
+  // ignorer une éventuelle parenthèse finale (« … C. com. (SARL) ») pour reconnaître le code
+  const s = seg.replace(/\s+/g, ' ').trim().replace(/\s*\([^)]*\)\s*$/, '');
+  for(const [abbr, full] of CODE_ABBR){
+    if(!s.endsWith(abbr)) continue;
+    let art = s.slice(0, s.length - abbr.length).trim();
+    art = art.replace(/^Art(?:icles?)?\.?\s+/i, '');       // retirer « Art. »
+    art = art.split(',')[0].trim();                          // retirer « , al. 1er », « , 4° », « , I »…
+    art = art.replace(/\s+et\s+s(?:uiv)?\.?$/i, '').trim(); // retirer « et s. »
+    art = art.replace(/\s*\([^)]*\)\s*$/, '').trim();      // retirer parenthèse finale
+    if(!art) return null;
+    return lfSearch(art + ' ' + full);
+  }
+  // Format inversé « CGI, art. 38 quater »
+  const inv = s.match(/^([A-ZÉ][\wéèêàç.\s]*?),?\s*art\.?\s+(.+)$/);
+  if(inv){
+    const hit = CODE_ABBR.find(([abbr]) => inv[1].trim() === abbr);
+    if(hit) return lfSearch(inv[2].split(',')[0].trim() + ' ' + hit[1]);
+  }
+  // Lois, ordonnances, décrets — y compris « Art. 1 Loi du 1er juillet 1901 »
+  if(/\b(Loi|Ordonnance|Décret)\b/i.test(s)){
+    return lfSearch(s.replace(/\s*\([^)]*\)\s*/g, ' ').replace(/\s+/g,' ').trim());
+  }
+  return null;
+}
+// Renvoie l'id du tableau dont le titre correspond (comparaison insensible aux accents/casse)
+const _tabKey = s => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+let _tabByTitre = null;
+function tableauIdParTitre(titre){
+  if(!_tabByTitre){
+    _tabByTitre = {};
+    (DATA.tableaux_comparatifs || []).forEach(t => { _tabByTitre[_tabKey(t.titre)] = t.id; });
+  }
+  return _tabByTitre[_tabKey(titre)] || null;
+}
+// Rend cliquables les mentions « **Titre du tableau** (voir tableau lié) » du corps des fiches.
+function linkifyTableauxHtml(html){
+  if(!html) return html;
+  return html.replace(/<p><strong>([^<]+)<\/strong>\s*\(voir tableau lié\)<\/p>/g, (m0, titre) => {
+    const id = tableauIdParTitre(titre);
+    return id
+      ? `<p><button class="tab-inline" data-tableau="${id}" aria-label="Ouvrir le tableau : ${titre}">▦ ${titre}</button></p>`
+      : m0;
+  });
+}
+// Post-traitement du HTML d'une fiche / synthèse : rend chaque renvoi 📎 cliquable.
+function linkifyCiteHtml(html){
+  if(!html) return html;
+  return html.replace(/<p class="cite">📎\s*([^<]*)<\/p>/g, (m0, txt) => {
+    const parts = txt.split(/\s*[;·]\s*/).map(seg => {
+      const url = citeSegmentUrl(seg);
+      return url
+        ? `<a class="cite-lf" href="${url}" target="_blank" rel="noopener" title="Rechercher sur Légifrance">${seg} ↗</a>`
+        : seg;
+    });
+    return `<p class="cite">📎 ${parts.join(' · ')}</p>`;
+  });
+}
+function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+// ====== CONFIG — Signalement d'anomalies via Google Forms ======
+// 1) Crée un Google Form avec (au moins) 4 champs : Chapitre, Section, Passage concerné, Description.
+// 2) Menu ⋮ du formulaire → « Obtenir le lien pré-rempli » → mets des valeurs bidons → « Obtenir le lien ».
+// 3) Dans l'URL obtenue, recopie ci-dessous l'URL de base (avant « &entry… ») et les identifiants entry.XXXX.
+const REPORT_FORM = {
+  // Colle l'URL du formulaire jusqu'à "viewform?usp=pp_url".
+  base:           "https://docs.google.com/forms/d/e/1FAIpQLSfZNdoMlqRUupTufXwwhFJAUDa2p-JIinEdifN8srg7VFCnow/viewform?usp=pp_url",
+  // Pour chaque champ, colle son identifiant — avec ou sans le préfixe "entry." (les deux marchent) :
+  entry_chapitre: "entry.1157134471",
+  entry_section:  "entry.1166179628",
+  entry_passage:  "entry.598475873",
+  entry_lien:     ""   // facultatif : ajoute un champ "Lien" au formulaire et colle ici son entry.XXXX pour recevoir l'URL exacte
+};
+const REPORT_CONFIGURED = REPORT_FORM.base.indexOf("VOTRE_") === -1
+  && REPORT_FORM.entry_chapitre.indexOf("VOTRE_") === -1;
+
+function entryKey(k){
+  // tolère un identifiant collé avec OU sans le préfixe "entry."
+  if(!k) return k;
+  return /^entry\./.test(k) ? k : ("entry." + String(k).replace(/^entry\.?/, ""));
+}
+function reportFormUrl(passage){
+  if(!REPORT_CONFIGURED) return null;
+  const chap = chapById(state.chapitreId);
+  const sectionMap = { cours: "Cours", synthese: "Synthèse", points: "Points d'attention", annales: "Annales" };
+  let section = sectionMap[state.chapTab] || state.chapTab || "";
+  if(state.chapTab === "cours" && state.ficheId && ficheById(state.ficheId)){
+    section += " — " + ficheById(state.ficheId).titre;
+  }
+  let p = (passage || "").replace(/\s+/g, " ").trim();
+  if(p.length > 600) p = p.slice(0, 600) + "…";
+  const params = new URLSearchParams();
+  params.set(entryKey(REPORT_FORM.entry_chapitre), chap ? chapLabel(chap) : "");
+  params.set(entryKey(REPORT_FORM.entry_section), section);
+  params.set(entryKey(REPORT_FORM.entry_passage), p);
+  if(REPORT_FORM.entry_lien && REPORT_FORM.entry_lien.indexOf("VOTRE_") === -1){
+    try{ params.set(entryKey(REPORT_FORM.entry_lien), location.href); }catch(e){}
+  }
+  return REPORT_FORM.base + (REPORT_FORM.base.indexOf("?") === -1 ? "?" : "&") + params.toString();
+}
+function openReport(passage){
+  const url = reportFormUrl(passage);
+  if(url) window.open(url, "_blank", "noopener");
+}
+
+// ---- Suivi local "chapitres récemment consultés" ----
+const RECENTS_KEY = 'dscg_recent_chapitres';
+function recordChapitreVisit(chapitreId){
+  try{
+    let list = JSON.parse(localStorage.getItem(RECENTS_KEY) || '[]');
+    list = list.filter(id => id !== chapitreId);
+    list.unshift(chapitreId);
+    localStorage.setItem(RECENTS_KEY, JSON.stringify(list.slice(0, 8)));
+  }catch(e){}
+}
+function getRecentChapitres(){
+  try{
+    const ids = JSON.parse(localStorage.getItem(RECENTS_KEY) || '[]');
+    return ids.map(id => chapById(id)).filter(Boolean);
+  }catch(e){ return []; }
+}
+function getRandomNotion(){
+  if(!DATA.notions.length) return null;
+  return DATA.notions[Math.floor(Math.random()*DATA.notions.length)];
+}
+
+// ---- Révision active : état des cartes Q/R (boîtes de Leitner) ----
+const QR_STATE_KEY = 'dscg_qr_state';
+function loadQrState(){ try{ return JSON.parse(localStorage.getItem(QR_STATE_KEY) || '{}'); }catch(e){ return {}; } }
+function saveQrState(s){ try{ localStorage.setItem(QR_STATE_KEY, JSON.stringify(s)); }catch(e){} }
+function exportProgress(){
+  const data = { app:'le-precis', version:1, exported:new Date().toISOString(),
+    qr_state: loadQrState(), recents: JSON.parse(localStorage.getItem(RECENTS_KEY)||'[]') };
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'progression-le-precis.json';
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ document.body.removeChild(a); URL.revokeObjectURL(url); }, 0);
+}
+function importProgress(file){
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const data = JSON.parse(reader.result);
+      if(data.qr_state && typeof data.qr_state==='object') saveQrState(data.qr_state);
+      if(Array.isArray(data.recents)) localStorage.setItem(RECENTS_KEY, JSON.stringify(data.recents));
+      render();
+      alert('Progression importée.');
+    }catch(e){ alert("Fichier invalide : impossible d'importer la progression."); }
+  };
+  reader.readAsText(file);
+}
+function setQrStatus(id, status){
+  const s = loadQrState();
+  const cur = s[id] || { box: 1 };
+  if(status === 'known') cur.box = Math.min((cur.box || 1) + 1, 3);
+  else cur.box = 1;
+  cur.status = status;
+  s[id] = cur; saveQrState(s);
+}
+function qrInfo(id){ return loadQrState()[id] || null; }
+function qrMastered(id){ const i = qrInfo(id); return !!(i && i.box >= 3); }
+function progressFor(cards){
+  const total = cards.length;
+  const mastered = cards.filter(c => qrMastered(c.id)).length;
+  return { total, mastered, pct: total ? Math.round(mastered/total*100) : 0 };
+}
+// ---- Ordre d'affichage des cartes (Listes) : ordre du cours ou mélange ----
+const ORDER_KEY = 'dscg_cards_order';
+function loadCardsOrder(){
+  try{ return localStorage.getItem(ORDER_KEY) === 'shuffle' ? 'shuffle' : 'suite'; }catch(e){ return 'suite'; }
+}
+function saveCardsOrder(v){ try{ localStorage.setItem(ORDER_KEY, v); }catch(e){} }
+function cardsForScope(scope, chapId, notionId){
+  if(scope === 'chapitre' && chapId){
+    let list = DATA.qr_cartes.filter(c => { const n = notionById(c.notion_id); return n && n.chapitre_id === chapId; });
+    if(notionId) list = list.filter(c => c.notion_id === notionId);
+    return list;
+  }
+  return DATA.qr_cartes;
+}
+
+// ---- Écran d'entrée ----
+const splash = document.getElementById('splash');
+function dismissSplash(){
+  splash.classList.add('hidden');
+  setTimeout(() => { splash.style.display = 'none'; }, 400);
+}
+splash.addEventListener('click', dismissSplash);
+splash.addEventListener('touchend', dismissSplash, {passive:true});
+
+// ---- État global ----
+let state = { view: 'home', chapitreId: null, ficheId: null, chapTab: 'cours',
+              listesScope: 'all', listesChapitreId: null, listesNotionId: null, qrFocus: null,
+              tableauxChapitreId: null, tableauFocus: null, refFocus: null,
+              tabExercice: null };   // reconstitution d'un tableau en cours
+
+let _suppressHash = false;
+
+function renderView(){
+  setTopTabActive();
+  if(state.view === 'home') return renderHome();
+  if(state.view === 'sujets') return renderSujets();
+  if(state.view === 'liens') return renderLiens();
+  if(state.view === 'documentation') return renderDocumentation();
+  if(state.view === 'chapitre') return renderChapitre();
+  if(state.view === 'listes') return renderListes();
+  if(state.view === 'tableaux') return renderTableaux();
+  if(state.view === 'quiz') return renderQuiz();
+  if(state.view === 'mentions') return renderMentions();
+}
+
+function render(){
+  renderView();
+  const h = stateToHash();
+  if(location.hash !== h){ _suppressHash = true; location.hash = h; }
+}
+
+// ----- Routing par section (URL = #/...) -----
+function stateToHash(){
+  switch(state.view){
+    case 'chapitre': {
+      let h = '#/chapitre/' + encodeURIComponent(state.chapitreId || '') + '/' + (state.chapTab || 'cours');
+      if(state.chapTab === 'cours' && state.ficheId) h += '/' + encodeURIComponent(state.ficheId);
+      return h;
+    }
+    case 'listes':
+      return '#/listes/' + (state.listesScope === 'all' ? 'all' : 'chapitre/' + encodeURIComponent(state.listesChapitreId || '') + (state.listesNotionId ? '/' + encodeURIComponent(state.listesNotionId) : ''));
+    case 'tableaux':   return '#/tableaux/' + encodeURIComponent(state.tableauxChapitreId || '');
+    case 'documentation': return '#/documentation';
+    case 'sujets':     return '#/sujets';
+    case 'liens':      return '#/liens';
+    case 'mentions':   return '#/mentions';
+    case 'quiz':       return '#/quiz/' + (state.quizScope || 'all') + (state.quizChapId ? '/' + encodeURIComponent(state.quizChapId) : '');
+    default:           return '#/';
+  }
+}
+
+function applyHash(){
+  const parts = (location.hash || '').replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
+  const v = parts[0] || 'home';
+  if(v === 'chapitre'){
+    state.view = 'chapitre'; state.chapitreId = parts[1] || null;
+    state.chapTab = parts[2] || 'cours';
+    state.ficheId = (state.chapTab === 'cours' && parts[3]) ? parts[3] : null;
+  } else if(v === 'listes'){
+    state.view = 'listes';
+    if(parts[1] === 'chapitre'){ state.listesScope = 'chapitre'; state.listesChapitreId = parts[2] || null; state.listesNotionId = parts[3] || null; }
+    else { state.listesScope = 'all'; state.listesChapitreId = null; state.listesNotionId = null; }
+  } else if(v === 'tableaux'){ state.view = 'tableaux'; state.tableauxChapitreId = parts[1] || null; }
+  else if(v === 'documentation'){ state.view = 'documentation'; }
+  else if(v === 'sujets'){ state.view = 'sujets'; }
+  else if(v === 'liens'){ state.view = 'liens'; }
+  else if(v === 'mentions'){ state.view = 'mentions'; }
+  else if(v === 'quiz'){ state.view = 'quiz'; state.quizScope = parts[1] || 'all'; state.quizChapId = parts[2] || null; state.quiz = null; }
+  else { state.view = 'home'; }
+  render();
+}
+
+function setTopTabActive(){
+  [...document.querySelectorAll('#tabsTop1 button')].forEach(b =>
+    b.classList.toggle('active', b.dataset.view === state.view));
+}
+
+// ============================================================
+// ACCUEIL
+// ============================================================
+let billboardTimer = null;
+function renderHome(){
+  const recents = getRecentChapitres();
+  const randomNotion = getRandomNotion();
+  const slides = [...recents.map(c => ({type:'chapitre', chap:c}))];
+  if(randomNotion){
+    const chap = chapById(randomNotion.chapitre_id);
+    if(chap) slides.push({type:'notion', notion: randomNotion, chap});
+  }
+
+  const billboard = slides.length ? `
+      <div class="section-title">Reprendre</div>
+      <div class="billboard" id="billboard">
+        ${slides.map((s,i) => `
+          <div class="bb-slide ${i===0?'active':''}" data-slide="${i}">
+            <div class="bb-kicker">${s.type==='chapitre' ? 'Dernier chapitre consulté' : 'Notion à revoir'}</div>
+            <div class="bb-title">${s.type==='chapitre' ? chapLabel(s.chap) : s.notion.titre}</div>
+            <div class="bb-meta">${s.type==='chapitre' ? 'Reprenez là où vous vous êtes arrêté.' : 'Chapitre « ' + chapLabel(s.chap) + ' »'}</div>
+            <button class="bb-btn" data-resume-chap="${s.chap.id}">Reprendre →</button>
+          </div>`).join('')}
+        ${slides.length>1 ? `<div class="bb-dots">${slides.map((_,i)=>`<button class="bb-dot ${i===0?'active':''}" data-dot="${i}" aria-label="Diapositive ${i+1}"></button>`).join('')}</div>` : ''}
+      </div>` : '';
+
+  app.innerHTML = `
+    <div class="panel">
+      ${billboard}
+
+      <h2 class="home-welcome">Bienvenue</h2>
+      <p class="intro-block">
+        Cette base réunit les fiches de cours, les cartes de révision (Q/R), les tableaux de synthèse et les
+        références juridiques utiles à l'UE1 du DSCG. Le contenu est vérifié chapitre par chapitre directement
+        à partir des textes officiels en vigueur, avec mention systématique des articles, délais et conditions.
+      </p>
+
+      ${(() => { const p = progressFor(DATA.qr_cartes); return `
+      <div class="progress-wrap" style="margin:18px 0 24px;">
+        <div class="progress-track"><div class="progress-fill" style="width:${p.pct}%"></div></div>
+        <div class="progress-label">Progression des révisions : ${p.mastered} / ${p.total} cartes maîtrisées (${p.pct}%)</div>
+      </div>`; })()}
+
+      <div class="section-title">Dernières mises à jour</div>
+      ${(DATA.changelog || []).length
+        ? `<div class="changelog-scroll">${[...DATA.changelog]
+            .sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')))
+            .map(c => `
+        <div class="changelog-item">
+          <div class="cdate">${c.date}</div>
+          <div class="ctitre">${c.titre}</div>
+          <div>${c.detail || ''}</div>
+        </div>`).join('')}</div>`
+        : '<p class="fiche-meta">Aucune mise à jour enregistrée.</p>'}
+    </div>`;
+
+  app.querySelectorAll('[data-resume-chap]').forEach(b => b.onclick = () => {
+    state.chapitreId = b.dataset.resumeChap;
+    state.ficheId = null;
+    state.chapTab = 'cours';
+    state.view = 'chapitre';
+    render();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  // Défilement automatique du panneau "Reprendre"
+  if(billboardTimer){ clearInterval(billboardTimer); billboardTimer = null; }
+  const bb = document.getElementById('billboard');
+  if(bb && slides.length > 1){
+    const slideEls = [...bb.querySelectorAll('.bb-slide')];
+    const dotEls = [...bb.querySelectorAll('.bb-dot')];
+    let idx = 0;
+    const show = (n) => {
+      idx = (n + slideEls.length) % slideEls.length;
+      slideEls.forEach((el,i)=>el.classList.toggle('active', i===idx));
+      dotEls.forEach((el,i)=>el.classList.toggle('active', i===idx));
+    };
+    const restart = () => { clearInterval(billboardTimer); billboardTimer = setInterval(()=>show(idx+1), 5000); };
+    dotEls.forEach(d => d.addEventListener('click', () => { show(+d.dataset.dot); restart(); }));
+    restart();
+  }
+}
+
+// ============================================================
+// SUJETS EXAMENS (coquille — contenu à venir)
+// ============================================================
+function renderSujets(){
+  const annales = DATA.annales || [];
+  const label = a => [a.annee, a.session, a.themes].filter(Boolean).join(' — ');
+  const ext = (url, txt) => url ? `<a class="sp-link" href="${url}" target="_blank" rel="noopener">${txt} ↗</a>` : '';
+  const local = (url, dispo, txt) => (url && dispo !== false)
+    ? `<a class="sp-link" href="${url}" target="_blank" rel="noopener">${txt} (PDF) ↗</a>` : '';
+  function rattachHtml(a){
+    if(!a.rattachement || !a.rattachement.length) return '';
+    const primarySrc = (a.sources && a.sources[0]) ? a.sources[0] : null;
+    const blocks = a.rattachement.map(d => {
+      const chap = d.chapitre_id ? chapById(d.chapitre_id) : null;
+      const cible = chap
+        ? `<button class="rt-chap" data-goto-chap="${chap.id}">→ ${srEsc(chap.titre)}</button>`
+        : `<span class="rt-prog">${srEsc([d.partie, d.sous_partie].filter(Boolean).join(' — '))}</span>`;
+      const qs = (d.questions||[]).map(q => {
+        const objet = primarySrc
+          ? `<a class="rt-notion" href="${primarySrc.url}" target="_blank" rel="noopener">${srEsc(q.objet)} ↗</a>`
+          : srEsc(q.objet);
+        const arts = (q.articles && q.articles.length) ? ` — <span class="rt-art">${srEsc(q.articles.join(' · '))}</span>` : '';
+        return `<li><span class="rt-num">${srEsc(q.num)}</span>${objet}${arts}</li>`;
+      }).join('');
+      return `<div class="rt-dossier">
+        <div class="rt-dtitre"><strong>Dossier ${srEsc(String(d.dossier))}</strong>${d.intitule ? ' — ' + srEsc(d.intitule) : ''} ${cible}</div>
+        <ul class="rt-qlist">${qs}</ul>
+      </div>`;
+    }).join('');
+    return `<details class="doc-refs rt-details"><summary>Rattachement au programme</summary>${blocks}</details>`;
+  }
+  app.innerHTML = `<div class="panel">
+    <h1 class="page-title">Sujets d'examens</h1>
+    <p class="fiche-meta">Les sujets et corrigés ne sont pas hébergés sur ce site. Les corrigés officiels (« éléments indicatifs ») sont diffusés par le <strong>CRCF</strong>, mais en <strong>accès réservé</strong> (compte Éducation nationale)&nbsp;; les liens ci-dessous renvoient donc vers <strong>Compta&nbsp;Online</strong>, librement consultable (téléchargement après inscription gratuite). Le <strong>rattachement au programme</strong> est une analyse propre à l'éditeur&nbsp;; chaque question renvoie vers la source de l'annale correspondante.</p>
+    ${annales.length ? annales.map(a => {
+      const srcs = (a.sources && a.sources.length)
+        ? a.sources.map(s => ext(s.url, s.nom)).filter(Boolean).join(' · ')
+        : (a.source_url ? ext(a.source_url, 'Consulter sur ' + (a.source_nom || 'le site source')) : '');
+      const src = srcs
+        ? `<div class="sous-partie"><span class="sp-titre">Sujet &amp; corrigé</span> ${srcs}</div>`
+        : `<div class="sous-partie"><span class="sp-titre">Sujet &amp; corrigé</span> <span class="sp-link">lien à venir</span></div>`;
+      const ls = local(a.url_sujet, a.sujet_disponible, 'Sujet');
+      const lc = local(a.url_corrige, a.corrige_disponible, 'Corrigé');
+      const hosted = (ls || lc) ? `<div class="sous-partie"><span class="sp-titre">Document officiel</span> ${ls} ${lc}</div>` : '';
+      return `<div class="partie-block">
+        <div class="ptitre">${label(a)}</div>
+        ${src}
+        ${hosted}
+        ${rattachHtml(a)}
+      </div>`;
+    }).join('') : "<p class=\"fiche-meta\">Aucun sujet n'a encore été ajouté.</p>"}
+    <p class="fiche-meta" style="margin-top:18px">Les corrigés sont des « éléments indicatifs » diffusés par des éditeurs privés&nbsp;: ils sont protégés et ne sont pas reproduits ici (voir les mentions légales).</p>
+  </div>`;
+  app.querySelectorAll('[data-goto-chap]').forEach(b => b.onclick = () => {
+    state.chapitreId = b.dataset.gotoChap; state.view = 'chapitre'; state.chapTab = 'cours'; state.ficheId = null;
+    render(); window.scrollTo({top:0, behavior:'smooth'});
+  });
+}
+
+// ============================================================
+// LIENS UTILES (coquille — contenu à venir)
+// ============================================================
+function renderLiens(){
+  const liens = DATA.liens_utiles || [];
+  const cats = [];
+  liens.forEach(l => { const c = l.categorie || 'Autres'; if(!cats.includes(c)) cats.push(c); });
+  app.innerHTML = `<div class="panel">
+    <h1 class="page-title">Liens utiles</h1>
+    ${liens.length ? cats.map(cat => `
+      <h3 style="font-family:var(--serif);color:var(--blue-mid);margin:22px 0 8px;border-bottom:1px solid var(--beige-line);padding-bottom:4px;">${cat}</h3>
+      <ul class="links-list">
+        ${liens.filter(l => (l.categorie||'Autres')===cat).map(l => `
+          <li><a href="${l.url}" target="_blank" rel="noopener">${l.titre} ↗</a>${l.description ? `<div class="link-desc">${l.description}</div>` : ''}</li>`).join('')}
+      </ul>`).join('')
+      : '<p class="fiche-meta">Aucun lien ajouté pour le moment (drive partagé, sites de référence...).</p>'}
+  </div>`;
+}
+
+// ============================================================
+// DOCUMENTATION (codes + BO)
+// ============================================================
+function renderDocumentation(){
+  const codes = DATA.codes || [];
+  app.innerHTML = `<div class="panel">
+    <h1 class="page-title">Documentation</h1>
+    <h2 style="text-decoration:underline;color:var(--navy);font-family:var(--serif);">GUIDE D'UTILISATION</h2>
+    <p class="fiche-meta">Comment utiliser les principales fonctionnalités du site (cliquez pour déplier).</p>
+    <div class="partie-block">
+      <details class="doc-refs"><summary>Naviguer dans le site</summary><p>Le menu de gauche donne accès au <strong>Programme</strong> (les chapitres), aux <strong>Listes</strong> (les cartes de révision) et aux <strong>Tableaux</strong> comparatifs. En haut, les onglets <strong>Sujets</strong> (annales), <strong>Liens</strong> utiles et <strong>Documentation</strong> (cette page). Le titre « LE PRÉCIS » ramène à l'accueil.</p></details>
+      <details class="doc-refs"><summary>Rechercher</summary><p>La barre de recherche en haut affiche, dès 2 caractères, une <strong>liste de résultats classés</strong> : notions, fiches, articles de loi et tableaux. Naviguez au clavier (flèches haut/bas, Entrée pour ouvrir, Échap pour fermer) ou cliquez un résultat pour aller directement au bon endroit.</p></details>
+      <details class="doc-refs"><summary>Étudier un chapitre</summary><p>Chaque chapitre a quatre onglets : <strong>Cours</strong> (les fiches détaillées, avec un sommaire à gauche), <strong>Synthèse</strong> (le cours rédigé d'ensemble), <strong>Points d'attention</strong> (les attendus officiels du programme) et <strong>Annales</strong> (les questions d'examen déjà tombées sur ce chapitre).</p></details>
+      <details class="doc-refs"><summary>Fiches, références et tableaux</summary><p>Dans une fiche, les <strong>références</strong> (📎) sont cliquables : elles ouvrent l'article recherché sur <strong>Légifrance</strong>. Les mentions <strong>▦ tableau</strong> dans le corps du texte, ainsi que les <strong>tableaux liés</strong> et les <strong>cartes Q/R liées</strong> en bas de fiche, mènent directement au tableau ou à la carte concernée. Lorsqu'un chapitre comporte plusieurs <strong>parties</strong>, le sommaire de gauche les regroupe en sections dépliables.</p></details>
+      <details class="doc-refs"><summary>Réviser avec les cartes (Q/R)</summary><p>Dans <strong>Listes</strong>, chaque carte question/réponse se déplie. Auto-évaluez-vous avec <strong>« ✓ Su »</strong> ou <strong>« ↻ À revoir »</strong> : un système de répétition espacée (Leitner) suit votre progression, visible par la barre en haut. Le commutateur <strong>« ↓ Dans l'ordre / ⇄ Mélanger »</strong> choisit l'ordre d'affichage — le choix est mémorisé, et chaque nouvel affichage retire les cartes. Le bouton <strong>« S'interroger »</strong> lance un mode quiz.</p></details>
+      <details class="doc-refs"><summary>Reconstituer un tableau (entraînement)</summary><p>Dans <strong>Tableaux</strong>, chaque tableau propose <strong>« ⟲ Par colonne »</strong> et <strong>« ⟲ Par ligne »</strong> : une colonne (par exemple « SAS ») ou une ligne (par exemple « Régime social du dirigeant ») est masquée, à vous de la reconstituer de mémoire. Cliquez une case <strong>?</strong> pour vérifier votre réponse ; le compteur suit votre avancement. <strong>« ↻ Autre colonne »</strong> passe à la suivante, <strong>« 👁 Tout révéler »</strong> affiche le corrigé, <strong>« ✕ Quitter »</strong> revient au tableau complet. La colonne des intitulés reste toujours visible.</p></details>
+      <details class="doc-refs"><summary>Annales et rattachement au programme</summary><p>L'onglet <strong>Sujets</strong> liste les annales, chacune <strong>rattachée au programme</strong> dossier par dossier, avec des liens vers les sources officielles (CRCF) et un corrigé commenté (Compta Online). Inversement, l'onglet <strong>Annales</strong> d'un chapitre montre les questions d'examen qui le concernent. Les sujets et corrigés ne sont pas hébergés : seuls des liens sont fournis.</p></details>
+      <details class="doc-refs"><summary>Confort de lecture</summary><p>Le bouton <strong>🌙 / ☀️</strong> (en haut) bascule en <strong>mode sombre</strong>, mémorisé. Sur un chapitre, <strong>« 🖨 Imprimer / PDF »</strong> imprime le contenu sans le menu. Chaque vue a sa <strong>propre adresse (URL)</strong> : vous pouvez la partager ou utiliser le bouton « précédent » du navigateur.</p></details>
+      <details class="doc-refs"><summary>Sauvegarder sa progression</summary><p>Votre progression (cartes sues, chapitres récents) est enregistrée dans votre navigateur. Dans <strong>Listes</strong>, vous pouvez l'<strong>exporter</strong> dans un fichier puis la <strong>réimporter</strong> — utile pour changer d'appareil ou ne rien perdre.</p></details>
+      <details class="doc-refs"><summary>Signaler une anomalie</summary><p>Une erreur ? <strong>Sélectionnez le passage</strong> concerné : une bulle <strong>« ⚠ Signaler ce passage »</strong> apparaît. Vous pouvez aussi utiliser le bouton <strong>« ⚠ Signaler une anomalie »</strong> en haut d'un chapitre. Le formulaire s'ouvre prérempli (chapitre, section, passage).</p></details>
+    </div>
+    <h2 style="text-decoration:underline;color:var(--navy);font-family:var(--serif);margin-top:30px;">CODES</h2>
+    ${codes.map(c => {
+      const refs = DATA.references_textes.filter(r => r.document === c.titre);
+      return `<div class="partie-block">
+        <div class="ptitre">${c.titre}</div>
+        ${c.disponible
+          ? `<iframe class="pdf-frame" src="${c.fichier}"></iframe>`
+          : `<div class="pdf-missing">PDF non encore ajouté dans <code>${c.fichier}</code>.</div>`}
+        <details class="doc-refs"${refs.some(r => r.id === state.refFocus) ? ' open' : ''}>
+          <summary>Références utilisées dans le cours (${refs.length}) — cliquez pour ouvrir sur Légifrance</summary>
+          <ul class="refs-list">
+            ${refs.map(r => `<li id="ref-${r.id}" class="${state.refFocus === r.id ? 'ref-focus' : ''}"><div class="ref-title"><a href="${legifranceUrl(r)}" target="_blank" rel="noopener">📎 ${r.reference} ↗</a></div>
+              <div>${(r.fiches_liees||[]).map(fid => `<a href="#" data-fiche="${fid}">${ficheById(fid) ? ficheById(fid).titre : fid}</a>`).join(' · ')}</div></li>`).join('') || "<li class=\"fiche-meta\">Aucune référence à ce code pour l'instant.</li>"}
+          </ul>
+        </details>
+      </div>`;
+    }).join('')}
+
+    <h2 style="text-decoration:underline;color:var(--navy);font-family:var(--serif);margin-top:30px;">AUTRES</h2>
+    ${(() => {
+      // références qui ne relèvent d'aucun code (lois, ordonnances, textes UE) :
+      // sans ce bloc, elles n'apparaîtraient nulle part dans la Documentation.
+      const titresCodes = new Set(codes.map(c => c.titre));
+      const hors = DATA.references_textes.filter(r => !titresCodes.has(r.document));
+      if(!hors.length) return '';
+      return `<div class="partie-block">
+        <div class="ptitre">Textes non codifiés (lois, ordonnances, textes de l'Union européenne)</div>
+        <details class="doc-refs"${hors.some(r => r.id === state.refFocus) ? ' open' : ''}>
+          <summary>Références utilisées dans le cours (${hors.length}) — cliquez pour ouvrir sur Légifrance</summary>
+          <ul class="refs-list">
+            ${hors.map(r => `<li id="ref-${r.id}" class="${state.refFocus === r.id ? 'ref-focus' : ''}"><div class="ref-title"><a href="${legifranceUrl(r)}" target="_blank" rel="noopener">📎 ${r.reference} ↗</a></div>
+              <div>${(r.fiches_liees||[]).map(fid => `<a href="#" data-fiche="${fid}">${ficheById(fid) ? ficheById(fid).titre : fid}</a>`).join(' · ')}</div></li>`).join('')}
+          </ul>
+        </details>
+      </div>`;
+    })()}
+    <div class="partie-block">
+      <div class="ptitre">Bulletin officiel — Programme UE1</div>
+      ${DATA.has_bo_pdf
+        ? `<iframe class="pdf-frame" src="${DATA.static_bo_path}"></iframe>`
+        : `<div class="pdf-missing">PDF du BO non disponible.</div>`}
+    </div>
+  </div>`;
+  if(state.refFocus){
+    const el = document.getElementById('ref-' + state.refFocus);
+    if(el) setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'center'}), 30);
+    state.refFocus = null;   // le surlignage ne vaut que pour cette arrivée
+  }
+
+  app.querySelectorAll('[data-fiche]').forEach(a => a.onclick = (e) => {
+    e.preventDefault();
+    const f = ficheById(a.dataset.fiche);
+    if(!f) return;
+    state.chapitreId = f.notion_id.split('.')[0];
+    state.ficheId = a.dataset.fiche;
+    state.chapTab = 'cours';
+    state.view = 'chapitre';
+    render();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+}
+
+// ============================================================
+// CHAPITRE — Cours / Points d'attention
+// ============================================================
+function navTree(activeFicheId, chapitreId){
+  const notions = DATA.notions.filter(n => n.chapitre_id === chapitreId);
+  // Une notion n'apparaît que si elle a au moins une fiche disposant d'un contenu .md
+  const groupe = n => {
+    const fiches = DATA.fiches.filter(f => f.notion_id === n.id && ficheById(f.id));
+    if(!fiches.length) return '';
+    return `<div class="notion-group"><div class="gname">${n.titre}</div><ul>`
+      + fiches.map(f => `<li><a href="#" data-fiche="${f.id}" class="${f.id===activeFicheId?'active':''}">${f.titre}</a></li>`).join('')
+      + '</ul></div>';
+  };
+  // Regroupement par partie (champ `partie_numero` / `partie_titre` de notions.json).
+  // Générique : sans parties déclarées, l'affichage reste la liste simple d'avant.
+  const parties = [];
+  notions.forEach(n => {
+    const num = n.partie_numero ?? null;
+    let p = parties.find(x => x.num === num);
+    if(!p){ p = {num, titre: n.partie_titre || '', notions: []}; parties.push(p); }
+    p.notions.push(n);
+  });
+  const groupees = parties.filter(p => p.num !== null && p.titre);
+  let html = '<aside class="nav-tree"><h2>Notions</h2>';
+  if(groupees.length > 1){
+    parties.sort((a,b) => (a.num ?? 999) - (b.num ?? 999));
+    parties.forEach(p => {
+      const corps = p.notions.map(groupe).join('');
+      if(!corps) return;
+      if(p.num === null || !p.titre){ html += corps; return; }
+      // la partie contenant la fiche ouverte est dépliée d'office
+      const ouvert = p.notions.some(n => DATA.fiches.some(f => f.notion_id === n.id && f.id === activeFicheId));
+      html += `<details class="partie-group"${ouvert ? ' open' : ''}>`
+           +  `<summary>Partie ${p.num} — ${p.titre}</summary>${corps}</details>`;
+    });
+  } else {
+    html += notions.map(groupe).join('');
+  }
+  html += '</aside>';
+  return html;
+}
+
+function annalesForChapitre(chap){
+  const chapNotionIds = new Set(DATA.notions.filter(n => n.chapitre_id === chap.id).map(n => n.id));
+  const out = [];
+  (DATA.annales || []).forEach(a => {
+    const dossiers = [];
+    (a.rattachement || []).forEach(d => {
+      const whole = d.chapitre_id === chap.id;
+      const qs = whole ? (d.questions || [])
+        : (d.questions || []).filter(q => q.notion_id && chapNotionIds.has(q.notion_id));
+      if(qs.length) dossiers.push({ dossier: d.dossier, intitule: d.intitule, questions: qs });
+    });
+    if(dossiers.length) out.push({ annale: a, dossiers });
+  });
+  out.sort((x, y) => (y.annale.annee || 0) - (x.annale.annee || 0));
+  return out;
+}
+function renderChapitre(){
+  const chapitre = chapById(state.chapitreId);
+  if(!chapitre){
+    app.innerHTML = `<div class="panel">
+      <h1 class="page-title">Chapitre introuvable</h1>
+      <p class="fiche-meta">Aucun chapitre ne correspond à l'identifiant «&nbsp;${state.chapitreId ?? '—'}&nbsp;». Le lien pointe vers un <code>chapitre_id</code> qui n'existe pas dans <code>data/chapitres.json</code> (ou la casse diffère).</p>
+      <p class="fiche-meta">Identifiants disponibles&nbsp;: ${DATA.chapitres.map(c=>`<code>${c.id}</code>`).join(', ') || 'aucun'}.</p>
+    </div>`;
+    return;
+  }
+  recordChapitreVisit(chapitre.id);
+
+  const subtabsHtml = `<div class="tabs-sub">
+      <button data-ctab="cours" class="${state.chapTab==='cours'?'active':''}" aria-pressed="${state.chapTab==='cours'}">COURS</button>
+      <button data-ctab="synthese" class="${state.chapTab==='synthese'?'active':''}" aria-pressed="${state.chapTab==='synthese'}">SYNTHÈSE</button>
+      <button data-ctab="points" class="${state.chapTab==='points'?'active':''}" aria-pressed="${state.chapTab==='points'}">POINTS D'ATTENTION</button>
+      <button data-ctab="annales" class="${state.chapTab==='annales'?'active':''}" aria-pressed="${state.chapTab==='annales'}">ANNALES</button>
+    </div><div class="report-row">
+      <button class="print-btn">🖨 Imprimer / PDF</button>
+      ${REPORT_CONFIGURED ? `<button class="report-btn">⚠ Signaler une anomalie</button><span class="report-hint">ou sélectionnez un passage</span>` : ''}
+    </div>`;
+
+  if(state.chapTab === 'synthese'){
+    const coursHtml = (DATA.cours || {})[chapitre.id];
+    app.innerHTML = `<div class="panel">
+      <div class="fiche-meta">${chapLabel(chapitre)}</div>
+      <h1 class="page-title">${chapitre.titre}</h1>
+      ${subtabsHtml}
+      <div class="fiche-body cours-redige">${coursHtml ? linkifyTableauxHtml(linkifyCiteHtml(coursHtml)) : "<p class=\"fiche-meta\">La synthèse rédigée de ce chapitre n'est pas encore disponible.</p>"}</div>
+    </div>`;
+    app.querySelectorAll('[data-ctab]').forEach(b => b.onclick = () => { state.chapTab = b.dataset.ctab; render(); });
+    app.querySelectorAll('[data-tableau]').forEach(c => c.onclick = () => {
+      const t = (DATA.tableaux_comparatifs||[]).find(x => x.id === c.dataset.tableau);
+      state.view='tableaux'; state.tableauxChapitreId = t ? t.chapitre_id : chapitre.id; state.tableauFocus = c.dataset.tableau;
+      render(); window.scrollTo({top:0, behavior:'smooth'});
+    });
+    return;
+  }
+
+  if(state.chapTab === 'points'){
+    const pa = (DATA.points_attention || {})[chapitre.id] || {};
+    app.innerHTML = `<div class="panel">
+      <div class="fiche-meta">${chapLabel(chapitre)}</div>
+      <h1 class="page-title">${chapitre.titre}</h1>
+      ${subtabsHtml}
+      ${pa.sens_et_portee ? `<h3>Sens et portée de l'étude (texte officiel du BO)</h3><p class="cite">${pa.sens_et_portee}</p>` : ''}
+      ${(pa.competences_visees||[]).length ? `<h3>Compétences visées (texte officiel du BO)</h3><ul>${pa.competences_visees.map(c=>`<li>${c}</li>`).join('')}</ul>` : ''}
+      ${(pa.notions_et_contenus||[]).length ? `<h3>Notions et contenus (texte officiel du BO)</h3><ul>${pa.notions_et_contenus.map(c=>`<li>${c}</li>`).join('')}</ul>` : ''}
+      ${(pa.attendus_examen||[]).length ? `<h3>Points de vigilance pour l'examen (analyse, hors texte officiel)</h3><ul>${pa.attendus_examen.map(c=>`<li>${c}</li>`).join('')}</ul>` : ''}
+      ${!pa.sens_et_portee && !(pa.attendus_examen||[]).length ? '<p class="fiche-meta">Pas encore de contenu pour ce chapitre.</p>' : ''}
+    </div>`;
+    app.querySelectorAll('[data-ctab]').forEach(b => b.onclick = () => { state.chapTab = b.dataset.ctab; render(); });
+    return;
+  }
+
+  if(state.chapTab === 'annales'){
+    const matches = annalesForChapitre(chapitre);
+    const body = matches.length ? matches.map(m => {
+      const a = m.annale;
+      const primarySrc = (a.sources && a.sources[0]) ? a.sources[0] : null;
+      const srcLinks = (a.sources || []).map(s => `<a class="sp-link" href="${s.url}" target="_blank" rel="noopener">${srEsc(s.nom)} ↗</a>`).join(' · ');
+      const doss = m.dossiers.map(d => {
+        const qs = d.questions.map(q => {
+          const objet = primarySrc
+            ? `<a class="rt-notion" href="${primarySrc.url}" target="_blank" rel="noopener">${srEsc(q.objet)} ↗</a>`
+            : srEsc(q.objet);
+          const arts = (q.articles && q.articles.length) ? ` — <span class="rt-art">${srEsc(q.articles.join(' · '))}</span>` : '';
+          return `<li><span class="rt-num">${srEsc(q.num)}</span>${objet}${arts}</li>`;
+        }).join('');
+        return `<div class="rt-dossier"><div class="rt-dtitre"><strong>Dossier ${srEsc(String(d.dossier))}</strong>${d.intitule ? ' — ' + srEsc(d.intitule) : ''}</div><ul class="rt-qlist">${qs}</ul></div>`;
+      }).join('');
+      return `<div class="partie-block"><div class="ptitre">DSCG ${srEsc(String(a.annee))}${a.session ? ' — ' + srEsc(a.session) : ''}</div>${srcLinks ? `<div class="sous-partie">${srcLinks}</div>` : ''}${doss}</div>`;
+    }).join('') : `<p class="fiche-meta">Aucune annale n'est encore rattachée à ce chapitre.</p>`;
+    app.innerHTML = `<div class="panel">
+      <div class="fiche-meta">${chapLabel(chapitre)}</div>
+      <h1 class="page-title">${chapitre.titre}</h1>
+      ${subtabsHtml}
+      <p class="fiche-meta">Questions d'examen rattachées à ce chapitre (analyse de l'éditeur). Les sujets et corrigés ne sont pas hébergés sur ce site&nbsp;: chaque question renvoie vers la source de l'annale correspondante (Compta&nbsp;Online) pour consulter l'énoncé et le corrigé.</p>
+      ${body}
+    </div>`;
+    app.querySelectorAll('[data-ctab]').forEach(b => b.onclick = () => { state.chapTab = b.dataset.ctab; render(); });
+    return;
+  }
+
+  const chapFiches = DATA.fiches.filter(f => {
+    const n = notionById(f.notion_id);
+    return n && n.chapitre_id === chapitre.id && ficheById(f.id);
+  });
+  let fid = state.ficheId;
+  if(!fid || !ficheById(fid) || !chapFiches.some(f => f.id === fid)){
+    fid = chapFiches[0] && chapFiches[0].id;
+  }
+  if(!fid){
+    app.innerHTML = `<div class="panel"><div class="fiche-meta">${chapLabel(chapitre)}</div><h1 class="page-title">${chapitre.titre}</h1>${subtabsHtml}<p class="fiche-meta">Les fiches de ce chapitre ne sont pas encore disponibles (contenu en cours d'intégration). L'onglet POINTS D'ATTENTION reste consultable.</p></div>`;
+    app.querySelectorAll('[data-ctab]').forEach(b => b.onclick = () => { state.chapTab = b.dataset.ctab; render(); });
+    return;
+  }
+  const fiche = ficheById(fid);
+  const notion = notionById(fiche.notion_id);
+  const refs = (fiche.references || []).map(refById).filter(Boolean);
+  const cards = qrByFiche(fid);
+  const linkedTableaux = (DATA.tableaux_comparatifs || []).filter(t =>
+    (Array.isArray(t.notions_liees) && notion && t.notions_liees.includes(notion.id)) ||
+    (Array.isArray(fiche.tableaux_lies) && fiche.tableaux_lies.includes(t.id))
+  );
+
+  app.innerHTML = `<div class="fiche-meta">${chapLabel(chapitre)}</div>
+  <div class="layout">
+    ${navTree(fid, chapitre.id)}
+    <div class="panel">
+      ${subtabsHtml}
+      <div class="fiche-meta">${notion ? notion.titre : ''}</div>
+      <h1 class="page-title">${fiche.titre}</h1>
+      <div class="fiche-body">${linkifyTableauxHtml(linkifyCiteHtml(fiche.body_html))}</div>
+      <div class="seealso">
+        <h4>Références</h4>
+        ${refs.length ? refs.map(r => `<span class="chip ref" data-ref="${r.id}">📎 ${r.reference}</span><a class="lf-link" href="${legifranceUrl(r)}" target="_blank" rel="noopener" title="Ouvrir sur Légifrance">⚖︎</a>`).join('') : '<span class="fiche-meta">Aucune référence rattachée.</span>'}
+        ${linkedTableaux.length ? `<h4 style="margin-top:16px;">Tableaux liés</h4>${linkedTableaux.map(t => `<span class="chip" data-tableau="${t.id}" style="background:#4f7a64;">▦ ${t.titre}</span>`).join('')}` : ''}
+        <h4 style="margin-top:16px;">Cartes Q / R liées</h4>
+        ${cards.length ? cards.map(c => `<span class="chip" data-qr="${c.id}">${c.id}</span>`).join('') : '<span class="fiche-meta">Aucune carte liée.</span>'}
+      </div>
+    </div>
+  </div>`;
+
+  app.querySelectorAll('[data-ctab]').forEach(b => b.onclick = () => { state.chapTab = b.dataset.ctab; render(); });
+  app.querySelectorAll('[data-fiche]').forEach(a => a.onclick = (e) => { e.preventDefault(); state.ficheId = a.dataset.fiche; render(); window.scrollTo({top:0, behavior:'smooth'}); });
+  app.querySelectorAll('[data-ref]').forEach(c => c.onclick = () => { state.view='documentation'; render(); window.scrollTo({top:0, behavior:'smooth'}); });
+  app.querySelectorAll('[data-qr]').forEach(c => c.onclick = () => { state.view='listes'; state.listesScope='chapitre'; state.listesChapitreId=chapitre.id; state.listesNotionId = notion ? notion.id : null; state.qrFocus = c.dataset.qr; render(); });
+  app.querySelectorAll('[data-tableau]').forEach(c => c.onclick = () => {
+    const t = (DATA.tableaux_comparatifs||[]).find(x => x.id === c.dataset.tableau);
+    state.view='tableaux'; state.tableauxChapitreId = t ? t.chapitre_id : chapitre.id; state.tableauFocus = c.dataset.tableau;
+    render(); window.scrollTo({top:0, behavior:'smooth'});
+  });
+}
+
+// ============================================================
+// LISTES (cartes Q/R) — par chapitre
+// ============================================================
+function renderListes(){
+  const isAll = state.listesScope === 'all';
+  const chap = !isAll ? chapById(state.listesChapitreId) : null;
+  const notionFilter = (!isAll && state.listesNotionId) ? notionById(state.listesNotionId) : null;
+  // si la notion ne correspond plus au chapitre (état incohérent), on l'ignore
+  const activeNotion = (notionFilter && chap && notionFilter.chapitre_id === chap.id) ? notionFilter : null;
+  if(state.listesNotionId && !activeNotion) state.listesNotionId = null;
+  let cards = cardsForScope(isAll ? 'all' : 'chapitre', chap && chap.id, activeNotion && activeNotion.id);
+  // Ordre : « suite » = ordre du cours ; « shuffle » = mélange, retiré à chaque affichage.
+  // Le choix est mémorisé (localStorage) et s'applique au périmètre filtré comme au périmètre complet.
+  const cardsOrder = loadCardsOrder();
+  if(cardsOrder === 'shuffle') cards = shuffle(cards);
+  const title = isAll ? "Toutes les notions" : (activeNotion ? `Cartes — ${activeNotion.titre}` : `Cartes — ${chapLabel(chap)}`);
+  const subtitle = activeNotion ? `<p class="fiche-meta">${chapLabel(chap)} <a href="#" id="clearNotionFilter">— voir toutes les cartes du chapitre</a></p>` : '';
+  const pr = progressFor(cards);
+
+  app.innerHTML = `<div class="panel">
+    <h1 class="page-title">${title}</h1>
+    ${subtitle}
+    <div class="listes-toolbar">
+      <div style="flex:1;min-width:220px;">
+        <div class="progress-wrap">
+          <div class="progress-track"><div class="progress-fill" style="width:${pr.pct}%"></div></div>
+          <div class="progress-label">${pr.mastered} / ${pr.total} cartes maîtrisées (${pr.pct}%)</div>
+        </div>
+      </div>
+      <div class="tools">
+        <div class="order-switch" role="group" aria-label="Ordre des cartes">
+          <button id="orderSuite" class="${cardsOrder==='suite'?'active':''}" aria-pressed="${cardsOrder==='suite'}">↓ Dans l'ordre</button>
+          <button id="orderShuffle" class="${cardsOrder==='shuffle'?'active':''}" aria-pressed="${cardsOrder==='shuffle'}">⇄ Mélanger</button>
+        </div>
+        <button class="btn-primary" id="startQuiz">S'interroger</button>
+        <button class="btn-ghost" id="resetProgress">Réinitialiser</button>
+        <button class="btn-ghost" id="exportProgress">Exporter</button>
+        <button class="btn-ghost" id="importProgress">Importer</button>
+        <input type="file" id="importFile" accept="application/json" style="display:none">
+      </div>
+    </div>
+    <div class="qr-grid" id="qrGrid"></div>
+  </div>`;
+
+  const clearLink = document.getElementById('clearNotionFilter');
+  if(clearLink) clearLink.onclick = (e) => { e.preventDefault(); state.listesNotionId = null; render(); window.scrollTo({top:0, behavior:'smooth'}); };
+
+  const grid = document.getElementById('qrGrid');
+  let focusedEl = null;
+  cards.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'flashcard' + (qrMastered(c.id) ? ' mastered' : '');
+    card.dataset.cardId = c.id;
+    if(state.qrFocus === c.id){ card.classList.add('flipped'); focusedEl = card; }
+    const info = qrInfo(c.id);
+    const badge = info && info.status ? `<div class="qr-badge ${info.status}">${info.status==='known' ? '✓ su' : '↻ à revoir'}</div>` : '';
+    card.innerHTML = `<div class="inner">
+        <div class="face front">${badge}<div class="lbl">Question</div><div class="qtext">${c.question}</div><div class="tag">clic pour retourner</div></div>
+        <div class="face back"><div class="lbl">Réponse</div><div class="atext">${c.reponse}</div>
+          ${ficheById(c.fiche_id) ? `<div class="tag"><a href="#" data-fiche="${c.fiche_id}">Voir la fiche →</a></div>` : ''}
+          <div class="qr-eval"><button class="btn-known" data-known="${c.id}">✓ Su</button><button class="btn-review" data-review="${c.id}">↻ À revoir</button></div>
+        </div>
+      </div>`;
+    card.onclick = (e) => { if(e.target.closest('a') || e.target.closest('button')) return; card.classList.toggle('flipped'); };
+    grid.appendChild(card);
+  });
+  if(focusedEl) setTimeout(() => focusedEl.scrollIntoView({block:'center', behavior:'smooth'}), 30);
+
+  function refreshProgress(){
+    const p = progressFor(cards);
+    const fill = app.querySelector('.progress-fill'); if(fill) fill.style.width = p.pct + '%';
+    const lbl = app.querySelector('.progress-label'); if(lbl) lbl.textContent = `${p.mastered} / ${p.total} cartes maîtrisées (${p.pct}%)`;
+  }
+  function grade(btn, status){
+    const id = btn.dataset.known || btn.dataset.review;
+    setQrStatus(id, status);
+    const card = btn.closest('.flashcard');
+    if(card){
+      card.classList.toggle('mastered', qrMastered(id));
+      const front = card.querySelector('.face.front');
+      let badge = front && front.querySelector('.qr-badge');
+      if(!badge && front){ badge = document.createElement('div'); front.insertBefore(badge, front.firstChild); }
+      if(badge){ badge.className = 'qr-badge ' + status; badge.textContent = status==='known' ? '✓ su' : '↻ à revoir'; }
+    }
+    refreshProgress();
+  }
+
+  app.querySelectorAll('[data-fiche]').forEach(a => a.onclick = (e) => {
+    e.preventDefault(); e.stopPropagation();
+    const f = ficheById(a.dataset.fiche); if(!f) return;
+    const n = notionById(f.notion_id); if(!n) return;
+    state.chapitreId = n.chapitre_id; state.view='chapitre'; state.chapTab='cours'; state.ficheId = a.dataset.fiche;
+    render(); window.scrollTo({top:0, behavior:'smooth'});
+  });
+  app.querySelectorAll('[data-known]').forEach(b => b.onclick = (e) => { e.stopPropagation(); grade(b, 'known'); });
+  app.querySelectorAll('[data-review]').forEach(b => b.onclick = (e) => { e.stopPropagation(); grade(b, 'review'); });
+
+  const bSuite = document.getElementById('orderSuite');
+  const bShuf  = document.getElementById('orderShuffle');
+  if(bSuite) bSuite.onclick = () => { saveCardsOrder('suite'); state.qrFocus = null; render(); };
+  // un nouveau clic sur « Mélanger » retire à nouveau les cartes
+  if(bShuf)  bShuf.onclick  = () => { saveCardsOrder('shuffle'); state.qrFocus = null; render(); };
+
+  const sq = document.getElementById('startQuiz');
+  if(sq) sq.onclick = () => { state.quizScope = isAll ? 'all' : 'chapitre'; state.quizChapId = chap && chap.id; state.quiz = null; state.view = 'quiz'; render(); window.scrollTo({top:0, behavior:'smooth'}); };
+  const rp = document.getElementById('resetProgress');
+  if(rp) rp.onclick = () => { const s = loadQrState(); cards.forEach(c => { delete s[c.id]; }); saveQrState(s); render(); };
+  const ep = document.getElementById('exportProgress'); if(ep) ep.onclick = exportProgress;
+  const ip = document.getElementById('importProgress'); const ipf = document.getElementById('importFile');
+  if(ip && ipf){ ip.onclick = () => ipf.click(); ipf.onchange = () => { if(ipf.files && ipf.files[0]) importProgress(ipf.files[0]); }; }
+}
+
+// ============================================================
+// INTERROGATION (quiz) — auto-évaluation séquentielle
+// ============================================================
+function renderQuiz(){
+  if(!state.quiz){
+    const all = cardsForScope(state.quizScope, state.quizChapId);
+    const deck = shuffle(all.filter(c => !qrMastered(c.id)))
+                 .concat(shuffle(all.filter(c => qrMastered(c.id))))
+                 .slice(0, Math.min(20, all.length));
+    state.quiz = { deck, i: 0, score: 0, revealed: false };
+  }
+  const Q = state.quiz;
+  const back = () => { state.quiz = null; state.view = 'listes'; render(); window.scrollTo({top:0, behavior:'smooth'}); };
+
+  if(!Q.deck.length || Q.i >= Q.deck.length){
+    const total = Q.deck.length;
+    app.innerHTML = `<div class="panel"><h1 class="page-title">Interrogation</h1>
+      <div class="quiz-result">
+        ${total ? `<div class="score">${Q.score} / ${total}</div><p class="progress-label">cartes que vous avez su</p>`
+                : '<p class="fiche-meta">Aucune carte à réviser dans ce périmètre.</p>'}
+        <div class="quiz-actions">
+          <button class="btn-primary" id="quizAgain">Recommencer</button>
+          <button class="btn-ghost" id="quizBack">Retour aux cartes</button>
+        </div>
+      </div></div>`;
+    const again = document.getElementById('quizAgain'); if(again) again.onclick = () => { state.quiz = null; render(); };
+    const b = document.getElementById('quizBack'); if(b) b.onclick = back;
+    return;
+  }
+
+  const c = Q.deck[Q.i];
+  app.innerHTML = `<div class="panel">
+    <h1 class="page-title">Interrogation</h1>
+    <div class="quiz-card">
+      <div class="quiz-meta">Carte ${Q.i+1} / ${Q.deck.length} · Score ${Q.score}</div>
+      <div class="quiz-q">${c.question}</div>
+      ${Q.revealed
+        ? `<div class="quiz-a">${c.reponse}</div>
+           <div class="quiz-actions">
+             <button class="btn-primary" id="gradeKnown">✓ Je savais</button>
+             <button class="btn-ghost" id="gradeReview">↻ À revoir</button>
+           </div>`
+        : `<div class="quiz-actions"><button class="btn-primary" id="reveal">Afficher la réponse</button></div>`}
+      <div class="quiz-actions" style="margin-top:18px;"><button class="btn-ghost" id="quizBack">Quitter</button></div>
+    </div></div>`;
+
+  const rv = document.getElementById('reveal'); if(rv) rv.onclick = () => { Q.revealed = true; render(); };
+  const gk = document.getElementById('gradeKnown'); if(gk) gk.onclick = () => { setQrStatus(c.id,'known'); Q.score++; Q.i++; Q.revealed=false; render(); window.scrollTo({top:0,behavior:'smooth'}); };
+  const gr = document.getElementById('gradeReview'); if(gr) gr.onclick = () => { setQrStatus(c.id,'review'); Q.i++; Q.revealed=false; render(); window.scrollTo({top:0,behavior:'smooth'}); };
+  const qb = document.getElementById('quizBack'); if(qb) qb.onclick = back;
+}
+
+// ============================================================
+// TABLEAUX — par chapitre
+// ============================================================
+// ---- Reconstitution d'un tableau : une colonne ou une ligne est masquée,
+//      chaque cellule se révèle au clic. L'axe choisi est mémorisé.
+const AXE_KEY = 'dscg_tab_axe';
+function loadAxe(){ try{ return localStorage.getItem(AXE_KEY) === 'ligne' ? 'ligne' : 'colonne'; }catch(e){ return 'colonne'; } }
+function saveAxe(v){ try{ localStorage.setItem(AXE_KEY, v); }catch(e){} }
+// nombre de positions masquables selon l'axe (la 1re colonne, qui porte les intitulés, reste visible)
+function nbPositions(t, axe){
+  return axe === 'ligne' ? t.contenu.lignes.length : Math.max(1, t.contenu.colonnes.length - 1);
+}
+function exerciceEnCours(t){
+  return state.tabExercice && state.tabExercice.tableauId === t.id ? state.tabExercice : null;
+}
+// une cellule est-elle masquée par l'exercice ? (i = ligne, j = colonne)
+function celluleMasquee(ex, i, j){
+  if(!ex || j === 0) return false;                       // la colonne d'intitulés reste toujours lisible
+  return ex.axe === 'ligne' ? i === ex.index : j === ex.index + 1;
+}
+
+function renderTableaux(){
+  const chap = chapById(state.tableauxChapitreId)
+    || DATA.chapitres.find(c => (DATA.tableaux_comparatifs||[]).some(t => t.chapitre_id === c.id));
+  const tableaux = (DATA.tableaux_comparatifs || []).filter(t => !chap || t.chapitre_id === chap.id);
+  const html = tableaux.map(t => {
+    const cols = t.contenu.colonnes;
+    const rows = t.contenu.lignes;
+    const notionsLiees = (Array.isArray(t.notions_liees) ? t.notions_liees : [])
+      .map(notionById).filter(Boolean);
+    const ex = exerciceEnCours(t);
+    const axe = ex ? ex.axe : loadAxe();
+    // décompte des cellules masquées / déjà révélées
+    let total = 0, vues = 0;
+    if(ex){
+      rows.forEach((r, i) => r.forEach((cell, j) => {
+        if(celluleMasquee(ex, i, j)){ total++; if(ex.revelees.indexOf(i + ':' + j) >= 0) vues++; }
+      }));
+    }
+    const cible = ex
+      ? (ex.axe === 'ligne' ? (rows[ex.index] || [])[0] : cols[ex.index + 1])
+      : '';
+    return `<div class="tab-block${ex ? ' en-exercice' : ''}" id="tabblock-${t.id}">
+      <h3>${t.titre}</h3>
+      ${ex ? `<div class="exo-bar">
+          <span class="exo-cible">${ex.axe === 'ligne' ? 'Ligne masquée' : 'Colonne masquée'} : <strong>${cible || '—'}</strong></span>
+          <span class="exo-score">${vues}/${total} révélée${vues > 1 ? 's' : ''}</span>
+          <span class="exo-actions">
+            <button data-exo-suivant="${t.id}">↻ Autre ${ex.axe === 'ligne' ? 'ligne' : 'colonne'}</button>
+            <button data-exo-tout="${t.id}">👁 Tout révéler</button>
+            <button data-exo-stop="${t.id}">✕ Quitter</button>
+          </span>
+        </div>`
+      : `<div class="exo-bar exo-lancement">
+          <span class="exo-cible">S'entraîner : masquer une ${axe === 'ligne' ? 'ligne' : 'colonne'} et la reconstituer de mémoire.</span>
+          <span class="exo-actions">
+            <button data-exo-start="${t.id}" data-axe="colonne"${cols.length < 2 ? ' disabled' : ''}>⟲ Par colonne</button>
+            <button data-exo-start="${t.id}" data-axe="ligne"${rows.length < 1 ? ' disabled' : ''}>⟲ Par ligne</button>
+          </span>
+        </div>`}
+      <div class="table-wrap"><table class="cmp"><thead><tr>${cols.map((c, j)=>
+        `<th class="${ex && ex.axe === 'colonne' && j === ex.index + 1 ? 'col-cible' : ''}">${c}</th>`).join('')}</tr></thead>
+      <tbody>${rows.map((r, i)=>`<tr>${r.map((cell, j)=>{
+        if(!celluleMasquee(ex, i, j)) return `<td>${cell}</td>`;
+        const vue = ex.revelees.indexOf(i + ':' + j) >= 0;
+        return vue
+          ? `<td class="cell-revelee">${cell}</td>`
+          : `<td class="cell-masquee"><button class="cell-reveal" data-cell="${t.id}|${i}|${j}" aria-label="Révéler la réponse">?</button></td>`;
+      }).join('')}</tr>`).join('')}</tbody></table></div>
+      ${t.note ? `<p class="fiche-meta" style="font-style:italic;">${t.note}</p>` : ''}
+      ${notionsLiees.length ? `<div class="linked-tableaux"><h4>Notions liées</h4>${notionsLiees.map(n=>`<span class="chip" data-go-notion="${n.id}">${n.titre}</span>`).join('')}</div>` : ''}
+    </div>`;
+  }).join('<hr style="margin:30px 0;border-color:var(--paper-line);">');
+  app.innerHTML = `<div class="panel">
+    <div class="fiche-meta">${chap ? chapLabel(chap) : ''}</div>
+    <h1 class="page-title">Tableaux de synthèse</h1>
+    ${html || '<p class="fiche-meta">Aucun tableau pour ce chapitre.</p>'}
+  </div>`;
+
+  app.querySelectorAll('[data-go-notion]').forEach(c => c.onclick = () => {
+    const n = notionById(c.dataset.goNotion); if(!n) return;
+    const f = DATA.fiches.find(x => x.notion_id === n.id);
+    state.chapitreId = n.chapitre_id; state.ficheId = f ? f.id : null;
+    state.view = 'chapitre'; state.chapTab = 'cours';
+    render(); window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  const tabById = id => (DATA.tableaux_comparatifs||[]).find(x => x.id === id);
+  const rester = (id) => { state.tableauFocus = id; render(); };
+
+  app.querySelectorAll('[data-exo-start]').forEach(b => b.onclick = () => {
+    const t = tabById(b.dataset.exoStart); if(!t) return;
+    const axe = b.dataset.axe; saveAxe(axe);
+    state.tabExercice = {tableauId: t.id, axe, index: 0, revelees: []};
+    rester(t.id);
+  });
+  app.querySelectorAll('[data-exo-suivant]').forEach(b => b.onclick = () => {
+    const t = tabById(b.dataset.exoSuivant); const ex = exerciceEnCours(t); if(!ex) return;
+    ex.index = (ex.index + 1) % nbPositions(t, ex.axe);
+    ex.revelees = [];
+    rester(t.id);
+  });
+  app.querySelectorAll('[data-exo-tout]').forEach(b => b.onclick = () => {
+    const t = tabById(b.dataset.exoTout); const ex = exerciceEnCours(t); if(!ex) return;
+    t.contenu.lignes.forEach((r, i) => r.forEach((cell, j) => {
+      if(celluleMasquee(ex, i, j) && ex.revelees.indexOf(i + ':' + j) < 0) ex.revelees.push(i + ':' + j);
+    }));
+    rester(t.id);
+  });
+  app.querySelectorAll('[data-exo-stop]').forEach(b => b.onclick = () => {
+    const id = b.dataset.exoStop;
+    state.tabExercice = null;
+    rester(id);
+  });
+  app.querySelectorAll('[data-cell]').forEach(b => b.onclick = () => {
+    const [tid, i, j] = b.dataset.cell.split('|');
+    const ex = state.tabExercice; if(!ex || ex.tableauId !== tid) return;
+    const cle = i + ':' + j;
+    if(ex.revelees.indexOf(cle) < 0) ex.revelees.push(cle);
+    rester(tid);
+  });
+
+  if(state.tableauFocus){
+    const el = document.getElementById('tabblock-' + state.tableauFocus);
+    if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+    state.tableauFocus = null;
+  }
+}
+
+// ============================================================
+// MENTIONS LÉGALES
+// ============================================================
+function renderMentions(){
+  app.innerHTML = `<div class="panel">
+    <h1 class="page-title">Mentions légales</h1>
+    <div class="legal-body">
+      <h3>Éditeur</h3>
+      <p>Ce site est un projet personnel à but pédagogique, édité et tenu à jour par <strong>[À COMPLÉTER : nom / prénom]</strong>, étudiant·e en DSCG. Contact&nbsp;: <strong>[À COMPLÉTER : adresse e-mail]</strong>. Site sans finalité commerciale, destiné au partage de notes de révision entre étudiants.</p>
+
+      <h3>Hébergement</h3>
+      <p>Le site est hébergé par GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>
+
+      <h3>Propriété intellectuelle</h3>
+      <p>Les textes de loi et codes officiels reproduits ou cités (Code de commerce, Code du travail, etc.) sont des actes publics non couverts par le droit d'auteur. Le Bulletin officiel cité est un document public.</p>
+      <p>Les fiches de cours, synthèses et cartes de révision sont les productions propres de l'éditeur. Les sujets et corrigés officiels diffusés par le ministère restent la propriété de leur émetteur. <strong>Aucun corrigé d'éditeur privé</strong> (manuels, prépas) n'est reproduit ici&nbsp;: ces contenus sont protégés par le droit d'auteur.</p>
+      <p><strong>Sujets et corrigés d'examen (onglet « Sujets »)</strong>&nbsp;: ils ne sont pas hébergés ni reproduits sur ce site. La source <strong>officielle</strong> est le <strong>CRCF</strong> (Réseau national Centre de ressources comptabilité finance)&nbsp;: les sujets sont la propriété du ministère de l'Éducation nationale et les corrigés indicatifs celle du CRCF. Des rediffuseurs (Compta&nbsp;Online, Ficheben…) proposent par ailleurs des corrigés commentés et demeurent propriétaires de leurs versions. L'onglet dédié se limite à fournir des <strong>liens</strong> vers ces sites. Les analyses de rattachement de ces annales aux chapitres du programme, proposées sur ce site, sont des productions propres de l'éditeur et ne reproduisent pas les corrigés.</p>
+
+      <h3>Données personnelles</h3>
+      <p>Ce site ne collecte aucune donnée personnelle sur un serveur et n'utilise pas de cookies de suivi. L'historique des derniers chapitres consultés ainsi que votre progression de révision (cartes « su / à revoir ») sont stockés uniquement dans votre navigateur (<em>localStorage</em>), restent sur votre appareil, et peuvent être effacés à tout moment en vidant les données du site.</p>
+
+      <h3>Responsabilité</h3>
+      <p>Le contenu est fourni à titre informatif et pédagogique, sans valeur officielle ni garantie d'exhaustivité ou d'actualité, et ne constitue pas un conseil juridique. En cas de doute, reportez-vous aux textes en vigueur sur Légifrance et aux supports officiels de votre formation.</p>
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// NAVIGATION — banderoles + menu coulissant
+// ============================================================
+document.getElementById('tabsTop1').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  state.view = btn.dataset.view;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+document.getElementById('cohortHome').addEventListener('click', () => {
+  state.view = 'home'; render(); window.scrollTo({top:0, behavior:'smooth'});
+});
+
+const slideMenu = document.getElementById('slideMenu');
+const menuBackdrop = document.getElementById('menuBackdrop');
+const menuToggle = document.getElementById('menuToggle');
+function closeMenu(){
+  slideMenu.classList.remove('open');
+  menuBackdrop.classList.remove('show');
+  menuToggle.textContent = '☰';
+  menuToggle.setAttribute('aria-expanded', 'false');
+  menuToggle.setAttribute('aria-label', 'Ouvrir le menu de navigation');
+}
+function openMenu(){
+  slideMenu.classList.add('open');
+  menuBackdrop.classList.add('show');
+  menuToggle.textContent = '✕';
+  menuToggle.setAttribute('aria-expanded', 'true');
+  menuToggle.setAttribute('aria-label', 'Fermer le menu de navigation');
+}
+menuToggle.addEventListener('click', () => {
+  slideMenu.classList.contains('open') ? closeMenu() : openMenu();
+});
+menuBackdrop.addEventListener('click', closeMenu);
+
+document.querySelectorAll('#slideMenu .menu-title').forEach(t => {
+  t.addEventListener('click', () => {
+    t.parentElement.classList.toggle('expanded');
+  });
+});
+
+function buildMenuTrees(){
+  // PROGRAMME
+  const progEl = document.getElementById('menuProgramme');
+  progEl.innerHTML = (DATA.programme.parties || []).map(p => `
+    <div class="menu-partie">${p.numero}. ${p.titre}</div>
+    ${p.sous_parties.map(sp => sp.chapitre_id
+      ? `<a href="#" data-go-chap="${sp.chapitre_id}">${sp.numero ? sp.numero + ' — ' : ''}${sp.titre}</a>`
+      : `<span style="display:block;font-size:.82rem;padding:5px 0 5px 10px;color:#b9b9b9;">${sp.titre} (à venir)</span>`
+    ).join('')}
+  `).join('') + (DATA.programme.autre||[]).map(a => `
+    <div class="menu-partie">Autre</div>
+    <a href="#" data-go-chap="${a.chapitre_id}">${a.titre}</a>
+  `).join('');
+
+  // LISTES
+  const listesEl = document.getElementById('menuListes');
+  listesEl.innerHTML = `<a href="#" data-go-listes="all">Toutes les notions</a>` +
+    DATA.chapitres.map(c => `<a href="#" data-go-listes="${c.id}">${chapLabel(c)}</a>`).join('');
+
+  // TABLEAUX
+  const tabEl = document.getElementById('menuTableaux');
+  const chapsWithTableaux = DATA.chapitres
+    .filter(c => (DATA.tableaux_comparatifs||[]).some(t => t.chapitre_id === c.id))
+    .map(c => c.id);
+  tabEl.innerHTML = chapsWithTableaux.map(cid => {
+    const c = chapById(cid);
+    return c ? `<a href="#" data-go-tableaux="${cid}">${chapLabel(c)}</a>` : '';
+  }).join('') || '<span style="display:block;font-size:.82rem;padding:5px 0;color:#b9b9b9;">Aucun tableau disponible</span>';
+
+  progEl.querySelectorAll('[data-go-chap]').forEach(a => a.onclick = (e) => {
+    e.preventDefault();
+    state.chapitreId = a.dataset.goChap; state.ficheId = null; state.chapTab='cours';
+    state.view = 'chapitre'; closeMenu(); render(); window.scrollTo({top:0, behavior:'smooth'});
+  });
+  listesEl.querySelectorAll('[data-go-listes]').forEach(a => a.onclick = (e) => {
+    e.preventDefault();
+    const v = a.dataset.goListes;
+    state.listesScope = (v === 'all') ? 'all' : 'chapitre';
+    state.listesChapitreId = (v === 'all') ? null : v;
+    state.listesNotionId = null;
+    state.qrFocus = null;
+    state.view = 'listes'; closeMenu(); render(); window.scrollTo({top:0, behavior:'smooth'});
+  });
+  tabEl.querySelectorAll('[data-go-tableaux]').forEach(a => a.onclick = (e) => {
+    e.preventDefault();
+    state.tableauxChapitreId = a.dataset.goTableaux;
+    state.view = 'tableaux'; closeMenu(); render(); window.scrollTo({top:0, behavior:'smooth'});
+  });
+}
+buildMenuTrees();
+
+const gs = document.getElementById('globalSearch');
+const srBox = document.getElementById('searchResults');
+let _srResults = [];
+let _srActive = -1;
+const srEsc = s => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function collectResults(qraw){
+  const q = (qraw || '').trim().toLowerCase();
+  if(q.length < 2) return [];
+  const score = (t) => { t = (t||'').toLowerCase(); const i = t.indexOf(q); return i < 0 ? -1 : (t.startsWith(q) ? 0 : 1 + i*0.001); };
+  const res = [];
+  DATA.notions.forEach(n => { const s = score(n.titre); if(s>=0){ const c = chapById(n.chapitre_id);
+    res.push({type:'Notion', sc:s, cat:1, title:n.titre, sub:c?chapLabel(c):'', go:()=>{ state.view='listes'; state.listesScope='chapitre'; state.listesChapitreId=n.chapitre_id; state.listesNotionId=n.id; state.qrFocus=null; }}); } });
+  // seules les fiches disposant d'un contenu .md sont proposées (sinon le clic n'ouvrait rien d'utile)
+  DATA.fiches.filter(f => ficheById(f.id)).forEach(f => { const s = score(f.titre); if(s>=0){ const n = notionById(f.notion_id); const c = n?chapById(n.chapitre_id):null;
+    res.push({type:'Fiche', sc:s, cat:2, title:f.titre, sub:c?chapLabel(c):'', go:()=>{ if(n){ state.chapitreId=n.chapitre_id; state.view='chapitre'; state.chapTab='cours'; state.ficheId = ficheById(f.id)?f.id:null; } }}); } });
+  (DATA.tableaux_comparatifs||[]).forEach(t => { const s = score(t.titre); if(s>=0){
+    res.push({type:'Tableau', sc:s, cat:3, title:t.titre, sub:'', go:()=>{ state.view='tableaux'; state.tableauxChapitreId=t.chapitre_id; state.tableauFocus=t.id; }}); } });
+  DATA.references_textes.forEach(r => { const s = score(r.reference); if(s>=0){
+    res.push({type:'Article', sc:s, cat:4, title:r.reference, sub:r.document||'', go:()=>{ state.view='documentation'; state.refFocus=r.id; }}); } });
+  res.sort((a,b)=> a.sc-b.sc || a.cat-b.cat || a.title.localeCompare(b.title));
+  return res.slice(0, 12);
+}
+function renderSearchResults(){
+  const q = gs.value;
+  _srResults = collectResults(q); _srActive = -1;
+  if(q.trim().length < 2){ srBox.style.display='none'; srBox.innerHTML=''; gs.setAttribute('aria-expanded','false'); return; }
+  if(_srResults.length === 0){ srBox.innerHTML = '<div class="sr-empty">Aucun résultat</div>'; srBox.style.display='block'; gs.setAttribute('aria-expanded','true'); return; }
+  srBox.innerHTML = _srResults.map((r,i)=>
+    `<button class="sr-item" data-sr="${i}"><span class="sr-type">${r.type}</span><span class="sr-title">${srEsc(r.title)}</span>${r.sub?`<span class="sr-sub">${srEsc(r.sub)}</span>`:''}</button>`).join('');
+  srBox.style.display='block';
+  gs.setAttribute('aria-expanded','true');
+  srBox.querySelectorAll('[data-sr]').forEach(b => b.onclick = () => selectResult(parseInt(b.dataset.sr,10)));
+}
+function selectResult(i){
+  const r = _srResults[i]; if(!r) return;
+  closeSearch(); gs.value='';
+  r.go(); render(); window.scrollTo({top:0, behavior:'smooth'});
+}
+function closeSearch(){ srBox.style.display='none'; srBox.innerHTML=''; _srActive=-1; }
+function moveActive(d){
+  if(!_srResults.length) return;
+  _srActive = (_srActive + d + _srResults.length) % _srResults.length;
+  [...srBox.querySelectorAll('.sr-item')].forEach((el,i)=> el.classList.toggle('sr-active', i===_srActive));
+}
+gs.addEventListener('input', renderSearchResults);
+gs.addEventListener('keydown', e => {
+  if(e.key === 'ArrowDown'){ e.preventDefault(); moveActive(1); }
+  else if(e.key === 'ArrowUp'){ e.preventDefault(); moveActive(-1); }
+  else if(e.key === 'Enter'){ e.preventDefault(); selectResult(_srActive >= 0 ? _srActive : 0); }
+  else if(e.key === 'Escape'){ closeSearch(); gs.blur(); }
+});
+document.addEventListener('click', e => { if(!(e.target.closest && e.target.closest('.search-wrap'))) closeSearch(); });
+
+document.getElementById('legalLink').addEventListener('click', () => {
+  state.view = 'mentions'; render(); window.scrollTo({top:0, behavior:'smooth'});
+});
+
+// ----- Signalement d'anomalies : bouton de repli + bulle sur sélection -----
+if(REPORT_CONFIGURED){
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest && e.target.closest('.report-btn');
+    if(btn){ openReport(''); }
+  });
+
+  let reportBubble = null;
+  let lastSelText = '';
+  const hideBubble = () => { if(reportBubble) reportBubble.style.display = 'none'; };
+  function selectionWithinPanel(sel){
+    if(!sel || sel.rangeCount === 0) return false;
+    let node = sel.anchorNode;
+    if(node && node.nodeType === 3) node = node.parentElement;
+    return !!(node && node.closest && node.closest('#app .panel'));
+  }
+  function showBubbleFromSelection(){
+    if(!REPORT_CONFIGURED || state.view !== 'chapitre'){ hideBubble(); return; }
+    const sel = window.getSelection ? window.getSelection() : null;
+    const text = sel ? sel.toString().trim() : '';
+    if(text.length < 8 || !selectionWithinPanel(sel)){ hideBubble(); return; }
+    let rect;
+    try { rect = sel.getRangeAt(0).getBoundingClientRect(); } catch(e){ return; }
+    if(!rect || (!rect.width && !rect.height)) return;
+    lastSelText = text;
+    if(!reportBubble){
+      reportBubble = document.createElement('button');
+      reportBubble.className = 'report-bubble';
+      reportBubble.textContent = '⚠ Signaler ce passage';
+      reportBubble.addEventListener('mousedown', ev => ev.preventDefault());
+      reportBubble.addEventListener('touchstart', ev => ev.preventDefault(), {passive:false});
+      reportBubble.addEventListener('click', () => { openReport(lastSelText); hideBubble(); });
+      document.body.appendChild(reportBubble);
+    }
+    reportBubble.style.display = 'block';
+    const vw = document.documentElement.clientWidth;
+    let left = window.scrollX + rect.left;
+    const maxLeft = window.scrollX + vw - reportBubble.offsetWidth - 10;
+    if(left > maxLeft) left = Math.max(window.scrollX + 8, maxLeft);
+    reportBubble.style.top = (window.scrollY + rect.bottom + 8) + 'px';
+    reportBubble.style.left = left + 'px';
+  }
+  document.addEventListener('mouseup', showBubbleFromSelection);
+  document.addEventListener('touchend', () => setTimeout(showBubbleFromSelection, 0));
+  let selDebounce = null;
+  document.addEventListener('selectionchange', () => {
+    clearTimeout(selDebounce);
+    selDebounce = setTimeout(showBubbleFromSelection, 350);
+  });
+  document.addEventListener('scroll', hideBubble, true);
+}
+
+// ----- Thème clair / sombre -----
+const THEME_KEY = 'dscg_theme';
+(function(){
+  const dark = localStorage.getItem(THEME_KEY) === 'dark';
+  document.body.classList.toggle('dark', dark);
+  const tt = document.getElementById('themeToggle');
+  if(tt) tt.textContent = dark ? '☀️' : '🌙';
+})();
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const dark = !document.body.classList.contains('dark');
+  document.body.classList.toggle('dark', dark);
+  try{ localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light'); }catch(e){}
+  document.getElementById('themeToggle').textContent = dark ? '☀️' : '🌙';
+});
+
+// ----- Impression / PDF -----
+document.addEventListener('click', (e) => {
+  if(e.target.closest && e.target.closest('.print-btn')) window.print();
+});
+
+// ----- Routing : back/forward + URL partagée -----
+window.addEventListener('hashchange', () => {
+  if(_suppressHash){ _suppressHash = false; return; }
+  applyHash();
+});
+
+if(location.hash.length > 1){ applyHash(); } else { render(); }
+</script>
+</body>
+</html>

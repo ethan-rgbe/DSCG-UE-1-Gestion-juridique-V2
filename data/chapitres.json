@@ -1,0 +1,56 @@
+[
+  {
+    "id": "entreprise-difficulte",
+    "titre": "L'entreprise en difficulté",
+    "ordre": 5,
+    "description": "Prévention et traitement des difficultés des entreprises, sanctions associées (programme DSCG UE1, rubrique 5.1).",
+    "numero": "5.1",
+    "partie_numero": 5,
+    "partie_titre": "La pérennité de l'entreprise"
+  },
+  {
+    "id": "diversite-des-contrats",
+    "titre": "La diversité des contrats",
+    "ordre": 1,
+    "description": "Panorama des principaux contrats spéciaux utilisés par l'entreprise (programme DSCG UE1, rubrique 1.2). Premier volet : le contrat d'assurance ; les autres contrats seront ajoutés ultérieurement.",
+    "numero": "1.2",
+    "partie_numero": 1,
+    "partie_titre": "L'entreprise et son environnement"
+  },
+  {
+    "id": "dimension-environnementale",
+    "titre": "L'entreprise et la dimension environnementale",
+    "ordre": 2,
+    "description": "Intérêt social élargi, raison d'être, société à mission, RSE, transparence extra-financière et plan de vigilance (programme DSCG UE1, rubrique 1.5).",
+    "numero": "1.5",
+    "partie_numero": 1,
+    "partie_titre": "L'entreprise et son environnement"
+  },
+  {
+    "id": "financement-de-l-entreprise",
+    "titre": "Le financement de l'entreprise",
+    "ordre": 4,
+    "description": "Principaux outils de financement de l'entreprise : fonds propres, marchés financiers, compte courant d'associé, pactes d'actionnaires, crédit et ses garanties (programme DSCG UE1, rubrique 3.1). Premier volet ; la suite sera ajoutée ultérieurement.",
+    "numero": "3.1",
+    "partie_numero": 3,
+    "partie_titre": "Le financement de l'entreprise"
+  },
+  {
+    "id": "rappels-dcg",
+    "titre": "Rappels DCG",
+    "ordre": 99,
+    "description": "Notions transversales de niveau DCG regroupées par matière : lexique de précision, droit des sociétés, fiscal, contrats et juridictions, pénal/concurrence/social.",
+    "numero": null,
+    "partie_numero": null,
+    "partie_titre": "Rappels transversaux"
+  },
+  {
+    "id": "developpement-de-l-entreprise",
+    "titre": "Le développement de l'entreprise",
+    "ordre": 3,
+    "description": "Constitution et transformation de l'entreprise : conditions de fond et de forme, personnalité morale, apports, fiscalité de la constitution, transformation des sociétés (programme DSCG UE1, rubrique 2.1). Premier volet ; la suite sera ajoutée ultérieurement.",
+    "numero": "2.1",
+    "partie_numero": 2,
+    "partie_titre": "Le développement de l'entreprise"
+  }
+]
