@@ -1,5 +1,4 @@
-[LISEZMOI.txt](https://github.com/user-attachments/files/32418271/LISEZMOI.txt)AJOUTER UNE FICHE À UN BLOC
-===========================
+LISEZMOI.txt
 
 Une seule opération suffit :
 
