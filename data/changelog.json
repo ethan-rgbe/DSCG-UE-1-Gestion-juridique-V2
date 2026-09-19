@@ -113,5 +113,10 @@
     "date": "2026-08-18",
     "titre": "Reconstitution des tableaux et lisibilité du mode sombre",
     "detail": "Nouveau mode d'entraînement sur les tableaux comparatifs : une colonne ou une ligne est masquée et se reconstitue de mémoire, cellule par cellule, avec compteur d'avancement et rotation des positions. Correction du mode sombre : les deux faces des cartes de révision étaient presque indiscernables, le recto se confondant avec le fond du panneau. Passe de lisibilité sur l'ensemble du mode sombre : bandeaux de section (année d'annale, code, partie du programme), boutons d'auto-évaluation et libellés secondaires, tous vérifiés au contraste. Le script de construction contrôle désormais automatiquement que toute couleur figée dans le CSS possède sa déclinaison en mode sombre."
+  },
+  {
+    "date": "2026-09-19",
+    "titre": "Nouvelle architecture : chapitres, blocs et fiches",
+    "detail": "Le contenu pédagogique s'organise désormais en blocs : chaque chapitre se compose de blocs, et chaque bloc reçoit une fiche. L'arborescence couvre l'ensemble du programme, y compris les chapitres dont le contenu n'est pas encore publié : leurs blocs et leurs annales restent consultables. Les anciennes parties Cours et Synthèse sont regroupées sous l'onglet Ancien contenu, le temps de la transition. Les cartes de révision, les tableaux comparatifs et les points d'attention sont intégralement conservés."
   }
 ]
