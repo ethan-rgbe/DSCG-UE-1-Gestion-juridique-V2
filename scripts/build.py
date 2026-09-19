@@ -383,6 +383,19 @@ def main():
         else:
             bundle[name] = []
 
+    # Tableaux issus des fiches de blocs : fichier distinct, fusionné au chargement.
+    # Ainsi data/tableaux_comparatifs.json n'est jamais réécrit par cette source.
+    tb_path = os.path.join(DATA_DIR, "tableaux_blocs.json")
+    if os.path.exists(tb_path):
+        with open(tb_path, encoding="utf-8") as f:
+            tableaux_blocs = json.load(f)
+        connus = {t.get("id") for t in bundle["tableaux_comparatifs"]}
+        ajoutes = [t for t in tableaux_blocs if t.get("id") not in connus]
+        bundle["tableaux_comparatifs"] = bundle["tableaux_comparatifs"] + ajoutes
+        bundle["nb_tableaux_blocs"] = len(ajoutes)
+    else:
+        bundle["nb_tableaux_blocs"] = 0
+
     bo_path = os.path.join(STATIC_DIR, "bo-ue1-dscg.pdf")
     bundle["has_bo_pdf"] = os.path.exists(bo_path)
     bundle["static_bo_path"] = "static/bo-ue1-dscg.pdf"
@@ -435,6 +448,8 @@ def main():
     print(f"OK — {len(fiches_full)} fiches, {len(bundle['qr_cartes'])} cartes Q/R, "
           f"{len(bundle['references_textes'])} références.")
     total_blocs = len(bundle.get("blocs", []))
+    print(f"Tableaux : {len(bundle['tableaux_comparatifs'])} au total, "
+          f"dont {bundle.get('nb_tableaux_blocs', 0)} issus des fiches de blocs.")
     print(f"Blocs : {disponibles}/{total_blocs} avec fiche ; "
           f"{total_blocs - disponibles} en attente de contenu.")
     if orphelines:
