@@ -3,16 +3,13 @@ name: Construire et publier LE PRÉCIS
 on:
   push:
     branches: [main, master]
-  workflow_dispatch:        # permet aussi de relancer la publication à la main
+  workflow_dispatch:
 
-# Droits minimaux nécessaires à un déploiement GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Une seule publication à la fois ; les pushes rapprochés ne se marchent pas dessus.
-# cancel-in-progress reste à false pour ne jamais interrompre un déploiement engagé.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -29,21 +26,33 @@ jobs:
         with:
           python-version: '3.12'
 
-      # build.py n'utilise que la bibliothèque standard : aucune dépendance à installer.
+      # Affiche quelle version de build.py est réellement présente dans le dépôt.
+      # La première ligne du log lève tout doute en cas de mise à jour partielle.
+      - name: Vérifier la version du script
+        run: |
+          echo "--- scripts/build.py ---"
+          head -n 3 scripts/build.py
+          grep -n '^VERSION' scripts/build.py || echo "(aucune ligne VERSION : script antérieur à la v3)"
+
       - name: Construire le site
         run: |
           set -o pipefail
           python3 scripts/build.py 2>&1 | tee build.log
 
-      # build.py signale les incohérences sans échouer, ce qui est pratique en local
-      # pendant la rédaction. En publication, on refuse au contraire de mettre en ligne
-      # un site dont l'intégrité référentielle est cassée.
+      # build.py distingue deux niveaux :
+      #   « ⚠ Validation »        incohérences de structure -> publication interrompue
+      #   « ℹ ... lien(s) non    renvois facultatifs non résolus -> sans effet,
+      #     résolu(s) »           le site ignore les renvois vers un élément absent
+      # Seul le premier niveau bloque.
       - name: Bloquer si la validation signale une incohérence
         run: |
           if grep -q "⚠ Validation" build.log; then
-            echo "::error::Le build a signalé des incohérences référentielles : publication interrompue."
+            echo "::error::Le build a signalé des incohérences de structure : publication interrompue."
             grep -A 40 "⚠ Validation" build.log
             exit 1
+          fi
+          if grep -q "lien(s) non résolu(s)" build.log; then
+            echo "::warning::Des renvois facultatifs ne sont pas résolus. La publication se poursuit."
           fi
 
       - name: Vérifier que la page a bien été produite
