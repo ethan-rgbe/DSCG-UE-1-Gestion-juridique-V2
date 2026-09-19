@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Reconstruit le site complet (public/index.html) à partir de :
-  - content/fiches/*.md   (une fiche = un fichier Markdown avec front-matter)
+  - content/blocs/<bloc_id>.md   (une fiche de bloc = un fichier Markdown ; nouveau format)
+  - content/fiches/*.md   (ancien format, conservé pendant la transition)
   - data/*.json            (chapitres, notions, fiches (index), qr_cartes, references_textes)
   - templates/index_template.html  (gabarit HTML avec le marqueur __BUNDLE_JSON__)
 
@@ -290,6 +291,40 @@ def validate(bundle, warns_css=None):
         for cid in chap_ids - vus:
             warns.append(f"chapitre '{cid}' absent de programme.json (il n'apparaîtra pas dans le menu Programme)")
 
+    # ---- Blocs : cohérence de la nouvelle arborescence chapitre -> blocs -> fiche ----
+    vus_blocs = set()
+    numeros_par_chap = {}
+    for b in bundle.get("blocs", []):
+        bid = b.get("id")
+        if not bid:
+            warns.append("bloc sans identifiant dans data/blocs.json")
+            continue
+        if bid in vus_blocs:
+            warns.append(f"bloc '{bid}' -> identifiant en double")
+        vus_blocs.add(bid)
+        if b.get("chapitre_id") not in chap_ids:
+            warns.append(f"bloc '{bid}' -> chapitre_id inconnu '{b.get('chapitre_id')}'")
+        num = b.get("numero")
+        if num is not None:
+            cle = (b.get("chapitre_id"), num)
+            if cle in numeros_par_chap:
+                warns.append(f"bloc '{bid}' -> numéro {num} déjà utilisé dans ce chapitre")
+            numeros_par_chap[cle] = bid
+        for nid in (b.get("notions_liees") or []):
+            if nid not in notion_ids:
+                warns.append(f"bloc '{bid}' -> notion_liee inconnue '{nid}'")
+        for tid in (b.get("tableaux_lies") or []):
+            if tid not in {t.get("id") for t in bundle["tableaux_comparatifs"]}:
+                warns.append(f"bloc '{bid}' -> tableau_lie inconnu '{tid}'")
+
+    # chaque chapitre du programme doit exister dans chapitres.json (arborescence complète)
+    if isinstance(bundle["programme"], dict):
+        for p in bundle["programme"].get("parties", []):
+            for sp in p.get("sous_parties", []):
+                if not sp.get("chapitre_id"):
+                    warns.append(f"programme -> '{sp.get('titre')}' n'est rattaché à aucun chapitre : "
+                                 "il n'apparaîtra pas dans l'arborescence")
+
     # notions rattachées à une partie : le couple (numéro, titre) doit être unique par chapitre
     parties_par_chap = {}
     for n in bundle["notions"]:
@@ -340,7 +375,7 @@ def main():
     bundle = {"fiches_full": fiches_full}
     for name in ["chapitres", "notions", "fiches", "qr_cartes", "references_textes",
                  "programme", "changelog", "tableaux_comparatifs", "codes", "points_attention",
-                 "annales", "liens_utiles"]:
+                 "annales", "liens_utiles", "blocs"]:
         path = os.path.join(DATA_DIR, f"{name}.json")
         if os.path.exists(path):
             with open(path, encoding="utf-8") as f:
@@ -359,6 +394,26 @@ def main():
         chap_id = os.path.splitext(os.path.basename(path))[0]
         cours[chap_id] = md_to_html(open(path, encoding="utf-8").read())
     bundle["cours"] = cours
+
+    # ---- Fiches de blocs (nouveau format) : content/blocs/<bloc_id>.md ----
+    # Un bloc devient « disponible » par la seule présence de son fichier.
+    # Aucune donnée n'est à modifier pour publier une fiche : déposer le .md suffit.
+    blocs_html = {}
+    blocs_dir = os.path.join(ROOT, "content", "blocs")
+    if os.path.isdir(blocs_dir):
+        for path in sorted(glob.glob(os.path.join(blocs_dir, "*.md"))):
+            bloc_id = os.path.splitext(os.path.basename(path))[0]
+            texte = open(path, encoding="utf-8").read()
+            # front-matter facultatif : il est ignoré, l'identité vient du nom de fichier
+            m = re.match(r"^---\n.*?\n---\n\n(.*)$", texte, re.S)
+            if m:
+                texte = m.group(1)
+            blocs_html[bloc_id] = md_to_html(texte)
+    bundle["blocs_html"] = blocs_html
+
+    ids_blocs = {b.get("id") for b in bundle.get("blocs", [])}
+    orphelines = sorted(set(blocs_html) - ids_blocs)
+    disponibles = len(set(blocs_html) & ids_blocs)
 
     template = open(TEMPLATE_PATH, encoding="utf-8").read()
     validate(bundle, verifier_mode_sombre(template))
@@ -379,6 +434,12 @@ def main():
 
     print(f"OK — {len(fiches_full)} fiches, {len(bundle['qr_cartes'])} cartes Q/R, "
           f"{len(bundle['references_textes'])} références.")
+    total_blocs = len(bundle.get("blocs", []))
+    print(f"Blocs : {disponibles}/{total_blocs} avec fiche ; "
+          f"{total_blocs - disponibles} en attente de contenu.")
+    if orphelines:
+        print(f"⚠ {len(orphelines)} fiche(s) de bloc sans entrée dans data/blocs.json : "
+              + ", ".join(orphelines[:5]) + (" …" if len(orphelines) > 5 else ""))
     print(f"Site généré : {OUT_PATH}")
 
 
