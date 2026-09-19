@@ -232,7 +232,12 @@ def verifier_mode_sombre(template_html):
 
 
 def validate(bundle, warns_css=None):
+    # `warns` : incoherences de structure -> bloquent la publication.
+    # `liens` : liens facultatifs non resolus -> signales sans bloquer, car le
+    #           site ignore a l'affichage tout renvoi vers un element absent.
+    #           Les fichiers peuvent ainsi etre deposes dans n'importe quel ordre.
     warns = list(warns_css or [])
+    liens = []
     chap_ids = {c["id"] for c in bundle["chapitres"]}
     notion_ids = {n["id"] for n in bundle["notions"]}
     fiche_ids = {f["id"] for f in bundle["fiches"]}
@@ -248,11 +253,11 @@ def validate(bundle, warns_css=None):
         if c.get("notion_id") not in notion_ids:
             warns.append(f"carte '{c.get('id')}' -> notion_id inconnu '{c.get('notion_id')}'")
         if c.get("fiche_id") and c["fiche_id"] not in fiche_ids:
-            warns.append(f"carte '{c.get('id')}' -> fiche_id inconnu '{c['fiche_id']}'")
+            liens.append(f"carte '{c.get('id')}' -> fiche_id inconnu '{c['fiche_id']}'")
     for r in bundle["references_textes"]:
         for fid in (r.get("fiches_liees") or []):
             if fid not in fiche_ids:
-                warns.append(f"référence '{r.get('id')}' -> fiche_liee inconnue '{fid}'")
+                liens.append(f"référence '{r.get('id')}' -> fiche_liee inconnue '{fid}'")
         doc = r.get("document")
         if doc and doc not in code_titres and not any(k in doc.lower() for k in ("texte", "loi", "ordonnance", "directive", "bo", "bulletin", "règlement")):
             warns.append(f"référence '{r.get('id')}' -> document '{doc}' absent de codes.json")
@@ -261,7 +266,7 @@ def validate(bundle, warns_css=None):
             warns.append(f"tableau '{t.get('id')}' -> chapitre_id inconnu '{t.get('chapitre_id')}'")
         for nid in (t.get("notions_liees") or []):
             if nid not in notion_ids:
-                warns.append(f"tableau '{t.get('id')}' -> notion_liee inconnue '{nid}'")
+                liens.append(f"tableau '{t.get('id')}' -> notion_liee inconnue '{nid}'")
         cols = (t.get("contenu") or {}).get("colonnes") or []
         for i, row in enumerate((t.get("contenu") or {}).get("lignes") or []):
             if len(row) != len(cols):
@@ -312,10 +317,10 @@ def validate(bundle, warns_css=None):
             numeros_par_chap[cle] = bid
         for nid in (b.get("notions_liees") or []):
             if nid not in notion_ids:
-                warns.append(f"bloc '{bid}' -> notion_liee inconnue '{nid}'")
+                liens.append(f"bloc '{bid}' -> notion_liee inconnue '{nid}'")
         for tid in (b.get("tableaux_lies") or []):
             if tid not in {t.get("id") for t in bundle["tableaux_comparatifs"]}:
-                warns.append(f"bloc '{bid}' -> tableau_lie inconnu '{tid}'")
+                liens.append(f"bloc '{bid}' -> tableau_lie inconnu '{tid}'")
 
     # chaque chapitre du programme doit exister dans chapitres.json (arborescence complète)
     if isinstance(bundle["programme"], dict):
@@ -339,7 +344,7 @@ def validate(bundle, warns_css=None):
     for t in bundle["tableaux_comparatifs"]:
         for nid in (t.get("notions_liees") or []):
             if nid in notion_ids and nid.split(".")[0] != t.get("chapitre_id"):
-                warns.append(f"tableau '{t.get('id')}' ({t.get('chapitre_id')}) -> notion_liee '{nid}' d'un autre chapitre")
+                liens.append(f"tableau '{t.get('id')}' ({t.get('chapitre_id')}) -> notion_liee '{nid}' d'un autre chapitre")
 
     # titres de tableaux en double : la résolution par titre devient ambiguë
     vus_titres = {}
@@ -359,6 +364,13 @@ def validate(bundle, warns_css=None):
             print(f"  … (+{len(warns) - 40} autres)")
     else:
         print("✓ Validation : intégrité référentielle OK.")
+    if liens:
+        print(f"ℹ {len(liens)} lien(s) non résolu(s) — sans effet sur la publication : "
+              "le site ignore les renvois vers un élément absent.")
+        for l in liens[:12]:
+            print("  ·", l)
+        if len(liens) > 12:
+            print(f"  … (+{len(liens) - 12} autres)")
     if missing:
         print(f"ℹ {len(missing)} fiche(s) de l'index sans contenu .md (l'onglet Cours les ignore).")
 
