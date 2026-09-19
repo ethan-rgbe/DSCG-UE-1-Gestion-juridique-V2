@@ -390,5 +390,149 @@
     "mots_cles": [],
     "partie_numero": 2,
     "partie_titre": "Gouvernance et relations avec les associés"
+  },
+  {
+    "id": "implications-du-groupe.la-notion-de-groupe-et-sa-realite-juridique",
+    "chapitre_id": "implications-du-groupe",
+    "titre": "La notion de groupe et sa réalité juridique",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 1,
+    "resume": "Absence de définition et de personnalité juridique, modes de constitution, acteurs, garanties intragroupe"
+  },
+  {
+    "id": "implications-du-groupe.structures-de-groupe-holding-et-vehicules-juridiques",
+    "chapitre_id": "implications-du-groupe",
+    "titre": "Structures de groupe, holding et véhicules juridiques",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 2,
+    "resume": "Structures radiale, pyramidale, circulaire ; holding ; effets de levier ; LBO ; société civile, SAS, société européenne"
+  },
+  {
+    "id": "implications-du-groupe.participation-filiale-et-controle",
+    "chapitre_id": "implications-du-groupe",
+    "titre": "Participation, filiale et contrôle",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 3,
+    "resume": "Qualifications, participations réciproques, autocontrôle, expertise de gestion"
+  },
+  {
+    "id": "implications-du-groupe.la-prise-de-controle-et-les-offres-publiques",
+    "chapitre_id": "implications-du-groupe",
+    "titre": "La prise de contrôle et les offres publiques",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 4,
+    "resume": "Techniques d'acquisition, cession de contrôle, action de concert, offres publiques, défenses"
+  },
+  {
+    "id": "implications-du-groupe.le-regime-juridique-du-groupe",
+    "chapitre_id": "implications-du-groupe",
+    "titre": "Le régime juridique du groupe",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 5,
+    "resume": "Indépendance, direction de fait, intérêt de groupe, Rozenblum, abus, information, commissaire aux comptes"
+  },
+  {
+    "id": "implications-du-groupe.les-finances-du-groupe",
+    "chapitre_id": "implications-du-groupe",
+    "titre": "Les finances du groupe",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 6,
+    "resume": "Consolidation, flux intragroupe, convention de trésorerie, management fees, holding animatrice, titres"
+  },
+  {
+    "id": "implications-du-groupe.le-groupe-face-aux-difficultes",
+    "chapitre_id": "implications-du-groupe",
+    "titre": "Le groupe face aux difficultés",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 7,
+    "resume": "Immixtion, confusion des patrimoines, fictivité, extension, insuffisance d'actif, coordination"
+  },
+  {
+    "id": "implications-du-groupe.la-representation-des-salaries-dans-le-groupe",
+    "chapitre_id": "implications-du-groupe",
+    "titre": "La représentation des salariés dans le groupe",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 8,
+    "resume": "CSE, unité économique et sociale, comité de groupe, comité d'entreprise européen, accords de groupe"
+  },
+  {
+    "id": "implications-du-groupe.la-situation-des-salaries-dans-le-groupe",
+    "chapitre_id": "implications-du-groupe",
+    "titre": "La situation des salariés dans le groupe",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 9,
+    "resume": "Mobilité, prêt de main-d'œuvre, co-emploi, licenciement économique, reclassement, modes de rupture"
+  },
+  {
+    "id": "implications-du-groupe.le-regime-des-societes-meres",
+    "chapitre_id": "implications-du-groupe",
+    "titre": "Le régime des sociétés mères",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 10,
+    "resume": "Conditions, quote-part de frais et charges, articulation avec l'intégration"
+  },
+  {
+    "id": "implications-du-groupe.le-regime-de-l-integration-fiscale",
+    "chapitre_id": "implications-du-groupe",
+    "titre": "Le régime de l'intégration fiscale",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 11,
+    "resume": "Conditions, Papillon et intégration horizontale, résultat d'ensemble, neutralisations, convention, sortie"
+  },
+  {
+    "id": "implications-du-groupe.les-autres-modes-de-cooperation-entre-entreprises",
+    "chapitre_id": "implications-du-groupe",
+    "titre": "Les autres modes de coopération entre entreprises",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 12,
+    "resume": "GIE, GEIE, société en participation, sous-traitance, location-gérance"
+  },
+  {
+    "id": "implications-du-groupe.complements-groupe-tva-prix-de-transfert-et-devoir-d",
+    "chapitre_id": "implications-du-groupe",
+    "titre": "Compléments : groupe TVA, prix de transfert et devoir de vigilance",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 13,
+    "resume": "Assujetti unique, principe de pleine concurrence, plan de vigilance"
+  },
+  {
+    "id": "restructuration-de-l-entreprise.les-operations-de-restructuration-notions-et-prealab",
+    "chapitre_id": "restructuration-de-l-entreprise",
+    "titre": "Les opérations de restructuration : notions et préalables",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 1,
+    "resume": "Fusion, scission, apport partiel d'actifs, TUP ; concurrence ; parité, prime de fusion, rompus"
+  },
+  {
+    "id": "restructuration-de-l-entreprise.les-procedures-et-les-effets-des-restructurations",
+    "chapitre_id": "restructuration-de-l-entreprise",
+    "titre": "Les procédures et les effets des restructurations",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 2,
+    "resume": "Projet, commissaire à la fusion, approbation, date d'effet, créanciers, contrats"
+  },
+  {
+    "id": "restructuration-de-l-entreprise.les-regimes-social-et-fiscal-des-restructurations",
+    "chapitre_id": "restructuration-de-l-entreprise",
+    "titre": "Les régimes social et fiscal des restructurations",
+    "description": null,
+    "mots_cles": null,
+    "ordre": 3,
+    "resume": "CSE, contrats de travail, régime de droit commun et régime de faveur, déficits, TVA"
   }
 ]
