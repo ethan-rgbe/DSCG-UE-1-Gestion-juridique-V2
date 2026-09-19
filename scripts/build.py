@@ -375,7 +375,11 @@ def validate(bundle, warns_css=None):
         print(f"ℹ {len(missing)} fiche(s) de l'index sans contenu .md (l'onglet Cours les ignore).")
 
 
+VERSION = "v3 — 19 septembre 2026 (blocs + liens non bloquants)"
+
+
 def main():
+    print(f"LE PRÉCIS — build.py {VERSION}")
     fiches_full = {}
     for path in sorted(glob.glob(os.path.join(CONTENT_DIR, "*.md"))):
         meta, body = parse_fiche_md(path)
