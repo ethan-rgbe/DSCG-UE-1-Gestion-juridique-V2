@@ -1,0 +1,362 @@
+[
+  {
+    "id": "3-1-fonds-propres",
+    "chapitre_id": "financement-de-l-entreprise",
+    "numero": 1,
+    "titre": "Le financement par fonds propres",
+    "resume": "Actions ordinaires et de préférence, augmentation et réduction de capital, DPS, délégations, perte de la moitié du capital",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "3-1-marches-financiers",
+    "chapitre_id": "financement-de-l-entreprise",
+    "numero": 2,
+    "titre": "Le financement par recours aux marchés financiers",
+    "resume": "Offre au public, admission aux négociations, conditions d'admission, AMF, prospectus, franchissements de seuils, offres publiques",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "3-1-compte-courant-associe",
+    "chapitre_id": "financement-de-l-entreprise",
+    "numero": 3,
+    "titre": "Le financement par compte courant d'associé",
+    "resume": "Qualification, titulaires, rémunération, remboursement, régime fiscal",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "3-1-pactes-actionnaires",
+    "chapitre_id": "financement-de-l-entreprise",
+    "numero": 4,
+    "titre": "Les pactes d'actionnaires",
+    "resume": "Validité, durée, sanctions, action interrogatoire, clauses, exclusion en SAS, information de l'AMF",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "3-1-credit",
+    "chapitre_id": "financement-de-l-entreprise",
+    "numero": 5,
+    "titre": "Le financement par le crédit",
+    "resume": "Prêt bancaire, rupture de concours, emprunt obligataire, masse des obligataires, crédit-bail",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "3-1-garanties-personnelles",
+    "chapitre_id": "financement-de-l-entreprise",
+    "numero": 6,
+    "titre": "Les garanties personnelles du crédit",
+    "resume": "Cautionnement, garantie autonome, lettre d'intention",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "3-1-suretes-reelles-mobilisation",
+    "chapitre_id": "financement-de-l-entreprise",
+    "numero": 7,
+    "titre": "Les sûretés réelles et la mobilisation des créances",
+    "resume": "Gage, nantissement, hypothèque, privilèges, rétention, fiducie, escompte, affacturage, effets de commerce",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "3-1-instruments-innovants",
+    "chapitre_id": "financement-de-l-entreprise",
+    "numero": 8,
+    "titre": "Les instruments de financement innovants",
+    "resume": "Valeurs mobilières composées, titres subordonnés, financement participatif",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-1-notion-de-groupe",
+    "chapitre_id": "implications-du-groupe",
+    "numero": 1,
+    "titre": "La notion de groupe et sa réalité juridique",
+    "resume": "Absence de définition et de personnalité juridique, modes de constitution, acteurs, garanties intragroupe",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-1-structures-holding",
+    "chapitre_id": "implications-du-groupe",
+    "numero": 2,
+    "titre": "Structures de groupe, holding et véhicules juridiques",
+    "resume": "Structures radiale, pyramidale, circulaire ; holding ; effets de levier ; LBO ; société civile, SAS, société européenne",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-1-participation-filiale-controle",
+    "chapitre_id": "implications-du-groupe",
+    "numero": 3,
+    "titre": "Participation, filiale et contrôle",
+    "resume": "Qualifications, participations réciproques, autocontrôle, expertise de gestion",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-1-prise-de-controle",
+    "chapitre_id": "implications-du-groupe",
+    "numero": 4,
+    "titre": "La prise de contrôle et les offres publiques",
+    "resume": "Techniques d'acquisition, cession de contrôle, action de concert, offres publiques, défenses",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-1-regime-juridique-abus",
+    "chapitre_id": "implications-du-groupe",
+    "numero": 5,
+    "titre": "Le régime juridique du groupe",
+    "resume": "Indépendance, direction de fait, intérêt de groupe, Rozenblum, abus, information, commissaire aux comptes",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-1-finances-du-groupe",
+    "chapitre_id": "implications-du-groupe",
+    "numero": 6,
+    "titre": "Les finances du groupe",
+    "resume": "Consolidation, flux intragroupe, convention de trésorerie, management fees, holding animatrice, titres",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-1-groupe-difficultes",
+    "chapitre_id": "implications-du-groupe",
+    "numero": 7,
+    "titre": "Le groupe face aux difficultés",
+    "resume": "Immixtion, confusion des patrimoines, fictivité, extension, insuffisance d'actif, coordination",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-1-representation-salaries",
+    "chapitre_id": "implications-du-groupe",
+    "numero": 8,
+    "titre": "La représentation des salariés dans le groupe",
+    "resume": "CSE, unité économique et sociale, comité de groupe, comité d'entreprise européen, accords de groupe",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-1-situation-salaries",
+    "chapitre_id": "implications-du-groupe",
+    "numero": 9,
+    "titre": "La situation des salariés dans le groupe",
+    "resume": "Mobilité, prêt de main-d'œuvre, co-emploi, licenciement économique, reclassement, modes de rupture",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-1-regime-mere-fille",
+    "chapitre_id": "implications-du-groupe",
+    "numero": 10,
+    "titre": "Le régime des sociétés mères",
+    "resume": "Conditions, quote-part de frais et charges, articulation avec l'intégration",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-1-integration-fiscale",
+    "chapitre_id": "implications-du-groupe",
+    "numero": 11,
+    "titre": "Le régime de l'intégration fiscale",
+    "resume": "Conditions, Papillon et intégration horizontale, résultat d'ensemble, neutralisations, convention, sortie",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-1-cooperation-interentreprises",
+    "chapitre_id": "implications-du-groupe",
+    "numero": 12,
+    "titre": "Les autres modes de coopération entre entreprises",
+    "resume": "GIE, GEIE, société en participation, sous-traitance, location-gérance",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-1-complements-tva-transfert-vigilance",
+    "chapitre_id": "implications-du-groupe",
+    "numero": 13,
+    "titre": "Compléments : groupe TVA, prix de transfert et devoir de vigilance",
+    "resume": "Assujetti unique, principe de pleine concurrence, plan de vigilance",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-2-operations-restructuration",
+    "chapitre_id": "restructuration-de-l-entreprise",
+    "numero": 1,
+    "titre": "Les opérations de restructuration : notions et préalables",
+    "resume": "Fusion, scission, apport partiel d'actifs, TUP ; concurrence ; parité, prime de fusion, rompus",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-2-procedures-effets",
+    "chapitre_id": "restructuration-de-l-entreprise",
+    "numero": 2,
+    "titre": "Les procédures et les effets des restructurations",
+    "resume": "Projet, commissaire à la fusion, approbation, date d'effet, créanciers, contrats",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "4-2-regimes-social-fiscal",
+    "chapitre_id": "restructuration-de-l-entreprise",
+    "numero": 3,
+    "titre": "Les régimes social et fiscal des restructurations",
+    "resume": "CSE, contrats de travail, régime de droit commun et régime de faveur, déficits, TVA",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "5-1-droit-alerte",
+    "chapitre_id": "entreprise-difficulte",
+    "numero": 1,
+    "titre": "La détection des difficultés : le droit d'alerte",
+    "resume": "Alerte du commissaire aux comptes, du CSE, des associés et du président du tribunal",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "5-1-prevention-amiable",
+    "chapitre_id": "entreprise-difficulte",
+    "numero": 2,
+    "titre": "La prévention amiable : mandat ad hoc et conciliation",
+    "resume": "Conditions, durée, constatation et homologation de l'accord",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "5-1-ouverture-sauvegarde",
+    "chapitre_id": "entreprise-difficulte",
+    "numero": 3,
+    "titre": "L'ouverture de la sauvegarde et les organes",
+    "resume": "Conditions, extension, compétence, saisine, organes, publicité, recours",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "5-1-periode-observation",
+    "chapitre_id": "entreprise-difficulte",
+    "numero": 4,
+    "titre": "La période d'observation et les pouvoirs du débiteur",
+    "resume": "Durée, issues, gestion, actes contrôlés, contrats en cours",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "5-1-sort-des-creanciers",
+    "chapitre_id": "entreprise-difficulte",
+    "numero": 5,
+    "titre": "Le sort des créanciers",
+    "resume": "Créanciers antérieurs et postérieurs, privilège de procédure, classement",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "5-1-actif-passif",
+    "chapitre_id": "entreprise-difficulte",
+    "numero": 6,
+    "titre": "La détermination de l'actif et du passif",
+    "resume": "Revendication, déclaration des créances, forclusion, vérification",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "5-1-plan-sauvegarde",
+    "chapitre_id": "entreprise-difficulte",
+    "numero": 7,
+    "titre": "Le dénouement de la sauvegarde et la sauvegarde accélérée",
+    "resume": "Bilan, classes de parties affectées, plan, sauvegarde accélérée",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "5-1-redressement-judiciaire",
+    "chapitre_id": "entreprise-difficulte",
+    "numero": 8,
+    "titre": "Le redressement judiciaire",
+    "resume": "Cessation des paiements, saisine, nullités de la période suspecte, plan",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "5-1-liquidation-judiciaire",
+    "chapitre_id": "entreprise-difficulte",
+    "numero": 9,
+    "titre": "La liquidation judiciaire et le rétablissement professionnel",
+    "resume": "Dessaisissement, cessions, liquidation simplifiée, clôture",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "5-1-sanctions-notions-transversales",
+    "chapitre_id": "entreprise-difficulte",
+    "numero": 10,
+    "titre": "Sanctions, faillite internationale et notions transversales",
+    "resume": "Insuffisance d'actif, faillite personnelle, banqueroute, qualification des activités",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "rappels-competence-territoriale",
+    "chapitre_id": "rappels-dcg",
+    "numero": 1,
+    "titre": "La compétence territoriale des tribunaux",
+    "resume": "Principe, compétences exclusives, options, clauses attributives, procédures collectives",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  },
+  {
+    "id": "rappels-dps-prime-emission",
+    "chapitre_id": "rappels-dcg",
+    "numero": 2,
+    "titre": "DPS, prime d'émission et droit d'attribution",
+    "resume": "Mécanismes et calculs des augmentations de capital",
+    "notions_liees": [],
+    "tableaux_lies": [],
+    "points_attention_lies": []
+  }
+]
