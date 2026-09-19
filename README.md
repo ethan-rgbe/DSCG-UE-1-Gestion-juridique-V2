@@ -1,1 +1,58 @@
-# DSCG-UE-1-Gestion-juridique-V2
+[LISEZMOI.txt](https://github.com/user-attachments/files/32418271/LISEZMOI.txt)AJOUTER UNE FICHE À UN BLOC
+===========================
+
+Une seule opération suffit :
+
+    déposer le fichier  content/blocs/<bloc_id>.md
+
+Le bloc passe automatiquement de « À venir » à « Fiche disponible ».
+Aucune donnée n'est à modifier : ni data/blocs.json, ni le template, ni build.py.
+
+Le nom du fichier DOIT être exactement l'identifiant du bloc tel qu'il figure
+dans data/blocs.json. Exemple : le bloc "5-1-droit-alerte" attend le fichier
+content/blocs/5-1-droit-alerte.md
+
+Le contenu est le markdown de la fiche, dans le format produit pour les livrets
+papier. Un front-matter (délimité par ---) est toléré mais ignoré : l'identité
+du bloc vient du nom de fichier.
+
+Le build signale les fichiers déposés ici qui ne correspondent à aucun bloc
+déclaré, afin de détecter les fautes de frappe dans les noms.
+
+
+AJOUTER UN BLOC
+===============
+
+Ajouter une entrée dans data/blocs.json :
+
+    {
+      "id": "5-2-transmission-cession",
+      "chapitre_id": "transmission-de-l-entreprise",
+      "numero": 1,
+      "titre": "La cession de l'entreprise",
+      "resume": "Une ligne décrivant le contenu du bloc",
+      "notions_liees": [],
+      "tableaux_lies": [],
+      "points_attention_lies": []
+    }
+
+  - id            : identifiant unique, qui sera aussi le nom du fichier .md
+  - chapitre_id   : doit exister dans data/chapitres.json
+  - numero        : ordre d'affichage dans le chapitre
+  - resume        : affiché sous le titre dans la liste des blocs, et sur la
+                    page du bloc tant que la fiche n'est pas publiée
+  - notions_liees : identifiants de notions ; alimentent les liens vers les
+                    cartes Q/R et les tableaux depuis la fiche
+  - tableaux_lies : identifiants de tableaux comparatifs à afficher sous la fiche
+
+Les trois derniers champs peuvent rester vides : ils n'empêchent ni l'affichage
+du bloc, ni celui de la fiche.
+
+
+AJOUTER UN CHAPITRE
+===================
+
+Ajouter une entrée dans data/chapitres.json avec "statut": "a-venir", puis
+rattacher la sous-partie correspondante dans data/programme.json au moyen du
+champ chapitre_id. Le chapitre apparaît alors dans l'arborescence, avec ses
+blocs et ses annales, même sans aucune fiche.
