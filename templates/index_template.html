@@ -214,7 +214,9 @@
   @media print {
     header.top1, header.top2, #slideMenu, #menuBackdrop, .search-wrap, footer,
     .tabs-sub, .report-row, .nav-tree, .billboard, #splash, .report-bubble,
-    .listes-toolbar, #themeToggle, #menuToggle, .order-switch, .exo-bar { display:none !important; }
+    .listes-toolbar, #themeToggle, #menuToggle, .order-switch, .exo-bar,
+    .bloc-etat, .archive-banner { display:none !important; }
+    .bloc-item{border:none !important;border-bottom:0.4pt solid #ccc !important;background:none !important;}
     td.cell-masquee{background:none !important;}
     button.cell-reveal{display:none !important;}
     td.cell-revelee{background:none !important;color:#000 !important;}
@@ -464,6 +466,39 @@
   .nav-tree details.partie-group > summary::-webkit-details-marker{display:none;}
   .nav-tree details.partie-group > summary::before{content:"▸ ";color:var(--gold);}
   .nav-tree details.partie-group[open] > summary::before{content:"▾ ";}
+
+  /* ===== Blocs : chapitre -> blocs -> fiche ===== */
+  .blocs-list{list-style:none;padding:0;margin:14px 0 0;}
+  .bloc-item{display:flex;align-items:flex-start;gap:14px;padding:12px 14px;margin-bottom:8px;
+    border:1px solid var(--paper-line);border-left:3px solid var(--navy);border-radius:4px;
+    cursor:pointer;background:var(--paper);transition:background .15s;}
+  .bloc-item:hover{background:var(--beige);}
+  .bloc-item.bloc-attente{border-left-color:var(--paper-line);opacity:.78;}
+  .bloc-num{flex:0 0 26px;font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--gold);text-align:center;}
+  .bloc-corps{flex:1 1 auto;min-width:0;}
+  .bloc-titre{font-family:var(--serif);font-size:1rem;color:var(--navy);}
+  .bloc-resume{font-size:.82rem;color:#6b6657;margin-top:3px;}
+  .bloc-etat{flex:0 0 auto;align-self:center;}
+  .badge-dispo{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    background:var(--navy);color:#fff;padding:3px 9px;border-radius:3px;white-space:nowrap;}
+  .badge-attente{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    background:transparent;color:#8a8468;border:1px solid var(--paper-line);padding:2px 8px;border-radius:3px;white-space:nowrap;}
+  .bloc-vide{margin-top:16px;padding:14px 16px;background:var(--beige);border-left:3px solid var(--gold);border-radius:4px;}
+  .bloc-vide p{margin:6px 0 0;}
+  .archive-banner{margin-bottom:12px;padding:7px 12px;background:var(--beige);border-left:3px solid #8a8468;
+    border-radius:3px;font-size:.8rem;color:#6b6657;}
+  .chap-attente{opacity:.72;}
+  .chap-badge{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    border:1px solid var(--paper-line);color:#8a8468;padding:1px 6px;border-radius:3px;margin-left:7px;vertical-align:middle;}
+  body.dark .bloc-item{background:#1b212a;}
+  body.dark .bloc-item:hover{background:#262a31;}
+  body.dark .bloc-titre{color:var(--text);}
+  body.dark .bloc-resume{color:#a8b0ba;}
+  body.dark .badge-dispo{background:#3d4753;color:#f2f4f7;}
+  body.dark .badge-attente{color:#a8b0ba;}
+  body.dark .bloc-vide{background:#262a31;}
+  body.dark .archive-banner{background:#262a31;color:#a8b0ba;}
+  body.dark .chap-badge{color:#a8b0ba;}
 
   /* ===== Reconstitution d'un tableau ===== */
   .exo-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
@@ -811,7 +846,7 @@ splash.addEventListener('click', dismissSplash);
 splash.addEventListener('touchend', dismissSplash, {passive:true});
 
 // ---- État global ----
-let state = { view: 'home', chapitreId: null, ficheId: null, chapTab: 'cours',
+let state = { view: 'home', chapitreId: null, ficheId: null, blocId: null, chapTab: 'fiches',
               listesScope: 'all', listesChapitreId: null, listesNotionId: null, qrFocus: null,
               tableauxChapitreId: null, tableauFocus: null, refFocus: null,
               tabExercice: null };   // reconstitution d'un tableau en cours
@@ -841,8 +876,9 @@ function render(){
 function stateToHash(){
   switch(state.view){
     case 'chapitre': {
-      let h = '#/chapitre/' + encodeURIComponent(state.chapitreId || '') + '/' + (state.chapTab || 'cours');
-      if(state.chapTab === 'cours' && state.ficheId) h += '/' + encodeURIComponent(state.ficheId);
+      let h = '#/chapitre/' + encodeURIComponent(state.chapitreId || '') + '/' + (state.chapTab || 'fiches');
+      if(state.chapTab === 'fiches' && state.blocId) h += '/' + encodeURIComponent(state.blocId);
+      else if(state.chapTab === 'archive' && state.ficheId) h += '/' + encodeURIComponent(state.ficheId);
       return h;
     }
     case 'listes':
@@ -862,8 +898,9 @@ function applyHash(){
   const v = parts[0] || 'home';
   if(v === 'chapitre'){
     state.view = 'chapitre'; state.chapitreId = parts[1] || null;
-    state.chapTab = parts[2] || 'cours';
-    state.ficheId = (state.chapTab === 'cours' && parts[3]) ? parts[3] : null;
+    state.chapTab = parts[2] || 'fiches';
+    state.blocId  = (state.chapTab === 'fiches'  && parts[3]) ? parts[3] : null;
+    state.ficheId = (state.chapTab === 'archive' && parts[3]) ? parts[3] : null;
   } else if(v === 'listes'){
     state.view = 'listes';
     if(parts[1] === 'chapitre'){ state.listesScope = 'chapitre'; state.listesChapitreId = parts[2] || null; state.listesNotionId = parts[3] || null; }
@@ -942,7 +979,7 @@ function renderHome(){
   app.querySelectorAll('[data-resume-chap]').forEach(b => b.onclick = () => {
     state.chapitreId = b.dataset.resumeChap;
     state.ficheId = null;
-    state.chapTab = 'cours';
+    state.chapTab = 'fiches'; state.blocId = null;
     state.view = 'chapitre';
     render();
     window.scrollTo({top:0, behavior:'smooth'});
@@ -1020,7 +1057,7 @@ function renderSujets(){
     <p class="fiche-meta" style="margin-top:18px">Les corrigés sont des « éléments indicatifs » diffusés par des éditeurs privés&nbsp;: ils sont protégés et ne sont pas reproduits ici (voir les mentions légales).</p>
   </div>`;
   app.querySelectorAll('[data-goto-chap]').forEach(b => b.onclick = () => {
-    state.chapitreId = b.dataset.gotoChap; state.view = 'chapitre'; state.chapTab = 'cours'; state.ficheId = null;
+    state.chapitreId = b.dataset.gotoChap; state.view = 'chapitre'; state.chapTab = 'fiches'; state.ficheId = null; state.blocId = null;
     render(); window.scrollTo({top:0, behavior:'smooth'});
   });
 }
@@ -1120,7 +1157,7 @@ function renderDocumentation(){
     if(!f) return;
     state.chapitreId = f.notion_id.split('.')[0];
     state.ficheId = a.dataset.fiche;
-    state.chapTab = 'cours';
+    state.chapTab = 'fiches'; state.blocId = null;
     state.view = 'chapitre';
     render();
     window.scrollTo({top:0, behavior:'smooth'});
@@ -1169,6 +1206,33 @@ function navTree(activeFicheId, chapitreId){
   return html;
 }
 
+// ---- Blocs : chapitre -> blocs -> fiche ----------------------------------
+// Un bloc est « disponible » dès que sa fiche existe dans DATA.blocs_html,
+// c'est-à-dire dès que le fichier content/blocs/<id>.md a été déposé.
+function blocsForChapitre(chapId){
+  return (DATA.blocs || [])
+    .filter(b => b.chapitre_id === chapId)
+    .sort((a, b) => (a.numero ?? 999) - (b.numero ?? 999));
+}
+function blocById(id){ return (DATA.blocs || []).find(b => b.id === id); }
+function blocHtml(id){ return (DATA.blocs_html || {})[id] || null; }
+function blocDisponible(id){ return !!blocHtml(id); }
+function chapitreADeContenu(chapId){
+  return blocsForChapitre(chapId).some(b => blocDisponible(b.id));
+}
+// Contenu de l'ancienne structure (fiches et synthèse), conservé pendant la transition
+function archiveForChapitre(chapId){
+  const fiches = DATA.fiches.filter(f => {
+    const n = notionById(f.notion_id);
+    return n && n.chapitre_id === chapId && ficheById(f.id);
+  });
+  return { fiches, synthese: (DATA.cours || {})[chapId] || null };
+}
+function chapitreAArchive(chapId){
+  const a = archiveForChapitre(chapId);
+  return a.fiches.length > 0 || !!a.synthese;
+}
+
 function annalesForChapitre(chap){
   const chapNotionIds = new Set(DATA.notions.filter(n => n.chapitre_id === chap.id).map(n => n.id));
   const out = [];
@@ -1196,18 +1260,24 @@ function renderChapitre(){
     return;
   }
   recordChapitreVisit(chapitre.id);
+  // Un chapitre sans fiche demeure consultable : son arborescence et ses annales
+  // ne dépendent pas de la disponibilité du contenu pédagogique.
+  if(state.chapTab === 'cours' || state.chapTab === 'synthese') state.chapTab = 'archive';
+  if(state.chapTab === 'archive' && !chapitreAArchive(chapitre.id)) state.chapTab = 'fiches';
 
+  const nbBlocs = blocsForChapitre(chapitre.id).length;
+  const nbAnnales = annalesForChapitre(chapitre).length;
   const subtabsHtml = `<div class="tabs-sub">
-      <button data-ctab="cours" class="${state.chapTab==='cours'?'active':''}" aria-pressed="${state.chapTab==='cours'}">COURS</button>
-      <button data-ctab="synthese" class="${state.chapTab==='synthese'?'active':''}" aria-pressed="${state.chapTab==='synthese'}">SYNTHÈSE</button>
+      <button data-ctab="fiches" class="${state.chapTab==='fiches'?'active':''}" aria-pressed="${state.chapTab==='fiches'}">FICHES${nbBlocs?` (${nbBlocs})`:''}</button>
       <button data-ctab="points" class="${state.chapTab==='points'?'active':''}" aria-pressed="${state.chapTab==='points'}">POINTS D'ATTENTION</button>
-      <button data-ctab="annales" class="${state.chapTab==='annales'?'active':''}" aria-pressed="${state.chapTab==='annales'}">ANNALES</button>
+      <button data-ctab="annales" class="${state.chapTab==='annales'?'active':''}" aria-pressed="${state.chapTab==='annales'}">ANNALES${nbAnnales?` (${nbAnnales})`:''}</button>
+      ${chapitreAArchive(chapitre.id) ? `<button data-ctab="archive" class="${state.chapTab==='archive'?'active':''}" aria-pressed="${state.chapTab==='archive'}">ANCIEN CONTENU</button>` : ''}
     </div><div class="report-row">
       <button class="print-btn">🖨 Imprimer / PDF</button>
       ${REPORT_CONFIGURED ? `<button class="report-btn">⚠ Signaler une anomalie</button><span class="report-hint">ou sélectionnez un passage</span>` : ''}
     </div>`;
 
-  if(state.chapTab === 'synthese'){
+  if(state.chapTab === 'archive' && !state.ficheId && (DATA.cours || {})[chapitre.id]){
     const coursHtml = (DATA.cours || {})[chapitre.id];
     app.innerHTML = `<div class="panel">
       <div class="fiche-meta">${chapLabel(chapitre)}</div>
@@ -1216,6 +1286,75 @@ function renderChapitre(){
       <div class="fiche-body cours-redige">${coursHtml ? linkifyTableauxHtml(linkifyCiteHtml(coursHtml)) : "<p class=\"fiche-meta\">La synthèse rédigée de ce chapitre n'est pas encore disponible.</p>"}</div>
     </div>`;
     app.querySelectorAll('[data-ctab]').forEach(b => b.onclick = () => { state.chapTab = b.dataset.ctab; render(); });
+    app.querySelectorAll('[data-tableau]').forEach(c => c.onclick = () => {
+      const t = (DATA.tableaux_comparatifs||[]).find(x => x.id === c.dataset.tableau);
+      state.view='tableaux'; state.tableauxChapitreId = t ? t.chapitre_id : chapitre.id; state.tableauFocus = c.dataset.tableau;
+      render(); window.scrollTo({top:0, behavior:'smooth'});
+    });
+    return;
+  }
+
+  if(state.chapTab === 'fiches'){
+    const blocs = blocsForChapitre(chapitre.id);
+    const bloc = state.blocId ? blocById(state.blocId) : null;
+
+    // --- Fiche d'un bloc ouverte ---
+    if(bloc && bloc.chapitre_id === chapitre.id){
+      const corps = blocHtml(bloc.id);
+      const notions = (bloc.notions_liees || []).map(notionById).filter(Boolean);
+      const tableaux = (bloc.tableaux_lies || []).map(id => (DATA.tableaux_comparatifs||[]).find(t => t.id === id)).filter(Boolean);
+      const cartes = (DATA.qr_cartes || []).filter(c => (bloc.notions_liees || []).includes(c.notion_id));
+      app.innerHTML = `<div class="panel">
+        <div class="fiche-meta">${chapLabel(chapitre)}</div>
+        ${subtabsHtml}
+        <p class="fiche-meta"><a href="#" class="retour-blocs">← Tous les blocs du chapitre</a></p>
+        <div class="fiche-meta">Bloc ${bloc.numero ?? ''}</div>
+        <h1 class="page-title">${bloc.titre}</h1>
+        ${corps
+          ? `<div class="fiche-body">${linkifyTableauxHtml(linkifyCiteHtml(corps))}</div>`
+          : `<div class="bloc-vide"><strong>Fiche à venir.</strong><p class="fiche-meta">${bloc.resume || ''}</p>
+             <p class="fiche-meta">Le contenu de ce bloc n'est pas encore publié. Les éléments déjà rattachés au chapitre — tableaux, cartes de révision, points d'attention et annales — restent accessibles par les autres onglets.</p></div>`}
+        ${(notions.length || tableaux.length || cartes.length) ? `<div class="seealso">
+          ${notions.length ? `<h4>Notions concernées</h4>${notions.map(n=>`<span class="chip" data-go-notion="${n.id}">${n.titre}</span>`).join('')}` : ''}
+          ${tableaux.length ? `<h4 style="margin-top:16px;">Tableaux associés</h4>${tableaux.map(t=>`<span class="chip" data-tableau="${t.id}" style="background:#4f7a64;">▦ ${t.titre}</span>`).join('')}` : ''}
+          ${cartes.length ? `<h4 style="margin-top:16px;">Cartes Q/R associées (${cartes.length})</h4><span class="chip" data-qr-bloc="${bloc.id}">Réviser ces cartes</span>` : ''}
+        </div>` : ''}
+      </div>`;
+    } else {
+      // --- Liste des blocs du chapitre ---
+      app.innerHTML = `<div class="panel">
+        <div class="fiche-meta">${chapLabel(chapitre)}</div>
+        <h1 class="page-title">${chapitre.titre}</h1>
+        ${subtabsHtml}
+        ${blocs.length ? `<ul class="blocs-list">${blocs.map(b => {
+          const dispo = blocDisponible(b.id);
+          return `<li class="bloc-item${dispo ? '' : ' bloc-attente'}" data-bloc="${b.id}">
+            <div class="bloc-num">${b.numero ?? '—'}</div>
+            <div class="bloc-corps">
+              <div class="bloc-titre">${b.titre}</div>
+              ${b.resume ? `<div class="bloc-resume">${b.resume}</div>` : ''}
+            </div>
+            <div class="bloc-etat">${dispo ? '<span class="badge-dispo">Fiche disponible</span>' : '<span class="badge-attente">À venir</span>'}</div>
+          </li>`;
+        }).join('')}</ul>`
+        : `<div class="bloc-vide"><strong>Aucun bloc défini pour ce chapitre.</strong>
+           <p class="fiche-meta">Le découpage en blocs sera ajouté dans <code>data/blocs.json</code>. Les annales et les autres éléments rattachés au chapitre restent accessibles par les onglets ci-dessus.</p></div>`}
+      </div>`;
+    }
+
+    app.querySelectorAll('[data-ctab]').forEach(b => b.onclick = () => { state.chapTab = b.dataset.ctab; state.blocId = null; render(); });
+    app.querySelectorAll('[data-bloc]').forEach(li => li.onclick = () => { state.blocId = li.dataset.bloc; render(); window.scrollTo({top:0, behavior:'smooth'}); });
+    const retour = app.querySelector('.retour-blocs');
+    if(retour) retour.onclick = (e) => { e.preventDefault(); state.blocId = null; render(); };
+    app.querySelectorAll('[data-go-notion]').forEach(c => c.onclick = () => {
+      state.view='listes'; state.listesScope='chapitre'; state.listesChapitreId=chapitre.id;
+      state.listesNotionId = c.dataset.goNotion; render(); window.scrollTo({top:0, behavior:'smooth'});
+    });
+    app.querySelectorAll('[data-qr-bloc]').forEach(c => c.onclick = () => {
+      const b = blocById(c.dataset.qrBloc);
+      state.view='listes'; state.listesScope='chapitre'; state.listesChapitreId=chapitre.id;
+      state.listesNotionId = (b && (b.notions_liees||[])[0]) || null; render();
+    });
     app.querySelectorAll('[data-tableau]').forEach(c => c.onclick = () => {
       const t = (DATA.tableaux_comparatifs||[]).find(x => x.id === c.dataset.tableau);
       state.view='tableaux'; state.tableauxChapitreId = t ? t.chapitre_id : chapitre.id; state.tableauFocus = c.dataset.tableau;
@@ -1296,6 +1435,7 @@ function renderChapitre(){
     ${navTree(fid, chapitre.id)}
     <div class="panel">
       ${subtabsHtml}
+      <div class="archive-banner">Ancien contenu, conservé pendant la transition vers les fiches par blocs.</div>
       <div class="fiche-meta">${notion ? notion.titre : ''}</div>
       <h1 class="page-title">${fiche.titre}</h1>
       <div class="fiche-body">${linkifyTableauxHtml(linkifyCiteHtml(fiche.body_html))}</div>
@@ -1411,7 +1551,7 @@ function renderListes(){
     e.preventDefault(); e.stopPropagation();
     const f = ficheById(a.dataset.fiche); if(!f) return;
     const n = notionById(f.notion_id); if(!n) return;
-    state.chapitreId = n.chapitre_id; state.view='chapitre'; state.chapTab='cours'; state.ficheId = a.dataset.fiche;
+    state.chapitreId = n.chapitre_id; state.view='chapitre'; state.chapTab='archive'; state.ficheId = a.dataset.fiche; state.blocId = null;
     render(); window.scrollTo({top:0, behavior:'smooth'});
   });
   app.querySelectorAll('[data-known]').forEach(b => b.onclick = (e) => { e.stopPropagation(); grade(b, 'known'); });
@@ -1567,7 +1707,7 @@ function renderTableaux(){
     const n = notionById(c.dataset.goNotion); if(!n) return;
     const f = DATA.fiches.find(x => x.notion_id === n.id);
     state.chapitreId = n.chapitre_id; state.ficheId = f ? f.id : null;
-    state.view = 'chapitre'; state.chapTab = 'cours';
+    state.view = 'chapitre'; state.chapTab = 'fiches';
     render(); window.scrollTo({top:0, behavior:'smooth'});
   });
 
@@ -1621,7 +1761,7 @@ function renderMentions(){
     <h1 class="page-title">Mentions légales</h1>
     <div class="legal-body">
       <h3>Éditeur</h3>
-        <p>Ce site est un projet personnel à but pédagogique, édité et tenu à jour par <strong>LEXÉE Ethan</strong>, étudiant en DSCG. Contact&nbsp;: <strong>lexeeethan@gmail.com</strong>. Site sans finalité commerciale, destiné au partage de notes de révision entre étudiants.</p>
+      <p>Ce site est un projet personnel à but pédagogique, édité et tenu à jour par <strong>[À COMPLÉTER : nom / prénom]</strong>, étudiant·e en DSCG. Contact&nbsp;: <strong>[À COMPLÉTER : adresse e-mail]</strong>. Site sans finalité commerciale, destiné au partage de notes de révision entre étudiants.</p>
 
       <h3>Hébergement</h3>
       <p>Le site est hébergé par GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>
@@ -1688,10 +1828,14 @@ function buildMenuTrees(){
   const progEl = document.getElementById('menuProgramme');
   progEl.innerHTML = (DATA.programme.parties || []).map(p => `
     <div class="menu-partie">${p.numero}. ${p.titre}</div>
-    ${p.sous_parties.map(sp => sp.chapitre_id
-      ? `<a href="#" data-go-chap="${sp.chapitre_id}">${sp.numero ? sp.numero + ' — ' : ''}${sp.titre}</a>`
-      : `<span style="display:block;font-size:.82rem;padding:5px 0 5px 10px;color:#b9b9b9;">${sp.titre} (à venir)</span>`
-    ).join('')}
+    ${p.sous_parties.map(sp => {
+      // Toute sous-partie rattachée à un chapitre est accessible, que son contenu
+      // pédagogique existe ou non : annales et blocs restent consultables.
+      if(!sp.chapitre_id) return `<span style="display:block;font-size:.82rem;padding:5px 0 5px 10px;color:#b9b9b9;">${sp.titre}</span>`;
+      const c = chapById(sp.chapitre_id);
+      const enAttente = !c || !chapitreADeContenu(sp.chapitre_id);
+      return `<a href="#" data-go-chap="${sp.chapitre_id}" class="${enAttente?'chap-attente':''}">${sp.numero ? sp.numero + ' — ' : ''}${sp.titre}${enAttente?'<span class="chap-badge">à venir</span>':''}</a>`;
+    }).join('')}
   `).join('') + (DATA.programme.autre||[]).map(a => `
     <div class="menu-partie">Autre</div>
     <a href="#" data-go-chap="${a.chapitre_id}">${a.titre}</a>
@@ -1700,7 +1844,9 @@ function buildMenuTrees(){
   // LISTES
   const listesEl = document.getElementById('menuListes');
   listesEl.innerHTML = `<a href="#" data-go-listes="all">Toutes les notions</a>` +
-    DATA.chapitres.map(c => `<a href="#" data-go-listes="${c.id}">${chapLabel(c)}</a>`).join('');
+    DATA.chapitres
+      .filter(c => (DATA.qr_cartes||[]).some(q => (q.notion_id||'').split('.')[0] === c.id))
+      .map(c => `<a href="#" data-go-listes="${c.id}">${chapLabel(c)}</a>`).join('');
 
   // TABLEAUX
   const tabEl = document.getElementById('menuTableaux');
@@ -1714,7 +1860,7 @@ function buildMenuTrees(){
 
   progEl.querySelectorAll('[data-go-chap]').forEach(a => a.onclick = (e) => {
     e.preventDefault();
-    state.chapitreId = a.dataset.goChap; state.ficheId = null; state.chapTab='cours';
+    state.chapitreId = a.dataset.goChap; state.ficheId = null; state.blocId = null; state.chapTab='fiches';
     state.view = 'chapitre'; closeMenu(); render(); window.scrollTo({top:0, behavior:'smooth'});
   });
   listesEl.querySelectorAll('[data-go-listes]').forEach(a => a.onclick = (e) => {
@@ -1749,7 +1895,7 @@ function collectResults(qraw){
     res.push({type:'Notion', sc:s, cat:1, title:n.titre, sub:c?chapLabel(c):'', go:()=>{ state.view='listes'; state.listesScope='chapitre'; state.listesChapitreId=n.chapitre_id; state.listesNotionId=n.id; state.qrFocus=null; }}); } });
   // seules les fiches disposant d'un contenu .md sont proposées (sinon le clic n'ouvrait rien d'utile)
   DATA.fiches.filter(f => ficheById(f.id)).forEach(f => { const s = score(f.titre); if(s>=0){ const n = notionById(f.notion_id); const c = n?chapById(n.chapitre_id):null;
-    res.push({type:'Fiche', sc:s, cat:2, title:f.titre, sub:c?chapLabel(c):'', go:()=>{ if(n){ state.chapitreId=n.chapitre_id; state.view='chapitre'; state.chapTab='cours'; state.ficheId = ficheById(f.id)?f.id:null; } }}); } });
+    res.push({type:'Fiche', sc:s, cat:2, title:f.titre, sub:c?chapLabel(c):'', go:()=>{ if(n){ state.chapitreId=n.chapitre_id; state.view='chapitre'; state.chapTab='archive'; state.ficheId = ficheById(f.id)?f.id:null; state.blocId=null; } }}); } });
   (DATA.tableaux_comparatifs||[]).forEach(t => { const s = score(t.titre); if(s>=0){
     res.push({type:'Tableau', sc:s, cat:3, title:t.titre, sub:'', go:()=>{ state.view='tableaux'; state.tableauxChapitreId=t.chapitre_id; state.tableauFocus=t.id; }}); } });
   DATA.references_textes.forEach(r => { const s = score(r.reference); if(s>=0){
