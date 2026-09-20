@@ -236,6 +236,10 @@
   .fiche-body p.cite{font-style:italic;color:#6b6657;font-size:.9rem;background:var(--beige);display:inline-block;padding:4px 10px;border-radius:3px;}
   p.cite a.cite-lf{color:inherit;text-decoration:underline dotted;text-underline-offset:2px;}
   p.cite a.cite-lf:hover{color:var(--gold);text-decoration:underline;}
+  a.art-lf{color:inherit;text-decoration:underline dotted;text-underline-offset:2px;}
+  a.art-lf:hover{color:var(--gold);text-decoration:underline;}
+  body.dark a.art-lf{color:inherit;}
+  body.dark a.art-lf:hover{color:var(--gold);}
   body.dark p.cite a.cite-lf{color:inherit;}
   body.dark p.cite a.cite-lf:hover{color:var(--gold);}
   body.dark .fiche-body p.cite{color:#b8bdc6;}
@@ -698,6 +702,60 @@ function linkifyTableauxHtml(html){
       : m0;
   });
 }
+// ---- Articles cités dans le corps du texte -------------------------------
+// Rend cliquable toute mention « art. L. 225-132 C. com. » ou « article 1240 du
+// Code civil » rencontrée dans une fiche. Le lien pointe vers la recherche
+// Légifrance de l'article, exactement comme les renvois 📎.
+const CODES_TEXTE = [
+  ['du Code de commerce', 'Code de commerce'],
+  ['du Code civil', 'Code civil'],
+  ['du Code du travail', 'Code du travail'],
+  ['du Code des assurances', 'Code des assurances'],
+  ['du Code monétaire et financier', 'Code monétaire et financier'],
+  ['du Code général des impôts', 'Code général des impôts'],
+  ['du Livre des procédures fiscales', 'Livre des procédures fiscales'],
+  ['du Code de la consommation', 'Code de la consommation'],
+  ['du Code pénal', 'Code pénal'],
+  ['du Code de procédure civile', 'Code de procédure civile'],
+  ['du Code de la sécurité sociale', 'Code de la sécurité sociale'],
+  ['du Code rural', 'Code rural et de la pêche maritime'],
+  ['C. com.', 'Code de commerce'],
+  ['C. civ.', 'Code civil'],
+  ['C. trav.', 'Code du travail'],
+  ['C. assur.', 'Code des assurances'],
+  ['C. pén.', 'Code pénal'],
+  ['C. consom.', 'Code de la consommation'],
+  ['C. rural', 'Code rural et de la pêche maritime'],
+  ['CMF', 'Code monétaire et financier'],
+  ['CGI', 'Code général des impôts'],
+  ['LPF', 'Livre des procédures fiscales'],
+  ['CSS', 'Code de la sécurité sociale'],
+  ['CPC', 'Code de procédure civile'],
+];
+const _codesAlt = CODES_TEXTE.map(([a]) => a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+// « art. » ou « article(s) » + numéro éventuellement préfixé L/R/D/A + code
+const RX_ARTICLE = new RegExp(
+  '\\b([Aa]rt(?:icles?)?\\.?)\\s+' +                 // art. / article / articles
+  '((?:[LRDA]\\.\\s?)?\\d+[\\d-]*' +               // L. 225-132 ou 1240
+  '(?:\\s(?:bis|ter|quater|quinquies|sexies|septies|octies|nonies|[A-D]{1,2})\\b)*)' +
+  '((?:\\s*(?:,|et|à)\\s*(?:[LRDA]\\.\\s?)?\\d+[\\d-]*' +
+  '(?:\\s(?:bis|ter|quater|quinquies|sexies|septies|octies|nonies|[A-D]{1,2})\\b)*)*)' +
+  '((?:\\s*(?:et\\s+s(?:uiv)?\\.|,\\s*(?:al\\.|alinéa|I{1,3}|IV|V|\\d+°?)[^,;()A-Za-z]{0,6}))*)' +
+  '\\s+(' + _codesAlt + ')',
+  'g');
+function linkifyArticlesHtml(html){
+  if(!html) return html;
+  // on ne touche ni aux balises, ni au contenu des liens déjà posés
+  return html.replace(/(<a\b[^>]*>[\s\S]*?<\/a>|<[^>]+>)|([^<]+)/g, (m, balise, texte) => {
+    if(balise !== undefined && balise !== null) return balise;
+    return texte.replace(RX_ARTICLE, (tout, mot, num, suite, suffixe, code) => {
+      const plein = (CODES_TEXTE.find(([abbr]) => abbr === code) || [null, code])[1];
+      const url = lfSearch(num.replace(/\s+/g, ' ').trim() + ' ' + plein);
+      return `${mot} <a class="art-lf" href="${url}" target="_blank" rel="noopener" title="Ouvrir sur Légifrance">${num}${suite}${suffixe} ${code}</a>`;
+    });
+  });
+}
+
 // Post-traitement du HTML d'une fiche / synthèse : rend chaque renvoi 📎 cliquable.
 function linkifyCiteHtml(html){
   if(!html) return html;
@@ -1263,7 +1321,7 @@ function renderChapitre(){
   // Un chapitre sans fiche demeure consultable : son arborescence et ses annales
   // ne dépendent pas de la disponibilité du contenu pédagogique.
   if(state.chapTab === 'cours' || state.chapTab === 'synthese') state.chapTab = 'archive';
-  if(state.chapTab === 'archive' && !chapitreAArchive(chapitre.id)) state.chapTab = 'fiches';
+  if(state.chapTab === 'archive' && (chapitreADeContenu(chapitre.id) || !chapitreAArchive(chapitre.id))) state.chapTab = 'fiches';
 
   const nbBlocs = blocsForChapitre(chapitre.id).length;
   const nbAnnales = annalesForChapitre(chapitre).length;
@@ -1271,7 +1329,7 @@ function renderChapitre(){
       <button data-ctab="fiches" class="${state.chapTab==='fiches'?'active':''}" aria-pressed="${state.chapTab==='fiches'}">FICHES${nbBlocs?` (${nbBlocs})`:''}</button>
       <button data-ctab="points" class="${state.chapTab==='points'?'active':''}" aria-pressed="${state.chapTab==='points'}">POINTS D'ATTENTION</button>
       <button data-ctab="annales" class="${state.chapTab==='annales'?'active':''}" aria-pressed="${state.chapTab==='annales'}">ANNALES${nbAnnales?` (${nbAnnales})`:''}</button>
-      ${chapitreAArchive(chapitre.id) ? `<button data-ctab="archive" class="${state.chapTab==='archive'?'active':''}" aria-pressed="${state.chapTab==='archive'}">ANCIEN CONTENU</button>` : ''}
+      ${(!chapitreADeContenu(chapitre.id) && chapitreAArchive(chapitre.id)) ? `<button data-ctab="archive" class="${state.chapTab==='archive'?'active':''}" aria-pressed="${state.chapTab==='archive'}">ANCIEN CONTENU</button>` : ''}
     </div><div class="report-row">
       <button class="print-btn">🖨 Imprimer / PDF</button>
       ${REPORT_CONFIGURED ? `<button class="report-btn">⚠ Signaler une anomalie</button><span class="report-hint">ou sélectionnez un passage</span>` : ''}
@@ -1311,7 +1369,7 @@ function renderChapitre(){
         <div class="fiche-meta">Bloc ${bloc.numero ?? ''}</div>
         <h1 class="page-title">${bloc.titre}</h1>
         ${corps
-          ? `<div class="fiche-body">${linkifyTableauxHtml(linkifyCiteHtml(corps))}</div>`
+          ? `<div class="fiche-body">${linkifyArticlesHtml(linkifyTableauxHtml(linkifyCiteHtml(corps)))}</div>`
           : `<div class="bloc-vide"><strong>Fiche à venir.</strong><p class="fiche-meta">${bloc.resume || ''}</p>
              <p class="fiche-meta">Le contenu de ce bloc n'est pas encore publié. Les éléments déjà rattachés au chapitre — tableaux, cartes de révision, points d'attention et annales — restent accessibles par les autres onglets.</p></div>`}
         ${(notions.length || tableaux.length || cartes.length) ? `<div class="seealso">
@@ -1761,7 +1819,7 @@ function renderMentions(){
     <h1 class="page-title">Mentions légales</h1>
     <div class="legal-body">
       <h3>Éditeur</h3>
-      <p>Ce site est un projet personnel à but pédagogique, édité et tenu à jour par <strong>[À COMPLÉTER : nom / prénom]</strong>, étudiant·e en DSCG. Contact&nbsp;: <strong>[À COMPLÉTER : adresse e-mail]</strong>. Site sans finalité commerciale, destiné au partage de notes de révision entre étudiants.</p>
+      <p>Ce site est un projet personnel à but pédagogique, édité et tenu à jour par <strong>Ethan L.</strong>, étudiant en DSCG. Site sans finalité commerciale, destiné au partage de notes de révision entre étudiants.</p>
 
       <h3>Hébergement</h3>
       <p>Le site est hébergé par GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>
